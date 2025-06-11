@@ -1,0 +1,98 @@
+'use client';
+
+import { Box, Typography, Button } from '@mui/material';
+import { motion } from 'framer-motion';
+
+type BannerProps = {
+  backgroundImage: string;
+  title: string;
+  subtitle: string;
+  buttonText: string;
+};
+
+export default function HeroBanner({
+  backgroundImage,
+  title,
+  subtitle,
+  buttonText,
+}: BannerProps) {
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100%',
+        height: '800px',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        display: 'flex',
+        alignItems: 'end',
+        justifyContent: 'center',
+        paddingBottom: '60px',
+        color: '#fff',
+        textAlign: 'center',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          zIndex: 1,
+        },
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: 'easeOut' }}
+        style={{ zIndex: 2 }} 
+      >
+        <Box>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{
+              fontWeight: 600,
+              mb: 2,
+              color: '#fff',
+              fontFamily: 'Manrope',
+            }}
+          >
+            {title}
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              mb: 4,
+              color: '#fff',
+              fontSize: '18px',
+              fontFamily: 'Jost',
+              width:'700px',
+              margin:'0 auto 32px',
+            }}
+          >
+            {subtitle}
+          </Typography>
+
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: '#fff',
+              color: '#fff',
+              px: 4,
+              py: 1.5,
+              fontWeight: 600,
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                borderColor: '#fff',
+              },
+            }}
+          >
+            {buttonText}
+          </Button>
+        </Box>
+      </motion.div>
+    </Box>
+  );
+}

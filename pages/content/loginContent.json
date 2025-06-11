@@ -1,0 +1,16 @@
+{
+    "leftSection": {
+      "title": "Create an Account",
+      "description": "Save time during checkout, view your shopping bag and saved items from any device and access your order history.",
+      "buttonText": "REGISTER NOW"
+    },
+    "rightSection": {
+      "title": "Sign In",
+      "description": "Please sign in to your glitter jewels Account.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "forgotPassword": "Forget password?",
+      "loginButton": "LOGIN"
+    }
+  }
+  
