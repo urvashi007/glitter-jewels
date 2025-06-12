@@ -1,4 +1,3 @@
-// components/LatestCollection.tsx
 'use client';
 
 import {
@@ -10,10 +9,31 @@ import {
   IconButton,
   Link,
   Grid,
+  Stack,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from '@mui/material';
-import { ArrowRight, Heart, HeartIcon, Plus } from 'lucide-react';
+import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
+
+// 🔄 Custom ChevronDown with rotation
+const StyledChevronDown = ({ open }: { open: boolean }) => (
+  <ChevronDown
+    style={{
+      color: '#222',
+      transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+      transition: 'transform 0.3s ease',
+      position:'absolute',
+      right:'8px',
+      fontWeight:'400',
+      width: '18px'
+    }}
+  />
+);
 
 export type Product = {
   id: string;
@@ -24,19 +44,26 @@ export type Product = {
 };
 
 type LatestCollectionProps = {
-  title: string;
+  title?: string;
   viewAllLink?: string;
   products: Product[];
+  columns?: number;
+  showProductCountAndSort?: boolean;
 };
 
 export default function LatestCollection({
   title,
-  viewAllLink = '#',
+  viewAllLink,
   products,
+  columns = 4,
+  showProductCountAndSort = true,
 }: LatestCollectionProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
+
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  const [sortBy, setSortBy] = useState('priceLowHigh');
+  const [sortOpen, setSortOpen] = useState(false); // 🔄 Dropdown open state
 
   const toggleFavorite = (id: string) => {
     setFavorites((prev) => ({
@@ -45,6 +72,25 @@ export default function LatestCollection({
     }));
   };
 
+  const sortedProducts = useMemo(() => {
+    if (!showProductCountAndSort) return products;
+
+    return [...products].sort((a, b) => {
+      const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
+      const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
+
+      switch (sortBy) {
+        case 'priceLowHigh':
+          return priceA - priceB;
+        case 'priceHighLow':
+          return priceB - priceA;
+        case 'newest':
+        default:
+          return 0;
+      }
+    });
+  }, [products, sortBy, showProductCountAndSort]);
+
   return (
     <motion.div
       ref={ref}
@@ -52,47 +98,78 @@ export default function LatestCollection({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
-      <Box sx={{ py: 10, backgroundColor: '#fff' }}>
+      <Box>
         <Container maxWidth="lg">
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mb: 4,
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: 600, fontFamily: 'Manrope', fontSize: '40px' }}
-            >
-              {title}
-            </Typography>
-            <Link
-              href={viewAllLink}
-              underline="none"
+          {(title || viewAllLink) && (
+            <Box
               sx={{
-                fontSize: '16px',
-                fontWeight: 500,
-                color: '#445B9C',
                 display: 'flex',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                fontFamily: 'Jost',
+                mb: 4,
               }}
             >
-              VIEW ALL <ArrowRight size={18} style={{ marginLeft: 6 }} />
-            </Link>
-          </Box>
+              {title && (
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 600, fontFamily: 'Manrope', fontSize: '40px' }}
+                >
+                  {title}
+                </Typography>
+              )}
+              {viewAllLink && (
+                <Link
+                  href={viewAllLink}
+                  underline="none"
+                  sx={{
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    color: '#445B9C',
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontFamily: 'Jost',
+                  }}
+                >
+                  VIEW ALL <ArrowRight size={18} style={{ marginLeft: 6 }} />
+                </Link>
+              )}
+            </Box>
+          )}
 
+          {/* 🔄 Sort by Dropdown */}
+          {showProductCountAndSort && (
+            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+              <Typography variant="h6" fontWeight={600}>
+                {products.length} Products
+              </Typography>
+              <FormControl size="small" sx={{ minWidth: 160 }}>
+                <InputLabel>Sort by</InputLabel>
+                <Select
+                  value={sortBy}
+                  label="Sort by"
+                  onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
+                  onOpen={() => setSortOpen(true)}
+                  onClose={() => setSortOpen(false)}
+                  IconComponent={() => <StyledChevronDown open={sortOpen} />}
+                >
+                  <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
+                  <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
+                  <MenuItem value="newest">Newest</MenuItem>
+                </Select>
+              </FormControl>
+            </Stack>
+          )}
+
+          {/* 🔄 Product Grid */}
           <Grid
             container
             spacing={3}
             sx={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: `repeat(${columns}, 1fr)`,
             }}
           >
-            {products.map((item) => (
+            {sortedProducts.map((item) => (
               <Grid key={item.id}>
                 <Card
                   elevation={0}
@@ -193,24 +270,23 @@ export default function LatestCollection({
                       <Plus size={16} />
                     </IconButton>
                   </Box>
-
-                 
                 </Card>
+
                 <CardContent sx={{ px: 0, pt: 1 }}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: 'Manrope',
-                      }}
-                    >
-                      {item.id} &nbsp;–&nbsp;
-                      <Box component="span" sx={{ fontWeight: 600, marginTop:'12px' }}>
-                        {item.price}
-                      </Box>
-                    </Typography>
-                  </CardContent>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: 'Manrope',
+                    }}
+                  >
+                    {item.id} &nbsp;–&nbsp;
+                    <Box component="span" sx={{ fontWeight: 700 }}>
+                      {item.price}
+                    </Box>
+                  </Typography>
+                </CardContent>
               </Grid>
             ))}
           </Grid>

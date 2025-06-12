@@ -1,5 +1,5 @@
 import HeroBanner from "@/components/Banner";
-import LatestCollection from "@/components/CardCollection";
+import CardCollection from "@/components/CardCollection";
 import CategoriesSection from "@/components/Categories";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -91,10 +91,14 @@ export default function HomePage() {
         buttonText={"Discover the collection"}
       />
       <CategoriesSection />
-      <LatestCollection
+      <Box sx={{padding:'80px 0'}}>
+      <CardCollection
         products={productsItem}
         title={"Our Latest Collection"}
+         viewAllLink="/products"
+         showProductCountAndSort={false}
       />
+      </Box>
       <InfoCardBanner
         image={"./info-banner.png"}
         title={"Introducing Our New High  Jewellery Collection"}
@@ -113,7 +117,9 @@ export default function HomePage() {
           "& p": { width: "640px" },
         }}
       />
-      <LatestCollection products={productsItem2} title={"Our Bestsellers"} />
+      <Box sx={{padding:'80px 0'}}>
+      <CardCollection products={productsItem2} title={"Our Bestsellers"}  showProductCountAndSort={false} viewAllLink="/products"/>
+      </Box>
 
       <Container maxWidth="lg">
         <Box

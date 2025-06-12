@@ -36,7 +36,7 @@ type HeaderProps = {
   logoDark: string;
   navItems: string[];
   searchEnabled?: boolean;
-  forceScrolled?: boolean; // 👈 Added prop
+  forceScrolled?: boolean;
 };
 
 const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
@@ -52,12 +52,8 @@ const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
     borderBottom: scrolled ? "none" : "1px solid #ffffff70",
     animation: !scrolled ? "borderFadeIn 1s ease forwards" : "none",
     "@keyframes borderFadeIn": {
-      "0%": {
-        borderBottom: "1px solid transparent",
-      },
-      "100%": {
-        borderBottom: "1px solid #ffffff70",
-      },
+      "0%": { borderBottom: "1px solid transparent" },
+      "100%": { borderBottom: "1px solid #ffffff70" },
     },
   })
 );
@@ -79,7 +75,7 @@ export default function Header({
   logoDark,
   navItems,
   searchEnabled = true,
-  forceScrolled = false, // 👈 default false
+  forceScrolled = false,
 }: HeaderProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -128,18 +124,17 @@ export default function Header({
   }, []);
 
   const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
-
-  const iconColor = scrolled ? "#222" : "#fff";
-  const logo = scrolled ? logoDark : logoLight;
-
   const handleSearchToggle = () => {
     setSearchOpen((prev) => !prev);
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
+  const iconColor = scrolled ? "#222" : "#fff";
+  const logo = scrolled ? logoDark : logoLight;
+
   return (
     <HeaderContainer position="fixed" scrolled={scrolled}>
-     <Container maxWidth="lg" disableGutters sx={{ px: 0 }}>
+      <Container maxWidth="lg" disableGutters sx={{ px: 0, position: "relative" }}>
         <Toolbar sx={{ justifyContent: "space-between", position: "relative" }}>
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
@@ -156,7 +151,7 @@ export default function Header({
                     color: iconColor,
                     fontSize: "0.95rem",
                     fontFamily: "Jost, sans-serif",
-                    textTransform:'uppercase',
+                    textTransform: "uppercase",
                   }}
                 >
                   {item}
@@ -244,6 +239,7 @@ export default function Header({
           </Stack>
         </Toolbar>
 
+        {/* Profile Menu inside container */}
         {profileMenuOpen && (
           <Paper
             ref={profileMenuRef}
@@ -255,7 +251,7 @@ export default function Header({
               width: 260,
               p: 2,
               borderRadius: 2,
-              zIndex: 10000,
+              zIndex: 1100,
             }}
           >
             <Typography variant="subtitle2" color="text.secondary">
@@ -266,26 +262,11 @@ export default function Header({
             </Typography>
 
             <Stack spacing={1}>
-              <MenuItem
-                icon={<ShoppingBag fontSize="small" />}
-                label="My Orders"
-              />
-              <MenuItem
-                icon={<Person fontSize="small" />}
-                label="Edit Profile"
-              />
-              <MenuItem
-                icon={<Favorite fontSize="small" />}
-                label="My Favourites"
-              />
-              <MenuItem
-                icon={<LocationOn fontSize="small" />}
-                label="Manage Addresses"
-              />
-              <MenuItem
-                icon={<Lock fontSize="small" />}
-                label="Change Password"
-              />
+              <MenuItem icon={<ShoppingBag fontSize="small" />} label="My Orders" />
+              <MenuItem icon={<Person fontSize="small" />} label="Edit Profile" />
+              <MenuItem icon={<Favorite fontSize="small" />} label="My Favourites" />
+              <MenuItem icon={<LocationOn fontSize="small" />} label="Manage Addresses" />
+              <MenuItem icon={<Lock fontSize="small" />} label="Change Password" />
             </Stack>
 
             <Stack
