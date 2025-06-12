@@ -1,3 +1,4 @@
+// components/LatestCollection.tsx
 'use client';
 
 import {
@@ -14,41 +15,27 @@ import { ArrowRight, Heart, HeartIcon, Plus } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 
-const products = [
-  {
-    id: 'BRC0016O',
-    price: '₹27,774',
-    gold: '.51',
-    diamond: '.81',
-    image: './Categories/img1.png',
-  },
-  {
-    id: 'NK00381',
-    price: '₹29,475',
-    gold: '.51',
-    diamond: '.81',
-    image: './Categories/img2.png',
-  },
-  {
-    id: 'PS0064ER1',
-    price: '₹26,558',
-    gold: '.51',
-    diamond: '.81',
-    image: './Categories/img3.png',
-  },
-  {
-    id: 'PDN00511',
-    price: '₹19,747',
-    gold: '.51',
-    diamond: '.81',
-    image: './Categories/img1.png',
-  },
-];
+export type Product = {
+  id: string;
+  price: string;
+  gold: string;
+  diamond: string;
+  image: string;
+};
 
-export default function LatestCollection() {
+type LatestCollectionProps = {
+  title: string;
+  viewAllLink?: string;
+  products: Product[];
+};
+
+export default function LatestCollection({
+  title,
+  viewAllLink = '#',
+  products,
+}: LatestCollectionProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
 
   const toggleFavorite = (id: string) => {
@@ -67,7 +54,6 @@ export default function LatestCollection() {
     >
       <Box sx={{ py: 10, backgroundColor: '#fff' }}>
         <Container maxWidth="lg">
-          {/* Heading */}
           <Box
             sx={{
               display: 'flex',
@@ -80,10 +66,10 @@ export default function LatestCollection() {
               variant="h4"
               sx={{ fontWeight: 600, fontFamily: 'Manrope', fontSize: '40px' }}
             >
-              Our Latest Collection
+              {title}
             </Typography>
             <Link
-              href="#"
+              href={viewAllLink}
               underline="none"
               sx={{
                 fontSize: '16px',
@@ -98,7 +84,6 @@ export default function LatestCollection() {
             </Link>
           </Box>
 
-          {/* Product Grid */}
           <Grid
             container
             spacing={3}
@@ -123,7 +108,6 @@ export default function LatestCollection() {
                     },
                   }}
                 >
-                  {/* Top Labels */}
                   <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
                     <Box
                       sx={{
@@ -151,7 +135,6 @@ export default function LatestCollection() {
                     </Box>
                   </Box>
 
-                  {/* Product Image */}
                   <Box
                     component="img"
                     src={item.image}
@@ -164,7 +147,6 @@ export default function LatestCollection() {
                     }}
                   />
 
-                  {/* Hover Icons */}
                   <Box
                     className="hover-icons"
                     sx={{
@@ -212,8 +194,9 @@ export default function LatestCollection() {
                     </IconButton>
                   </Box>
 
-                  {/* Bottom Text */}
-                  <CardContent sx={{ px: 0, pt: 1 }}>
+                 
+                </Card>
+                <CardContent sx={{ px: 0, pt: 1 }}>
                     <Typography
                       variant="body1"
                       sx={{
@@ -223,12 +206,11 @@ export default function LatestCollection() {
                       }}
                     >
                       {item.id} &nbsp;–&nbsp;
-                      <Box component="span" sx={{ fontWeight: 600 }}>
+                      <Box component="span" sx={{ fontWeight: 600, marginTop:'12px' }}>
                         {item.price}
                       </Box>
                     </Typography>
                   </CardContent>
-                </Card>
               </Grid>
             ))}
           </Grid>

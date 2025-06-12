@@ -33,7 +33,6 @@ export default function CategorySlider() {
   return (
     <Box sx={{ py: 10, backgroundColor: '#F9FAFF' }}>
       <Container maxWidth="lg">
-        {/* Header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
