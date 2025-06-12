@@ -1,6 +1,7 @@
 import HeroBanner from "@/components/Banner";
 import LatestCollection from "@/components/CardCollection";
 import CategoriesSection from "@/components/Categories";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import InfoCardBanner from "@/components/InfoCardBanner";
 import { Container } from "@mui/material";
@@ -151,6 +152,7 @@ export default function HomePage() {
           </Box>
         </Box>
       </Container>
+      <Footer />
     </>
   );
 }

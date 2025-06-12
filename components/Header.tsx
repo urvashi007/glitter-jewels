@@ -139,7 +139,7 @@ export default function Header({
 
   return (
     <HeaderContainer position="fixed" scrolled={scrolled}>
-      <Container maxWidth="lg">
+     <Container maxWidth="lg" disableGutters sx={{ px: 0 }}>
         <Toolbar sx={{ justifyContent: "space-between", position: "relative" }}>
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
@@ -156,6 +156,7 @@ export default function Header({
                     color: iconColor,
                     fontSize: "0.95rem",
                     fontFamily: "Jost, sans-serif",
+                    textTransform:'uppercase',
                   }}
                 >
                   {item}
