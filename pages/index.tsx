@@ -79,8 +79,13 @@ export default function HomePage() {
       <Header
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
-        navItems={["HOME", "PRODUCTS", "COLLECTIONS", "DIAMONDS"]}
-        searchEnabled
+        searchEnabled={true}
+  navItems={[
+    { label: "Home" },
+    { label: "Product", submenu: ["Bracelets", "Earrings", "Necklace", "Pendant","Rings",'View All'] },
+    { label: "About" },
+    { label: "Contact" },
+  ]}
       />
       <HeroBanner
         backgroundImage={"./hero-banner.png"}

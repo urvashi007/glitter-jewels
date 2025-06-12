@@ -31,10 +31,15 @@ import Container from "@mui/material/Container";
 import { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/system";
 
+// ✅ NavItem with optional submenu
+type HeaderNavItem =
+  | { label: string }
+  | { label: string; submenu: string[] };
+
 type HeaderProps = {
   logoLight: string;
   logoDark: string;
-  navItems: string[];
+  navItems: HeaderNavItem[];
   searchEnabled?: boolean;
   forceScrolled?: boolean;
 };
@@ -141,22 +146,89 @@ export default function Header({
               <Menu sx={{ color: iconColor }} />
             </IconButton>
           ) : (
-            <Stack direction="row" spacing={4}>
-              {navItems.map((item) => (
-                <Typography
-                  key={item}
-                  sx={{
-                    fontWeight: 500,
-                    cursor: "pointer",
-                    color: iconColor,
-                    fontSize: "0.95rem",
-                    fontFamily: "Jost, sans-serif",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {item}
-                </Typography>
-              ))}
+            <Stack direction="row" spacing={4} alignItems="center">
+              {navItems.map((item, index) => {
+                const hasSubmenu = typeof item !== "string" && "submenu" in item;
+                const label = typeof item === "string" ? item : item.label;
+                const submenu = hasSubmenu ? (item as any).submenu : [];
+
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: "relative",
+                      "&:hover .submenu": {
+                        opacity: 1,
+                        visibility: "visible",
+                        transform: "translateY(0)",
+                      },
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 500,
+                        cursor: "pointer",
+                        color: iconColor,
+                        fontSize: "0.95rem",
+                        fontFamily: "Jost, sans-serif",
+                        textTransform: "uppercase",
+                        px: 1.5,
+                        py: 0.5,
+                      }}
+                    >
+                      {label}
+                    </Typography>
+
+                    {hasSubmenu && (
+                      <Box
+                        className="submenu"
+                        sx={{
+                          position: "absolute",
+                          top: "100%",
+                          left: 0,
+                          minWidth: 250,
+                          opacity: 0,
+                          visibility: "hidden",
+                          transform: "translateY(10px)",
+                          transition: "all 0.3s ease",
+                          zIndex: 2000,
+                          paddingTop:'25px',
+                          color:'#222',
+                    
+                          
+                        }}
+                      >
+                        {submenu.map((subItem: string, i: number) => (
+                          <Typography
+                            key={i}
+                            sx={{
+                              px: 2,
+                              py: 1,
+                              fontSize: "0.875rem",
+                              fontWeight: 400,
+                              color: "#222",
+                              cursor: "pointer",
+                              whiteSpace: "nowrap",
+                              background:'#fff',
+                              '&:first-of-type': {
+                            paddingTop:'20px',
+                          },
+                          '&:last-of-type': {
+                            paddingBottom:'20px',
+                          },
+                              "&:hover": {
+                                backgroundColor: "#f5f5f5",
+                              },
+                            }}
+                          >
+                            {subItem}
+                          </Typography>
+                        ))}
+                      </Box>
+                    )}
+                  </Box>
+                );
+              })}
             </Stack>
           )}
 
@@ -239,7 +311,6 @@ export default function Header({
           </Stack>
         </Toolbar>
 
-        {/* Profile Menu inside container */}
         {profileMenuOpen && (
           <Paper
             ref={profileMenuRef}
@@ -298,11 +369,14 @@ export default function Header({
               <Close />
             </IconButton>
             <List sx={{ mt: 5 }}>
-              {navItems.map((text) => (
-                <ListItem button key={text}>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
+              {navItems.map((item, index) => {
+                const label = typeof item === "string" ? item : item.label;
+                return (
+                  <ListItem button key={index}>
+                    <ListItemText primary={label} />
+                  </ListItem>
+                );
+              })}
             </List>
           </DrawerContent>
         </Drawer>
@@ -311,6 +385,7 @@ export default function Header({
   );
 }
 
+// ✅ Profile menu item helper
 const MenuItem = ({
   icon,
   label,
