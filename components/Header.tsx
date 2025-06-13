@@ -72,7 +72,7 @@ const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
 const DrawerContent = styled(Box)(({ theme }) => ({
   width: 250,
   height: "100%",
-  padding: theme.spacing(2),
+  padding: 0,
   position: "relative",
   animation: `slideIn 0.4s ease`,
   "@keyframes slideIn": {
@@ -173,7 +173,7 @@ export default function Header({
                     key={index}
                     sx={{
                       position: "relative",
-                      ml: { xs: "0px !important", lg: "16px" },
+                      ml: { xs: "0px", lg: "16px" },
                       "@media (max-width:1024px)": {
                         ml: "0px !important",
                       },
@@ -420,7 +420,7 @@ export default function Header({
             <Box
               sx={{
                 border: "1px solid #445B9C",
-                color: "#3f51b5",
+                color: "#445B9C",
                 padding: '10px 0',
                 textAlign: "center",
                 fontWeight: 500,
@@ -440,7 +440,7 @@ export default function Header({
           transitionDuration={400}
         >
           <DrawerContent>
-            <Box sx={{display:'flex'}}>
+            <Box sx={{display:'flex', padding: '15px 0 0 20px'}}>
             <Box
       component="img"
       src="./logo.svg"
@@ -459,7 +459,7 @@ export default function Header({
             </IconButton>
             </Box>
            
-<List sx={{ mt: 5 }}>
+<List sx={{ mt: 3, }} >
   {navItems.map((item, index) => {
     const hasSubmenu = typeof item !== "string" && "submenu" in item;
     const label = typeof item === "string" ? item : item.label;
@@ -477,7 +477,7 @@ export default function Header({
         <AccordionDetails sx={{padding:'0'}}>
           <List disablePadding>
             {submenu.map((subItem, subIndex) => (
-              <ListItem button key={subIndex}>
+              <ListItem button key={subIndex} >
                 <ListItemText primary={subItem}/>
               </ListItem>
             ))}

@@ -95,7 +95,7 @@ export default function CategorySlider() {
 <Swiper
   modules={[Autoplay, Pagination]}
   slidesPerView={3}
-  autoplay={{ delay: 6000 }}
+  autoplay={{ delay: 8000 }}
   loop
   pagination={{
     clickable: true,
@@ -120,75 +120,85 @@ export default function CategorySlider() {
 >
   {categories.map((cat, index) => (
     <SwiperSlide key={`${cat.title}-${index}`}>
+  <Box
+    component="a"
+    href={cat.link}
+    sx={{
+      textDecoration: 'none',
+      color: 'inherit',
+      display: 'block',
+      textAlign: 'center',
+      p: 4,
+      width: '100%',
+      maxWidth: { xs: '100%', sm: 400 },
+      mx: 'auto',
+      fontFamily: 'Manrope',
+      cursor: 'pointer',
+      '@media (max-width:540px)': {
+        padding: '0',
+      },
+      '&:hover .arrow-icon': {
+        opacity: 1,
+        transform: 'translateX(0)',
+      },
+    }}
+  >
+    <Box
+      component="img"
+      src={cat.img}
+      alt={cat.title}
+      sx={{
+        width: '100%',
+        height: { xs: 200, sm: 300 },
+        objectFit: 'contain',
+        mb: 3,
+        transition: 'transform 0.3s ease',
+        '&:hover': {
+          transform: 'scale(1.05)',
+        },
+      }}
+    />
+    <Typography
+      variant="h6"
+      sx={{
+        fontWeight: 500,
+        letterSpacing: '8px',
+        mb: 1,
+        color: '#222',
+        fontSize: { xs: '28px', sm: '40px' },
+      }}
+    >
+      {cat.title}
+    </Typography>
+    <Box
+      sx={{
+        fontSize: 16,
+        fontWeight: 500,
+        color: '#445B9C',
+        fontFamily: 'Jost',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      DISCOVER THE COLLECTION
       <Box
+        className="arrow-icon"
         sx={{
-          textAlign: 'center',
-          p: 4,
-          width: '100%',
-          maxWidth: { xs: '100%', sm: 400 },
-          mx: 'auto',
-          fontFamily: 'Manrope',
-          "@media (max-width:540px)": {
-            padding:'0',
-          },
+          transition: 'all 0.3s ease',
+          opacity: 0,
+          transform: 'translateX(-5px)',
+          display: 'inline-flex',
+          alignItems: 'center',
+         paddingLeft:'8px'
         }}
       >
-        <Box
-          component="img"
-          src={cat.img}
-          alt={cat.title}
-          sx={{
-            width: '100%',
-            height: { xs: 200, sm: 300 },
-            objectFit: 'contain',
-            mb: 3,
-            transition: 'transform 0.3s ease',
-            '&:hover': {
-              transform: 'scale(1.05)',
-            },
-          }}
-        />
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 500,
-            letterSpacing: '8px',
-            mb: 1,
-            color: '#222',
-            fontSize: { xs: '28px', sm: '40px' },
-          }}
-        >
-          {cat.title}
-        </Typography>
-        <Box
-          sx={{
-            fontSize: 16,
-            fontWeight: 500,
-            color: '#445B9C',
-            fontFamily: 'Jost',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          DISCOVER THE COLLECTION
-          <Box
-            className="arrow-icon"
-            sx={{
-              transition: 'all 0.3s ease',
-              opacity: 0,
-              transform: 'translateX(-5px)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              mt: '6px',
-              pl: '4px',
-            }}
-          >
-            <ArrowRight size={20} />
-          </Box>
-        </Box>
+        <ArrowRight size={20} />
       </Box>
-    </SwiperSlide>
+    </Box>
+  </Box>
+</SwiperSlide>
+
   ))}
 </Swiper>
 

@@ -70,8 +70,12 @@ export default function ProductListPage() {
       <Header
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
-        navItems={["catalogue", "Collections", "Diamonds"]}
-        searchEnabled
+        searchEnabled={true}
+        navItems={[
+          { label: "Our Expertise" },
+          { label: "Product", submenu: ["Bracelets", "Earrings", "Necklace", "Pendant","Rings",'View All'] },
+          { label: "Enquiry" },
+        ]}
       />
       <InnerBanner
         title="Our Latest Collection"

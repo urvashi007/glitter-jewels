@@ -1,3 +1,5 @@
+'use client';
+
 import HeroBanner from "@/components/Banner";
 import CardCollection from "@/components/CardCollection";
 import CategoriesSection from "@/components/Categories";
@@ -38,86 +40,85 @@ export default function HomePage() {
       image: "./Categories/img1.png",
     },
   ];
-  const productsItem2 = [
+
+  const productsItem2 = [...productsItem];
+
+  const infoCards = [
     {
-      id: "Ring-001",
-      price: "₹25,000",
-      gold: "2.5g",
-      diamond: "0.25ct",
-      image: "./Categories/img1.png",
+      image: "./info1.jpg",
+      title: "Custom Design",
+      description:
+        "Our Unique Settings staff is highly dedicated and trained in delivering exceptional quality and service.",
     },
     {
-      id: "Ring-002",
-      price: "₹32,500",
-      gold: "3g",
-      diamond: "0.35ct",
-      image: "./Categories/img2.png",
-    },
-    {
-      id: "Pendant-003",
-      price: "₹18,000",
-      gold: "2g",
-      diamond: "0.15ct",
-      image: "./Categories/img3.png",
-    },
-    {
-      id: "Bracelet-004",
-      price: "₹45,000",
-      gold: "5g",
-      diamond: "0.5ct",
-      image: "./Categories/img1.png",
+      image: "./info2.jpg",
+      title: "Services",
+      description:
+        "We offer exquisite jewelry services including custom designs, repairs, and personalized styling to elevate your elegance.",
     },
   ];
+
   return (
     <>
+    {/* Header */}
       <Header
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
         searchEnabled={true}
-  navItems={[
-    { label: "Our Expertise" },
-    { label: "Product", submenu: ["Bracelets", "Earrings", "Necklace", "Pendant","Rings",'View All'] },
-    { label: "Enquiry" },
-  ]}
+        navItems={[
+          { label: "Our Expertise" },
+          {
+            label: "Product",
+            submenu: ["Bracelets", "Earrings", "Necklace", "Pendant", "Rings", "View All"],
+          },
+          { label: "Enquiry" },
+        ]}
       />
+      {/* Banner */}
       <HeroBanner
-        backgroundImage={"./hero-banner.png"}
-        title={"Polychroma High Jewellery Collection"}
-        subtitle={
-          "A celebration of Bvlgari’s mastery in reinventing forms and colours, Polychroma embodies a distinctive High Jewellery vision."
-        }
-        buttonText={"Discover the collection"}
+        backgroundImage="./hero-banner.png"
+        title="Polychroma High Jewellery Collection"
+        subtitle="A celebration of Bvlgari’s mastery in reinventing forms and colours, Polychroma embodies a distinctive High Jewellery vision."
+        buttonText="Discover the collection"
       />
+   {/* CategoriesSection */}
       <CategoriesSection />
-      <Box sx={{padding:'80px 0'}}>
-      <CardCollection
-        products={productsItem}
-        title={"Our Latest Collection"}
-         viewAllLink="/products"
-         showProductCountAndSort={false}
-      />
+
+     {/* card collection */}
+      <Box sx={{ padding: '80px 0' }}>
+        <CardCollection
+          products={productsItem}
+          title="Our Latest Collection"
+          viewAllLink="/products"
+          showProductCountAndSort={false}
+        />
       </Box>
+
       <InfoCardBanner
-        image={"./info-banner.png"}
-        title={"Introducing Our New High  Jewellery Collection"}
-        description={
-          "Sea of Wonder is a mesmerizing tribute to the beauty and rhythm of the ocean. The new high jewelry expression reinterprets archival Jean Schlumberger creations in breathtaking new designs."
-        }
-        buttonText={"Know More"}
+        image="./info-banner.png"
+        title="Introducing Our New High  Jewellery Collection"
+        description="Sea of Wonder is a mesmerizing tribute to the beauty and rhythm of the ocean. The new high jewelry expression reinterprets archival Jean Schlumberger creations in breathtaking new designs."
+        buttonText="Know More"
         layout="full"
         descriptionWidth="640px"
         sx={{
           backgroundImage: `
-        linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0)),
-        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))
-      `,
+            linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0)),
+            linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))
+          `,
           zIndex: 1,
           "& p": { width: "640px" },
-         
         }}
       />
-      <Box sx={{padding:'80px 0'}}>
-      <CardCollection products={productsItem2} title={"Our Bestsellers"}  showProductCountAndSort={false} viewAllLink="/products"/>
+
+      <Box sx={{ padding: '80px 0' }}>
+        <CardCollection
+          products={productsItem2}
+          title="Our Bestsellers"
+          showProductCountAndSort={false}
+          viewAllLink="/products"
+          
+        />
       </Box>
 
       <Container maxWidth="lg">
@@ -130,42 +131,33 @@ export default function HomePage() {
             padding: "80px 0",
             "@media (max-width:540px)": {
               gridTemplateColumns: "repeat(1, 1fr)",
-              padding :'0 0 80px 0',
+              padding: "0 0 80px 0",
             },
           }}
         >
-          <Box>
-            <InfoCardBanner
-              image={"./info1.jpg"}
-              title={"Custom Design"}
-              description={
-                "Our Unique Settings staff is highly dedicated and trained in delivering exceptional quality and service."
-              }
-              buttonText={"Know More"}
-              sx={{ alignItems: "inherit", padding: "48px", height: "620px" , "@media (max-width:540px)": {
-               height:'400px'
-              },}}
-              enableZoom={true}
-              
-            />
-          </Box>
-
-          <Box>
-            <InfoCardBanner
-              image={"./info2.jpg"}
-              title={"Services"}
-              description={
-                "We offer exquisite jewelry services including custom designs, repairs, and personalized styling to elevate your elegance."
-              }
-              buttonText={"Know More"}
-              sx={{ alignItems: "inherit", padding: "48px", height: "620px" , "@media (max-width:540px)": {
-                height:'400px'
-               },}}
-              enableZoom={true}
-            />
-          </Box>
+          {infoCards.map((card, index) => (
+            <Box key={index}>
+              <InfoCardBanner
+                image={card.image}
+                title={card.title}
+                description={card.description}
+                buttonText="Know More"
+                enableZoom
+                sx={{
+                  alignItems: "inherit",
+                  padding: "48px",
+                  height: "620px",
+                  "@media (max-width:540px)": {
+                    height: "400px",
+                    padding: "30px 0px",
+                  },
+                }}
+              />
+            </Box>
+          ))}
         </Box>
       </Container>
+
       <Footer />
     </>
   );

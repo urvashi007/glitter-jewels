@@ -56,7 +56,7 @@ export default function InnerBanner({ title, breadcrumbs }: InnerBannerProps) {
 
         {/* Title */}
         <Typography
-          variant="h4"
+          variant="h2"
           sx={{
             fontWeight: 600,
             fontFamily: 'Manrope',

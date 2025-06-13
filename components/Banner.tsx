@@ -60,6 +60,7 @@ export default function HeroBanner({
               mb: 2,
               color: '#fff',
               fontFamily: 'Manrope',
+              textShadow: '0px 4px 6px rgba(0, 0, 0, 0.25)',
               "@media (max-width:540px)": {
                 fontSize:'34px',
                 lineHeight:'43px',
