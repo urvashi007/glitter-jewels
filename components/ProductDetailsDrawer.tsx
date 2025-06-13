@@ -4,175 +4,284 @@ import {
   Box,
   Drawer,
   Typography,
-  IconButton,
-  Tabs,
-  Tab,
-  Divider,
-  TextField,
+  Select,
   MenuItem,
+  TextField,
+  Stack,
   Button,
-  ToggleButtonGroup,
-  ToggleButton,
+  IconButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { ChevronDown, X } from "lucide-react";
 import { useState } from "react";
 
-const products = ["BGL230", "BGL229", "BGL228", "BGL227"];
-const colors = ["#d1a17b", "#f5f5dc", "#fff44f"];
+type Product = {
+  id: string;
+  price: string;
+  gold: string;
+  diamond: string;
+  image: string;
+};
+
+type ProductDetailsDrawerProps = {
+  open: boolean;
+  onClose: () => void;
+  product: Product | null;
+};
 
 export default function ProductDetailsDrawer({
   open,
   onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
-  const [tabIndex, setTabIndex] = useState(0);
-  const [metalColor, setMetalColor] = useState(colors[0]);
+  product,
+}: ProductDetailsDrawerProps) {
+  const [metalType, setMetalType] = useState("");
+  const [diamondQuality, setDiamondQuality] = useState("");
+  const [itemSize, setItemSize] = useState("");
+  const [lockType, setLockType] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [hallmark, setHallmark] = useState("");
+  const [certification, setCertification] = useState("");
+  const [comments, setComments] = useState("");
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue);
+  const metalTypes = ["10 KT", "14 KT", "18 KT", "PALLADIUM"];
+  const metalColors = ["#f5f5f5", "#e0e0e0", "#ffd700"];
+  const dummyOptions = [1, 2, 3, 4];
+  const hallmarks = ["BIS", "SGL", "XYZ"];
+  const certifications = ["IGI", "GIA", "HRD"];
+
+  const handleSubmit = () => {
+    const formData = {
+      metalType,
+      diamondQuality,
+      itemSize,
+      lockType,
+      quantity,
+      hallmark,
+      certification,
+      comments,
+    };
+    console.log("Submitted Product Details:", formData);
   };
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
-      <Box sx={{ width: 450, p: 3, maxHeight: "100vh", overflow: "auto" }}>
+      <Box sx={{ width: 500, p: 4, fontFamily: "Manrope", position: "relative" }}>
         {/* Header */}
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">Add Product Details</Typography>
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-
-        {/* Tabs */}
-        <Tabs
-          value={tabIndex}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{ mt: 2 }}
+        <IconButton
+          onClick={onClose}
+          sx={{ position: "absolute", right: 16, top: 16 }}
         >
-          {products.map((code) => (
-            <Tab key={code} label={code} />
-          ))}
-        </Tabs>
+          <X />
+        </IconButton>
 
-        {/* Product Image */}
-        <Box
-          mt={2}
-          mb={2}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <img
-            src="/bgl-product.jpg" // Replace with actual image path
-            alt="Product"
-            style={{ maxWidth: "100%", maxHeight: 200 }}
-          />
-        </Box>
+        {product && (
+          <>
+            {/* Image and Tabs */}
+            <Box sx={{ mb: 3, mt: 2 }}>
+              <img
+                src={product.image}
+                alt={product.id}
+                style={{ width: "100%", borderRadius: 8 }}
+              />
+            </Box>
 
-        <Divider />
-
-        {/* Title */}
-        <Typography variant="subtitle1" mt={2} mb={1}>
-          Specification and Description
-        </Typography>
-
-        {/* Form Fields with Flex */}
-        <Box display="flex" flexWrap="wrap" gap={2}>
-          <Box flex="1 1 45%">
-            <TextField select label="Metal Type" fullWidth>
-              <MenuItem value="Gold">Gold</MenuItem>
-              <MenuItem value="Platinum">Platinum</MenuItem>
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 45%">
-            <Typography variant="body2" gutterBottom>
-              Metal Color
-            </Typography>
-            <ToggleButtonGroup
-              value={metalColor}
-              exclusive
-              onChange={(e, val) => val && setMetalColor(val)}
-              size="small"
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 700, fontSize: "20px", mb: 2 }}
             >
-              {colors.map((color) => (
-                <ToggleButton
-                  key={color}
-                  value={color}
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    p: 0,
-                    borderRadius: "50%",
-                    border: "1px solid #ccc",
-                    backgroundColor: color,
-                  }}
+              Add Product Details
+            </Typography>
+
+            {/* Section Title */}
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: "14px",
+                mb: 2,
+                borderBottom: "1px solid #ccc",
+                pb: 1,
+              }}
+            >
+              SPECIFICATION AND DESCRIPTION
+            </Typography>
+
+            {/* Form */}
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  METAL TYPE
+                </Typography>
+                <Select
+                  value={metalType}
+                  onChange={(e) => setMetalType(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {metalTypes.map((type) => (
+                    <MenuItem key={type} value={type}>{type}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  METAL COLOR
+                </Typography>
+                <Stack direction="row" spacing={2}>
+                  {metalColors.map((color, i) => (
+                    <Box
+                      key={i}
+                      sx={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: "4px",
+                        backgroundColor: color,
+                        border: "1px solid #ccc",
+                        cursor: "pointer",
+                      }}
+                    />
+                  ))}
+                </Stack>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  DIAMOND QUALITY
+                </Typography>
+                <Select
+                  value={diamondQuality}
+                  onChange={(e) => setDiamondQuality(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {dummyOptions.map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  ITEM SIZE
+                </Typography>
+                <Select
+                  value={itemSize}
+                  onChange={(e) => setItemSize(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {dummyOptions.map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  LOCK TYPE
+                </Typography>
+                <Select
+                  value={lockType}
+                  onChange={(e) => setLockType(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {dummyOptions.map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  QUANTITY
+                </Typography>
+                <Select
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {[1, 2, 3, 4, 5].map((q) => (
+                    <MenuItem key={q} value={q}>{q}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  HALLMARKING
+                </Typography>
+                <Select
+                  value={hallmark}
+                  onChange={(e) => setHallmark(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {hallmarks.map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 45%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  CERTIFICATION
+                </Typography>
+                <Select
+                  value={certification}
+                  onChange={(e) => setCertification(e.target.value)}
+                  fullWidth
+                  displayEmpty
+                  IconComponent={ChevronDown}
+                  renderValue={(selected) => selected || "Select"}
+                >
+                  <MenuItem value="" disabled>Select</MenuItem>
+                  {certifications.map((val) => (
+                    <MenuItem key={val} value={val}>{val}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box sx={{ flex: "1 1 100%" }}>
+                <Typography mb={1} fontSize="14px" fontWeight={500}>
+                  COMMENTS
+                </Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  placeholder="Comments"
+                  value={comments}
+                  onChange={(e) => setComments(e.target.value)}
                 />
-              ))}
-            </ToggleButtonGroup>
-          </Box>
+              </Box>
 
-          <Box flex="1 1 45%">
-            <TextField select label="Diamond Quality" fullWidth>
-              <MenuItem value="SI">SI</MenuItem>
-              <MenuItem value="VS">VS</MenuItem>
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 45%">
-            <TextField select label="Item Size" fullWidth>
-              <MenuItem value="S">Small</MenuItem>
-              <MenuItem value="M">Medium</MenuItem>
-              <MenuItem value="L">Large</MenuItem>
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 45%">
-            <TextField select label="Lock Type" fullWidth>
-              <MenuItem value="Screw">Screw</MenuItem>
-              <MenuItem value="Push">Push</MenuItem>
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 45%">
-            <TextField select label="Quantity" fullWidth>
-              {[...Array(10)].map((_, i) => (
-                <MenuItem key={i} value={i + 1}>
-                  {i + 1}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 45%">
-            <TextField select label="Hallmarking" fullWidth>
-              <MenuItem value="Yes">Yes</MenuItem>
-              <MenuItem value="No">No</MenuItem>
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 45%">
-            <TextField select label="Certification" fullWidth>
-              <MenuItem value="IGI">IGI</MenuItem>
-              <MenuItem value="GIA">GIA</MenuItem>
-            </TextField>
-          </Box>
-
-          <Box flex="1 1 100%">
-            <TextField label="Comments" multiline rows={3} fullWidth />
-          </Box>
-        </Box>
-
-        {/* Submit Button */}
-        <Box mt={3}>
-          <Button variant="contained" color="primary" fullWidth>
-            SUBMIT
-          </Button>
-        </Box>
+              <Box sx={{ flex: "1 1 100%", mt: 2 }}>
+                <Button variant="contained" fullWidth onClick={handleSubmit}>
+                  SUBMIT
+                </Button>
+              </Box>
+            </Box>
+          </>
+        )}
       </Box>
     </Drawer>
   );

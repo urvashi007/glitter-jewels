@@ -21,7 +21,6 @@ import {
 import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useMemo } from 'react';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -53,6 +52,7 @@ type LatestCollectionProps = {
   products: Product[];
   columns?: number;
   showProductCountAndSort?: boolean;
+  onProductClick?: (product: Product) => void; // ✅
 };
 
 export default function CardCollection({
@@ -61,6 +61,7 @@ export default function CardCollection({
   products,
   columns = 4,
   showProductCountAndSort = true,
+  onProductClick,
 }: LatestCollectionProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
@@ -105,35 +106,14 @@ export default function CardCollection({
       <Box>
         <Container maxWidth="lg">
           {(title || viewAllLink) && (
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4} sx={{ "@media (max-width:540px)": {
-              alignItems:'flex-start',
-              },}}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
               {title && (
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: 600,
-                    fontFamily: 'Manrope',
-                    fontSize: { xs: '28px', sm: '40px' },
-                  }}
-                >
+                <Typography variant="h4" fontWeight={600}>
                   {title}
                 </Typography>
               )}
               {viewAllLink && (
-                <Link
-                  href={viewAllLink}
-                  underline="none"
-                  sx={{
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    color: '#445B9C',
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontFamily: 'Jost',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
+                <Link href={viewAllLink} underline="none" sx={{ color: '#445B9C' }}>
                   VIEW ALL <ArrowRight size={18} style={{ marginLeft: 6 }} />
                 </Link>
               )}
@@ -157,22 +137,15 @@ export default function CardCollection({
                 >
                   <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
                   <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
-                  <MenuItem value="newest">Newest</MenuItem>
                 </Select>
               </FormControl>
             </Stack>
           )}
 
           {isMobile ? (
-            <Swiper
-              spaceBetween={16}
-              slidesPerView={1.2}
-              
-            >
+            <Swiper spaceBetween={16} slidesPerView={1.2}>
               {sortedProducts.map((item) => (
-                <SwiperSlide key={item.id}>
-                  {renderCard(item)}
-                </SwiperSlide>
+                <SwiperSlide key={item.id}>{renderCard(item)}</SwiperSlide>
               ))}
             </Swiper>
           ) : (
@@ -254,6 +227,7 @@ export default function CardCollection({
 
             <IconButton
               size="small"
+              onClick={() => onProductClick?.(item)}
               sx={{
                 background: '#445B9C',
                 color: '#fff',
@@ -269,14 +243,7 @@ export default function CardCollection({
         </Card>
 
         <CardContent sx={{ px: 0, pt: 1 }}>
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: 'Manrope',
-            }}
-          >
+          <Typography variant="body1" sx={{ fontSize: 14, fontWeight: 500 }}>
             {item.id} &nbsp;–&nbsp;
             <Box component="span" sx={{ fontWeight: 700 }}>{item.price}</Box>
           </Typography>
