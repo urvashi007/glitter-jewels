@@ -39,6 +39,10 @@ export default function HeroBanner({
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
           zIndex: 1,
         },
+        "@media (max-width:540px)": {
+          height: '500px',
+          padding:'0 20px 50px 20px'
+        },
       }}
     >
       <motion.div
@@ -56,6 +60,11 @@ export default function HeroBanner({
               mb: 2,
               color: '#fff',
               fontFamily: 'Manrope',
+              "@media (max-width:540px)": {
+                fontSize:'34px',
+                lineHeight:'43px',
+                fontWeight:'700'
+        },
             }}
           >
             {title}
@@ -70,6 +79,10 @@ export default function HeroBanner({
               fontFamily: 'Jost',
               width:'700px',
               margin:'0 auto 32px',
+              "@media (max-width:540px)": {
+                width:'100%',
+                fontSize: '16px',
+        },
             }}
           >
             {subtitle}

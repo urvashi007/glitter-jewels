@@ -36,6 +36,11 @@ export default function InfoCardBanner({
         overflow: 'hidden',
         color: '#fff',
         cursor: enableZoom ? 'pointer' : 'default',
+        "@media (max-width:540px)": {
+          height: '500px',
+          padding: '30px 20px'
+          
+        },
         ...sx,
       }}
     >
@@ -78,6 +83,9 @@ export default function InfoCardBanner({
           height: '100%',
           background: 'linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0))',
           zIndex: 1,
+          "@media (max-width:540px)": {
+            width: '100%',
+           },
         }}
       />
 
@@ -89,6 +97,9 @@ export default function InfoCardBanner({
           maxWidth: layout === 'card' ? 'md' : 'lg',
           pl: layout === 'full' ? 6 : 0,
           pr: layout === 'full' ? 6 : 0,
+           "@media (max-width:540px)": {
+             padding: "0px 20px"
+            },
         }}
       >
         <Typography
@@ -98,6 +109,10 @@ export default function InfoCardBanner({
             mb: 2,
             fontFamily: 'Manrope',
             width: descriptionWidth || '100%',
+            "@media (max-width:540px)": {
+              maxWidth: '100%',
+              fontSize:'28px'
+            },
           }}
         >
           {title}
@@ -109,6 +124,9 @@ export default function InfoCardBanner({
             mb: 4,
             fontSize: '16px',
             fontFamily: 'Jost',
+            "@media (max-width:540px)": {
+              maxWidth: '100%',
+            }
           }}
         >
           {description}

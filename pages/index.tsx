@@ -70,21 +70,14 @@ export default function HomePage() {
   ];
   return (
     <>
-      {/* <Header
-  logo="/logo-black.svg"
-  navItems={['HOME', 'COLLECTIONS', 'PRODUCTS']}
-  searchEnabled
-  variant="white"
-/> */}
       <Header
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
         searchEnabled={true}
   navItems={[
-    { label: "Home" },
+    { label: "Our Expertise" },
     { label: "Product", submenu: ["Bracelets", "Earrings", "Necklace", "Pendant","Rings",'View All'] },
-    { label: "About" },
-    { label: "Contact" },
+    { label: "Enquiry" },
   ]}
       />
       <HeroBanner
@@ -120,6 +113,7 @@ export default function HomePage() {
       `,
           zIndex: 1,
           "& p": { width: "640px" },
+         
         }}
       />
       <Box sx={{padding:'80px 0'}}>
@@ -134,6 +128,10 @@ export default function HomePage() {
             gridTemplateColumns: "repeat(2, 1fr)",
             gap: "60px",
             padding: "80px 0",
+            "@media (max-width:540px)": {
+              gridTemplateColumns: "repeat(1, 1fr)",
+              padding :'0 0 80px 0',
+            },
           }}
         >
           <Box>
@@ -144,8 +142,11 @@ export default function HomePage() {
                 "Our Unique Settings staff is highly dedicated and trained in delivering exceptional quality and service."
               }
               buttonText={"Know More"}
-              sx={{ alignItems: "inherit", padding: "48px", height: "620px" }}
+              sx={{ alignItems: "inherit", padding: "48px", height: "620px" , "@media (max-width:540px)": {
+               height:'400px'
+              },}}
               enableZoom={true}
+              
             />
           </Box>
 
@@ -157,7 +158,9 @@ export default function HomePage() {
                 "We offer exquisite jewelry services including custom designs, repairs, and personalized styling to elevate your elegance."
               }
               buttonText={"Know More"}
-              sx={{ alignItems: "inherit", padding: "48px", height: "620px" }}
+              sx={{ alignItems: "inherit", padding: "48px", height: "620px" , "@media (max-width:540px)": {
+                height:'400px'
+               },}}
               enableZoom={true}
             />
           </Box>

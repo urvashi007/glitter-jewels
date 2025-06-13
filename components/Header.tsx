@@ -30,8 +30,14 @@ import {
 import Container from "@mui/material/Container";
 import { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/system";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-// ✅ NavItem with optional submenu
+
 type HeaderNavItem =
   | { label: string }
   | { label: string; submenu: string[] };
@@ -88,10 +94,13 @@ export default function Header({
   const [scrolled, setScrolled] = useState(forceScrolled);
   const [searchOpen, setSearchOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const searchBoxRef = useRef<HTMLDivElement | null>(null);
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
+  const loginPopupRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (forceScrolled) {
@@ -122,6 +131,13 @@ export default function Header({
       ) {
         setProfileMenuOpen(false);
       }
+
+      if (
+        loginPopupRef.current &&
+        !loginPopupRef.current.contains(event.target as Node)
+      ) {
+        setShowLoginPopup(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -138,9 +154,9 @@ export default function Header({
   const logo = scrolled ? logoDark : logoLight;
 
   return (
-    <HeaderContainer position="fixed" scrolled={scrolled}>
+    <HeaderContainer position="fixed" scrolled={scrolled} sx={{zIndex:'3'}}>
       <Container maxWidth="lg" disableGutters sx={{ px: 0, position: "relative" }}>
-        <Toolbar sx={{ justifyContent: "space-between", position: "relative" }}>
+        <Toolbar sx={{ justifyContent: "space-between", position: "relative", padding:'0'}}>
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
               <Menu sx={{ color: iconColor }} />
@@ -157,6 +173,10 @@ export default function Header({
                     key={index}
                     sx={{
                       position: "relative",
+                      ml: { xs: "0px !important", lg: "16px" },
+                      "@media (max-width:1024px)": {
+                        ml: "0px !important",
+                      },
                       "&:hover .submenu": {
                         opacity: 1,
                         visibility: "visible",
@@ -173,7 +193,7 @@ export default function Header({
                         fontFamily: "Jost, sans-serif",
                         textTransform: "uppercase",
                         px: 1.5,
-                        py: 0.5,
+                        py: 0.5,                     
                       }}
                     >
                       {label}
@@ -192,10 +212,8 @@ export default function Header({
                           transform: "translateY(10px)",
                           transition: "all 0.3s ease",
                           zIndex: 2000,
-                          paddingTop:'25px',
-                          color:'#222',
-                    
-                          
+                          paddingTop: '25px',
+                          color: '#222',
                         }}
                       >
                         {submenu.map((subItem: string, i: number) => (
@@ -209,13 +227,9 @@ export default function Header({
                               color: "#222",
                               cursor: "pointer",
                               whiteSpace: "nowrap",
-                              background:'#fff',
-                              '&:first-of-type': {
-                            paddingTop:'20px',
-                          },
-                          '&:last-of-type': {
-                            paddingBottom:'20px',
-                          },
+                              background: '#fff',
+                              '&:first-of-type': { paddingTop: '20px' },
+                              '&:last-of-type': { paddingBottom: '20px' },
                               "&:hover": {
                                 backgroundColor: "#f5f5f5",
                               },
@@ -300,7 +314,15 @@ export default function Header({
                 sx={{ width: 22, height: 22 }}
               />
             </IconButton>
-            <IconButton onClick={() => setProfileMenuOpen((prev) => !prev)}>
+            <IconButton
+              onClick={() => {
+                if (isLoggedIn) {
+                  setProfileMenuOpen((prev) => !prev);
+                } else {
+                  setShowLoginPopup(true);
+                }
+              }}
+            >
               <Box
                 component="img"
                 src={scrolled ? "/user.svg" : "/user-white.svg"}
@@ -311,6 +333,7 @@ export default function Header({
           </Stack>
         </Toolbar>
 
+        {/* ✅ Profile Menu */}
         {profileMenuOpen && (
           <Paper
             ref={profileMenuRef}
@@ -346,12 +369,67 @@ export default function Header({
               spacing={1}
               mt={2}
               sx={{ color: "error.main", cursor: "pointer" }}
+              onClick={() => {
+                setIsLoggedIn(false);
+                setProfileMenuOpen(false);
+              }}
             >
               <Logout fontSize="small" />
               <Typography variant="body2" fontWeight={500}>
                 Logout
               </Typography>
             </Stack>
+          </Paper>
+        )}
+
+
+        {showLoginPopup && (
+          <Paper
+            ref={loginPopupRef}
+            elevation={4}
+            sx={{
+              position: "absolute",
+              right: 16,
+              top: 70,
+              width: 260,
+              p: 2,
+              zIndex: 1100,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            <Box
+              sx={{
+                bgcolor: "#445B9C",
+                color: "#fff",
+                padding: '10px 0',
+                textAlign: "center",
+                fontWeight: 500,
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: '14px',
+              }}
+              onClick={() => {
+                setIsLoggedIn(true);
+                setShowLoginPopup(false);
+              }}
+            >
+              LOGIN
+            </Box>
+            <Box
+              sx={{
+                border: "1px solid #445B9C",
+                color: "#3f51b5",
+                padding: '10px 0',
+                textAlign: "center",
+                fontWeight: 500,
+                cursor: "pointer",
+                fontSize: '14px',
+              }}
+            >
+              CREATE ACCOUNT
+            </Box>
           </Paper>
         )}
 
@@ -362,22 +440,58 @@ export default function Header({
           transitionDuration={400}
         >
           <DrawerContent>
+            <Box sx={{display:'flex'}}>
+            <Box
+      component="img"
+      src="./logo.svg"
+      sx={{
+    
+        height: '40px',
+        objectFit: 'cover',
+        mb: 2,
+      }}
+    />
             <IconButton
               onClick={toggleDrawer(false)}
               sx={{ position: "absolute", top: 8, right: 8 }}
             >
               <Close />
             </IconButton>
-            <List sx={{ mt: 5 }}>
-              {navItems.map((item, index) => {
-                const label = typeof item === "string" ? item : item.label;
-                return (
-                  <ListItem button key={index}>
-                    <ListItemText primary={label} />
-                  </ListItem>
-                );
-              })}
-            </List>
+            </Box>
+           
+<List sx={{ mt: 5 }}>
+  {navItems.map((item, index) => {
+    const hasSubmenu = typeof item !== "string" && "submenu" in item;
+    const label = typeof item === "string" ? item : item.label;
+    const submenu = hasSubmenu ? (item as any).submenu : [];
+
+    return hasSubmenu ? (
+      <Accordion key={index} sx={{ boxShadow: "none" }}>
+        <AccordionSummary
+          expandIcon={<ExpandMore />}
+          aria-controls={`panel-${index}-content`}
+          id={`panel-${index}-header`}
+        >
+          <Typography>{label}</Typography>
+        </AccordionSummary>
+        <AccordionDetails sx={{padding:'0'}}>
+          <List disablePadding>
+            {submenu.map((subItem, subIndex) => (
+              <ListItem button key={subIndex}>
+                <ListItemText primary={subItem}/>
+              </ListItem>
+            ))}
+          </List>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      <ListItem button key={index} >
+        <ListItemText primary={label} />
+      </ListItem>
+    );
+  })}
+</List>
+
           </DrawerContent>
         </Drawer>
       </Container>
@@ -385,7 +499,6 @@ export default function Header({
   );
 }
 
-// ✅ Profile menu item helper
 const MenuItem = ({
   icon,
   label,

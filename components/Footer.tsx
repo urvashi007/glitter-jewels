@@ -11,14 +11,18 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid
           container
-          sx={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}
+          sx={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)",  "@media (max-width:540px)": {
+           gridTemplateColumns: "repeat(1, 1fr)", gap:'30px'
+          },}}
         >
           <Grid>
             <Typography
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" }}
+              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
+                fontSize:'18px',
+               },}}
             >
               Categories
             </Typography>
@@ -44,7 +48,9 @@ export default function Footer() {
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" }}
+              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
+                fontSize:'18px',
+               },}}
             >
               Services
             </Typography>
@@ -70,7 +76,9 @@ export default function Footer() {
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" }}
+              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
+                fontSize:'18px',
+               },}}
             >
               Important Links
             </Typography>
@@ -83,13 +91,15 @@ export default function Footer() {
             </Stack>
           </Grid>
 
-          {/* Get In Touch */}
+       
           <Grid>
             <Typography
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" }}
+              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
+                fontSize:'18px',
+               },}}
             >
               Get In Touch
             </Typography>
