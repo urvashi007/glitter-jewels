@@ -1,15 +1,24 @@
 'use client';
 
 import HeroBanner from "@/components/Banner";
-import CardCollection from "@/components/CardCollection";
+import CardCollection, { Product } from "@/components/CardCollection";
 import CategoriesSection from "@/components/Categories";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import InfoCardBanner from "@/components/InfoCardBanner";
+import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
 import { Container } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useState } from "react";
 
 export default function HomePage() {
+   const [drawerOpen, setDrawerOpen] = useState(false);
+   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+   
+     const handleProductClick = (product: Product) => {
+       setSelectedProduct(product);
+       setDrawerOpen(true);
+     };
   const productsItem = [
     {
       id: "Ring-001",
@@ -91,6 +100,7 @@ export default function HomePage() {
           title="Our Latest Collection"
           viewAllLink="/products"
           showProductCountAndSort={false}
+          onProductClick={handleProductClick}
         />
       </Box>
 
@@ -159,6 +169,11 @@ export default function HomePage() {
       </Container>
 
       <Footer />
+       <ProductDetailsDrawer
+              open={drawerOpen}
+              onClose={() => setDrawerOpen(false)}
+              product={selectedProduct}
+            />
     </>
   );
 }

@@ -13,7 +13,7 @@ export default function InnerBanner({ title, breadcrumbs }: InnerBannerProps) {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: 200, sm: 280, md: 374 },
+        height: { xs: 300, sm: 280, md: 374 },
         backgroundImage: `url('/innerBanner.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -56,12 +56,9 @@ export default function InnerBanner({ title, breadcrumbs }: InnerBannerProps) {
 
         {/* Title */}
         <Typography
-          variant="h2"
+          variant="h3"
           sx={{
-            fontWeight: 600,
-            fontFamily: 'Manrope',
             textShadow: '0px 4px 6px rgba(0, 0, 0, 0.25)',
-            fontSize: '48px',
           }}
         >
           {title}

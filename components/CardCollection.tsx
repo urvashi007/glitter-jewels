@@ -108,13 +108,14 @@ export default function CardCollection({
           {(title || viewAllLink) && (
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
               {title && (
-                <Typography variant="h4" fontWeight={600}>
+                <Typography variant="h2">
                   {title}
                 </Typography>
               )}
               {viewAllLink && (
-                <Link href={viewAllLink} underline="none" sx={{ color: '#445B9C' }}>
-                  VIEW ALL <ArrowRight size={18} style={{ marginLeft: 6 }} />
+                <Link href={viewAllLink} underline="none" sx={{ color: '#445B9C',fontFamily:'jost',fontSize:'18px', fontWeight:'500', display: 'inline-flex',
+                  alignItems: 'center', }}>
+                  VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
                 </Link>
               )}
             </Box>
@@ -135,8 +136,8 @@ export default function CardCollection({
                   onClose={() => setSortOpen(false)}
                   IconComponent={() => <StyledChevronDown open={sortOpen} />}
                 >
-                  <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
-                  <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
+                  <MenuItem value="priceLowHigh" sx={{fontSize:'14px', color:'#222',}}>Price: Low to High</MenuItem>
+                  <MenuItem value="priceHighLow" sx={{fontSize:'14px',color:'#222'}}>Price: High to Low</MenuItem>
                 </Select>
               </FormControl>
             </Stack>
@@ -208,6 +209,7 @@ export default function CardCollection({
             }}
           >
             <IconButton
+            
               size="small"
               onClick={() => toggleFavorite(item.id)}
               sx={{

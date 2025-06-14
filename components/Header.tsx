@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -12,7 +13,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  useTheme,
   useMediaQuery,
   Paper,
 } from "@mui/material";
@@ -30,17 +30,10 @@ import {
 import Container from "@mui/material/Container";
 import { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/system";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-
-
-type HeaderNavItem =
-  | { label: string }
-  | { label: string; submenu: string[] };
+import { useTheme } from "@mui/material/styles";
+type HeaderNavItem = { label: string } | { label: string; submenu: string[] };
 
 type HeaderProps = {
   logoLight: string;
@@ -60,7 +53,7 @@ const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
     transition: "all 0.3s ease",
     zIndex: 9999,
     boxShadow: scrolled ? theme.shadows[2] : "none",
-    borderBottom: scrolled ? "none" : "1px solid #ffffff70",
+    borderBottom: scrolled ? "none" : "1px solidrgba(0, 0, 0, 0.44)",
     animation: !scrolled ? "borderFadeIn 1s ease forwards" : "none",
     "@keyframes borderFadeIn": {
       "0%": { borderBottom: "1px solid transparent" },
@@ -154,9 +147,30 @@ export default function Header({
   const logo = scrolled ? logoDark : logoLight;
 
   return (
-    <HeaderContainer position="fixed" scrolled={scrolled} sx={{zIndex:'3'}}>
-      <Container maxWidth="lg" disableGutters sx={{ px: 0, position: "relative" }}>
-        <Toolbar sx={{ justifyContent: "space-between", position: "relative", padding:'0'}}>
+    <HeaderContainer
+      position="fixed"
+      scrolled={scrolled}
+      sx={{
+        zIndex: "3",
+        padding: "0",
+        boxShadow: '0px 4px 10px rgba(27, 36, 44, 0.08)',
+        "@media (max-width:768px)": {
+          padding: "0 16px",
+        },
+      }}
+    >
+      <Container
+        maxWidth="lg"
+        disableGutters
+        sx={{ px: 0, position: "relative" }}
+      >
+        <Toolbar
+          sx={{
+            justifyContent: "space-between",
+            position: "relative",
+            padding: "0",
+          }}
+        >
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
               <Menu sx={{ color: iconColor }} />
@@ -164,10 +178,10 @@ export default function Header({
           ) : (
             <Stack direction="row" spacing={4} alignItems="center">
               {navItems.map((item, index) => {
-                const hasSubmenu = typeof item !== "string" && "submenu" in item;
+                const hasSubmenu =
+                  typeof item !== "string" && "submenu" in item;
                 const label = typeof item === "string" ? item : item.label;
-                const submenu = hasSubmenu ? (item as any).submenu : [];
-
+                const submenu = "submenu" in item ? item.submenu : [];
                 return (
                   <Box
                     key={index}
@@ -193,7 +207,7 @@ export default function Header({
                         fontFamily: "Jost, sans-serif",
                         textTransform: "uppercase",
                         px: 1.5,
-                        py: 0.5,                     
+                        py: 0.5,
                       }}
                     >
                       {label}
@@ -212,8 +226,8 @@ export default function Header({
                           transform: "translateY(10px)",
                           transition: "all 0.3s ease",
                           zIndex: 2000,
-                          paddingTop: '25px',
-                          color: '#222',
+                          paddingTop: "17px",
+                          color: "#222",
                         }}
                       >
                         {submenu.map((subItem: string, i: number) => (
@@ -227,9 +241,9 @@ export default function Header({
                               color: "#222",
                               cursor: "pointer",
                               whiteSpace: "nowrap",
-                              background: '#fff',
-                              '&:first-of-type': { paddingTop: '20px' },
-                              '&:last-of-type': { paddingBottom: '20px' },
+                              background: "#fff",
+                              "&:first-of-type": { paddingTop: "20px" },
+                              "&:last-of-type": { paddingBottom: "20px" },
                               "&:hover": {
                                 backgroundColor: "#f5f5f5",
                               },
@@ -356,11 +370,26 @@ export default function Header({
             </Typography>
 
             <Stack spacing={1}>
-              <MenuItem icon={<ShoppingBag fontSize="small" />} label="My Orders" />
-              <MenuItem icon={<Person fontSize="small" />} label="Edit Profile" />
-              <MenuItem icon={<Favorite fontSize="small" />} label="My Favourites" />
-              <MenuItem icon={<LocationOn fontSize="small" />} label="Manage Addresses" />
-              <MenuItem icon={<Lock fontSize="small" />} label="Change Password" />
+              <MenuItem
+                icon={<ShoppingBag fontSize="small" />}
+                label="My Orders"
+              />
+              <MenuItem
+                icon={<Person fontSize="small" />}
+                label="Edit Profile"
+              />
+              <MenuItem
+                icon={<Favorite fontSize="small" />}
+                label="My Favourites"
+              />
+              <MenuItem
+                icon={<LocationOn fontSize="small" />}
+                label="Manage Addresses"
+              />
+              <MenuItem
+                icon={<Lock fontSize="small" />}
+                label="Change Password"
+              />
             </Stack>
 
             <Stack
@@ -381,8 +410,7 @@ export default function Header({
             </Stack>
           </Paper>
         )}
-
-
+        {/* login popup */}
         {showLoginPopup && (
           <Paper
             ref={loginPopupRef}
@@ -403,12 +431,12 @@ export default function Header({
               sx={{
                 bgcolor: "#445B9C",
                 color: "#fff",
-                padding: '10px 0',
+                padding: "10px 0",
                 textAlign: "center",
                 fontWeight: 500,
                 borderRadius: "4px",
                 cursor: "pointer",
-                fontSize: '14px',
+                fontSize: "14px",
               }}
               onClick={() => {
                 setIsLoggedIn(true);
@@ -421,11 +449,11 @@ export default function Header({
               sx={{
                 border: "1px solid #445B9C",
                 color: "#445B9C",
-                padding: '10px 0',
+                padding: "10px 0",
                 textAlign: "center",
                 fontWeight: 500,
                 cursor: "pointer",
-                fontSize: '14px',
+                fontSize: "14px",
               }}
             >
               CREATE ACCOUNT
@@ -440,58 +468,57 @@ export default function Header({
           transitionDuration={400}
         >
           <DrawerContent>
-            <Box sx={{display:'flex', padding: '15px 0 0 20px'}}>
-            <Box
-      component="img"
-      src="./logo.svg"
-      sx={{
-    
-        height: '40px',
-        objectFit: 'cover',
-        mb: 2,
-      }}
-    />
-            <IconButton
-              onClick={toggleDrawer(false)}
-              sx={{ position: "absolute", top: 8, right: 8 }}
-            >
-              <Close />
-            </IconButton>
+            <Box sx={{ display: "flex", padding: "15px 0 0 20px" }}>
+              <Box
+                component="img"
+                src="./logo.svg"
+                sx={{
+                  height: "40px",
+                  objectFit: "cover",
+                  mb: 2,
+                }}
+              />
+              <IconButton
+                onClick={toggleDrawer(false)}
+                sx={{ position: "absolute", top: 8, right: 8 }}
+              >
+                <Close />
+              </IconButton>
             </Box>
-           
-<List sx={{ mt: 3, }} >
-  {navItems.map((item, index) => {
-    const hasSubmenu = typeof item !== "string" && "submenu" in item;
-    const label = typeof item === "string" ? item : item.label;
-    const submenu = hasSubmenu ? (item as any).submenu : [];
 
-    return hasSubmenu ? (
-      <Accordion key={index} sx={{ boxShadow: "none" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMore />}
-          aria-controls={`panel-${index}-content`}
-          id={`panel-${index}-header`}
-        >
-          <Typography>{label}</Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{padding:'0'}}>
-          <List disablePadding>
-            {submenu.map((subItem, subIndex) => (
-              <ListItem button key={subIndex} >
-                <ListItemText primary={subItem}/>
-              </ListItem>
-            ))}
-          </List>
-        </AccordionDetails>
-      </Accordion>
-    ) : (
-      <ListItem button key={index} >
-        <ListItemText primary={label} />
-      </ListItem>
-    );
-  })}
-</List>
+            <List sx={{ mt: 3 }}>
+              {navItems.map((item, index) => {
+                const hasSubmenu =
+                  typeof item !== "string" && "submenu" in item;
+                const label = typeof item === "string" ? item : item.label;
+                const submenu = hasSubmenu ? (item as any).submenu : [];
 
+                return hasSubmenu ? (
+                  <Accordion key={index} sx={{ boxShadow: "none" }}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMore />}
+                      aria-controls={`panel-${index}-content`}
+                      id={`panel-${index}-header`}
+                    >
+                      <Typography>{label}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ padding: "0" }}>
+                      <List disablePadding>
+                        {submenu.map((subItem: string, subIndex: number) => (
+                          <ListItem button key={subIndex}>
+                            <ListItemText primary={subItem} />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </AccordionDetails>
+                  </Accordion>
+                ) : (
+                  <ListItem button key={index}>
+                    <ListItemText primary={label} />
+                  </ListItem>
+                );
+              })}
+            </List>
           </DrawerContent>
         </Drawer>
       </Container>

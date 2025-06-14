@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 
 import Header from "@/components/Header";
 import InnerBanner from "@/components/InnerBanner";
-import {Container } from "@mui/material";
+import UploadImage from "@/components/UploadImage";
+import {Box, Container } from "@mui/material";
 
 
 export default function ProductListPage() {
@@ -29,8 +30,18 @@ export default function ProductListPage() {
         ]}
       />
 
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Container maxWidth="lg" sx={{ padding:'80px 0' }}>
+          <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", md: "row" },
+                  gap: '30px',
+              fontFamily:'Manrope'
+                }}
+              >
+       <UploadImage />
        <CustomOrderForm />
+       </Box>
       </Container>
       <Footer />
     </>

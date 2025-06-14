@@ -73,6 +73,35 @@ const productsItem: Product[] = [
     diamond: "0.5ct",
     image: "./Categories/img1.png",
   },
+  {
+    id: "Pendant-003",
+    price: "₹18,000",
+    gold: "2g",
+    diamond: "0.15ct",
+    image: "./Categories/img3.png",
+  },
+  {
+    id: "Bracelet-004",
+    price: "₹45,000",
+    gold: "5g",
+    diamond: "0.5ct",
+    image: "./Categories/img1.png",
+  },
+  {
+    id: "Pendant-003",
+    price: "₹18,000",
+    gold: "2g",
+    diamond: "0.15ct",
+    image: "./Categories/img3.png",
+  },
+  {
+    id: "Bracelet-004",
+    price: "₹45,000",
+    gold: "5g",
+    diamond: "0.5ct",
+    image: "./Categories/img1.png",
+  },
+  
 ];
 
 export default function ProductListPage() {
@@ -133,6 +162,7 @@ export default function ProductListPage() {
           </Box>
 
           <Box sx={{ flex: 1 }}>
+            
             <CardCollection
               products={productsItem}
               columns={3}
