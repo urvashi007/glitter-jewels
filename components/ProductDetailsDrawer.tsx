@@ -8,12 +8,9 @@ import {
   IconButton,
   Tabs,
   Tab,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
 import { X } from "lucide-react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import CustomOrderForm from "./CustomOrderForm";
 import { useState } from "react";
 
@@ -93,42 +90,28 @@ export default function ProductDetailsDrawer({
               />
             </Box>
 
-            {/* Accordion for description only */}
-            <Accordion
-              sx={{
-                mb: 3,
-                px: "0",
-                py: "0",
-                minHeight: "unset",
-                "& .MuiButtonBase-root": {
-                  margin: 0,
-                  padding: "0",
-                },
-                "&.css-1lj39kh-MuiAccordionDetails-root":
-                  "    padding: 0 0 16px;",
-              }}
-            >
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography sx={{ fontWeight: 600, fontSize: "14px" }}>
-                  SPECIFICATION AND DESCRIPTION
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ padding: "0 0 20px 0" }}>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "#222", fontSize: "14px" }}
-                >
-                  This is a placeholder description of the product. You can
-                  update this section to show more detailed specs, material
-                  info, or design notes.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
           </>
         )}
 
         {/* Form stays outside */}
-        <CustomOrderForm heading="" />
+          <CustomOrderForm
+                  heading=""
+                  showAccordion={true}
+                  wishlistHead = {false}
+                  accordionTitle="Product Specification"
+                  accordionContent={
+                    <>
+                      <Typography variant="body2" fontWeight={500}>
+                        Made with 18KT Gold & VVS Diamonds.
+                      </Typography>
+                      <ul style={{ paddingLeft: 16 }}>
+                        <li>Metal: 18KT Yellow Gold</li>
+                        <li>Stone: Certified VVS Diamonds</li>
+                        <li>Warranty: 1 Year</li>
+                      </ul>
+                    </>
+                  }
+                />
       </Box>
     </Drawer>
   );

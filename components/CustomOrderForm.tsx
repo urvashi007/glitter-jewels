@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   MenuItem,
@@ -10,14 +13,25 @@ import {
   Typography,
 } from "@mui/material";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ProductCardWithWishlist from "./ProductCardWithWishlist";
 
 // Props interface
 interface CustomOrderFormProps {
   heading?: string;
+  showAccordion?: boolean;
+  accordionTitle?: string;
+  accordionContent?: ReactNode;
+  wishlistHead?:boolean;
 }
 
-export default function CustomOrderForm({ heading = "Make Custom Order" }: CustomOrderFormProps) {
+export default function CustomOrderForm({
+  heading = "Make Custom Order",
+  showAccordion = false,
+  wishlistHead = false,
+  accordionContent,
+}: CustomOrderFormProps) {
   const radioOptions = [1, 2, 3, 4];
   const metalTypes = ["10 KT", "14 KT", "18 KT", "PALLADIUM"];
   const metalColors = ["#f5f5f5", "#e0e0e0", "#ffd700", "#a9a9a9"];
@@ -55,17 +69,65 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
         sx={{
           fontWeight: 700,
           fontFamily: "Manrope",
-          marginBottom: "30px",
           fontSize: "28px",
+          marginBottom:'20px',
         }}
       >
         {heading}
       </Typography>
+       
+       {/* whishlist Head */}
+       {wishlistHead && (
+       <ProductCardWithWishlist />
+      )}
+
+       {/* whishlist Head */}
+
+
+
+
+      {/* accordian */}
+      {showAccordion && (
+        <Accordion
+          sx={{
+            mb: 3,
+            px: "0",
+            py: "0",
+            minHeight: "unset",
+            "& .MuiButtonBase-root": {
+              margin: 0,
+              padding: "0",
+            },
+            "&.css-1lj39kh-MuiAccordionDetails-root": {
+              padding: "0 0 16px",
+            },
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography sx={{ fontWeight: 600, fontSize: "14px" }}>
+              SPECIFICATION AND DESCRIPTION
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ padding: "0 0 20px 0" }}>
+            <Box
+              sx={{ color: "#222", fontSize: "14px", fontFamily: "Manrope" }}
+            >
+              {accordionContent}
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      )}
+  {/* accordian */}
+
 
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
-
+        {/* METAL TYPE */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             METAL TYPE
           </Typography>
           <Select
@@ -75,11 +137,7 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
             displayEmpty
             IconComponent={ChevronDown}
             renderValue={(selected) => selected || "Select Metal Type"}
-            sx={{
-              "&.MuiOutlinedInput-root": {
-                borderRadius: 0,
-              },
-            }}
+            sx={{ "&.MuiOutlinedInput-root": { borderRadius: 0 } }}
           >
             <MenuItem value="" disabled>
               Select Metal Type
@@ -94,7 +152,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* METAL COLOR */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             METAL COLOR
           </Typography>
           <Stack direction="row" spacing={2}>
@@ -116,7 +178,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* DIAMOND QUALITY */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             DIAMOND QUALITY
           </Typography>
           <Select
@@ -140,7 +206,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* ITEM SIZE */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             ITEM SIZE
           </Typography>
           <Select
@@ -164,7 +234,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* LOCK TYPE */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             LOCK TYPE
           </Typography>
           <Select
@@ -188,7 +262,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* QUANTITY */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             QUANTITY
           </Typography>
           <Select
@@ -212,7 +290,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* HALLMARKING */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             HALLMARKING
           </Typography>
           <Select
@@ -236,7 +318,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* CERTIFICATION */}
         <Box sx={{ flex: "1 1 45%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px",color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             CERTIFICATION
           </Typography>
           <Select
@@ -260,7 +346,11 @@ export default function CustomOrderForm({ heading = "Make Custom Order" }: Custo
 
         {/* COMMENTS */}
         <Box sx={{ flex: "1 1 100%" }}>
-          <Typography fontWeight={500} mb={1} sx={{ fontFamily: "Manrope", fontSize: "14px", color:'#222', }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
             COMMENTS
           </Typography>
           <TextField
