@@ -8,13 +8,14 @@ const theme = createTheme({
       color: "#222222",
       fontSize: "40px",
       [`@media (max-width:600px)`]: {
-        fontSize: "25px",maxWidth:'200px'
+        fontSize: "25px",
+        maxWidth: "200px",
       },
     },
     h3: {
       color: "#ffffff",
       fontSize: "40px",
-      fontWeight: "600",
+      fontWeight: 600,
       [`@media (max-width:600px)`]: {
         fontSize: "25px",
       },
@@ -23,11 +24,8 @@ const theme = createTheme({
     h5: { color: "#222222" },
   },
   palette: {
-    primary: {
-      main: "#222222",
-    },
-    secondary: {
-      main: "#404040",
+    text: {
+      primary: "#222222",    
     },
   },
   components: {
@@ -78,7 +76,6 @@ const theme = createTheme({
         },
       },
     },
-
     MuiAccordion: {
       styleOverrides: {
         root: {
@@ -90,7 +87,7 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontWeight: "500",
+          fontWeight: 500,
         },
       },
     },
@@ -100,6 +97,15 @@ const theme = createTheme({
           "@media (max-width:768px)": {
             paddingLeft: "16px",
             paddingRight: "16px",
+          },
+        },
+      },
+    },
+    MuiStack: {
+      styleOverrides: {
+        root: {
+          "& > :not(style) ~ :not(style)": {
+            marginTop: "0px !important",
           },
         },
       },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect } from "react";
 
 import Profile from "./Profile";
@@ -63,30 +63,49 @@ export default function AccountPage() {
         ]}
         forceScrolled={true}
       />
-
-      <Container maxWidth="lg">
-        <Grid container spacing={4}>
+      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0", }}>
+        <Container maxWidth="lg">
+        <Typography
+        variant="h2" sx={{fontSize:'30px', fontWeight:'700', marginBottom:'24px'}}
+      >
+        My Orders
+      </Typography>
           <Grid
+            spacing={4}
             sx={{
-              width: "280px",
-              height: "100vh",
-              padding: "100px 0 80px 0",
+              display: "flex",
+              alignItems: "flex-start",
+              "@media (max-width:991px)": {
+                display: "block",
+              },
+             
             }}
           >
-            <Sidebar
-              selectedTab={tab}
-              onSelectTab={(tab: string) => router.push(`/account?tab=${tab}`)}
-              
-            />
+            <Grid
+              sx={{
+                width: "280px",
+                marginRight:'40px',
+                "@media (max-width:991px)": {
+                  width:'100%',
+                },
+                "@media (max-width:540px)": {
+                  display: "none",
+                },
+              }}
+            >
+              <Sidebar
+                selectedTab={tab}
+                onSelectTab={(tab: string) =>
+                  router.push(`/account?tab=${tab}`)
+                }
+              />
+            </Grid>
+            <Grid flex={1} key={tab}>
+              {renderComponent()}
+            </Grid>
           </Grid>
-
-          {/* ✅ Key added to force re-render when tab changes */}
-          <Grid flex={1} key={tab}>
-            {renderComponent()}
-          </Grid>
-        </Grid>
-      </Container>
-
+        </Container>
+      </Box>
       <Footer />
     </>
   );
