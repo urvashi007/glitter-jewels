@@ -64,6 +64,7 @@ const orders: OrderCardProps[] = [
 
 const MyOrders = () => {
   return (
+    <Box sx={{height:"100vh"}}>
     <Box flex={1} sx={{ background: "#fff" }}>
       <Typography
         variant="h6"
@@ -86,6 +87,7 @@ const MyOrders = () => {
           <SingleOrderCard key={order.id + order.styleCode} {...order} />
         ))}
       </Stack>
+    </Box>
     </Box>
   );
 };

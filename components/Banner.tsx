@@ -91,6 +91,7 @@ export default function HeroBanner({
 
           <Button
             variant="outlined"
+             href="/product-list"
             sx={{
               borderColor: '#fff',
               color: '#fff',

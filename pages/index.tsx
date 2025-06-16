@@ -94,6 +94,7 @@ export default function HomePage() {
       <CategoriesSection />
 
      {/* card collection */}
+     <Box maxWidth='lg' sx={{margin: "0 auto",}}>
       <Box sx={{ padding: '80px 0' }}>
         <CardCollection
           products={productsItem}
@@ -102,6 +103,7 @@ export default function HomePage() {
           showProductCountAndSort={false}
           onProductClick={handleProductClick}
         />
+      </Box>
       </Box>
 
       <InfoCardBanner
@@ -120,17 +122,18 @@ export default function HomePage() {
           "& p": { width: "640px" },
         }}
       />
-
+  <Box maxWidth='lg' sx={{margin: "0 auto",}}>
       <Box sx={{ padding: '80px 0' }}>
         <CardCollection
           products={productsItem2}
           title="Our Bestsellers"
-          showProductCountAndSort={true}
+          showProductCountAndSort={false}
           viewAllLink="/products"
           onProductClick={handleProductClick}
           
         />
          
+      </Box>
       </Box>
 
       <Container maxWidth="lg">

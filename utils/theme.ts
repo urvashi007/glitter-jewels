@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -25,7 +26,7 @@ const theme = createTheme({
   },
   palette: {
     text: {
-      primary: "#222222",    
+      primary: "#222222",
     },
   },
   components: {
@@ -33,10 +34,36 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: '1px solid #a6a6a6',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            border: '1px solid #445B9C',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            border: '1px solid #445B9C',
+          },
         },
       },
     },
     MuiSelect: {
+      defaultProps: {
+        MenuProps: {
+          disablePortal: true,
+          PaperProps: {
+            sx: { mt: 1 },
+          },
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "left",
+          },
+          transformOrigin: {
+            vertical: "top",
+            horizontal: "left",
+          },
+        },
+        IconComponent: require("lucide-react").ChevronDown,
+      },
       styleOverrides: {
         select: {
           color: "#404040",
@@ -65,6 +92,13 @@ const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
+        root: {
+          borderRadius: 0,
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
+          },
+        },
         contained: {
           backgroundColor: "#445B9C",
           height: "48px",
@@ -101,28 +135,40 @@ const theme = createTheme({
         },
       },
     },
-     MuiRadio: {
+    MuiRadio: {
       styleOverrides: {
         root: {
-          '&.Mui-checked': {
-            color: '#445B9C', // Replace with your desired color
+          "&.Mui-checked": {
+            color: "#445B9C",
           },
-          
         },
       },
-
     },
-   
-      
-    // MuiStack: {
-    //   styleOverrides: {
-    //     root: {
-    //       "& > :not(style) ~ :not(style)": {
-    //         marginTop: "0px !important",
-    //       },
-    //     },
-    //   },
-    // },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+        },
+      },
+    },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: '#445B9C',
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: '#5E5E5E', 
+            fontWeight: 500,
+            '&.Mui-selected': {
+              color: '#445B9C',
+            },
+          },
+        },
+      },
   },
 });
 

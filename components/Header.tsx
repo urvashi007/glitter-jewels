@@ -418,8 +418,9 @@ export default function Header({
             sx={{
               position: "absolute",
               right: 16,
-              top: 70,
+              top: 64,
               width: 260,
+              borderRadius:'0',
               p: 2,
               zIndex: 1100,
               display: "flex",
@@ -434,7 +435,6 @@ export default function Header({
                 padding: "10px 0",
                 textAlign: "center",
                 fontWeight: 500,
-                borderRadius: "4px",
                 cursor: "pointer",
                 fontSize: "14px",
               }}

@@ -2,7 +2,7 @@
 
 import {
   Box,
-  Container,
+
   Typography,
   Card,
   CardContent,
@@ -104,7 +104,7 @@ export default function CardCollection({
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <Box>
-        <Container maxWidth="lg">
+       
           {(title || viewAllLink) && (
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
               {title && (
@@ -156,7 +156,7 @@ export default function CardCollection({
               ))}
             </Grid>
           )}
-        </Container>
+     
       </Box>
     </motion.div>
   );
@@ -169,7 +169,7 @@ export default function CardCollection({
           sx={{
             p: 2,
             backgroundColor: '#f7f7f7',
-            borderRadius: 2,
+            borderRadius:0,
             position: 'relative',
             overflow: 'visible',
             '&:hover .hover-icons': {
@@ -215,7 +215,6 @@ export default function CardCollection({
               sx={{
                 background: '#fff',
                 color: favorites[item.id] ? 'red' : '#000',
-                borderRadius: 1,
                 width: 36,
                 height: 36,
               }}
@@ -233,7 +232,6 @@ export default function CardCollection({
               sx={{
                 background: '#445B9C',
                 color: '#fff',
-                borderRadius: 1,
                 width: 36,
                 height: 36,
                 '&:hover': { background: '#334a7d' },

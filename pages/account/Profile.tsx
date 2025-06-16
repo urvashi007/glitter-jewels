@@ -43,6 +43,7 @@ export default function EditProfileForm() {
   );
 
   return (
+     <Box sx={{height:"100vh"}}>
     <Box
       sx={{
         background: "#fff",
@@ -269,6 +270,7 @@ export default function EditProfileForm() {
           </Button>
         </Box>
       </Box>
+    </Box>
     </Box>
   );
 }

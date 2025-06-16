@@ -44,10 +44,10 @@ export default function ManageAddresses() {
   };
 
   return (
+    <Box sx={{height:"100vh"}}>
     <Box
       sx={{
         background: "#fff",
-
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
       }}
     >
@@ -192,6 +192,7 @@ export default function ManageAddresses() {
           initialData={editData}
         />
       </Box>
+    </Box>
     </Box>
   );
 }

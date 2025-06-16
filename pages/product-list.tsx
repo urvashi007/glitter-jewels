@@ -160,7 +160,7 @@ export default function ProductListPage() {
           >
             <ProductFilterSidebar filters={filters} />
           </Box>
-
+          <Box>
           <Box sx={{ flex: 1 }}>
             
             <CardCollection
@@ -168,7 +168,9 @@ export default function ProductListPage() {
               columns={3}
               showProductCountAndSort={true}
               onProductClick={handleProductClick}
+              
             />
+          </Box>
           </Box>
         </Box>
       </Container>
