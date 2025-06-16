@@ -1,16 +1,31 @@
 // pages/reset-password.tsx
 import React from 'react';
-import { Box, Button, TextField, Typography, Container } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import Header from '@/components/Header';
 
 const ResetPasswordPage = () => {
   return (
-          <> <Header
-                  logoLight=""
-                  logoDark="/logo.svg"
-                  navItems={["HOME", "PRODUCTS", "COLLECTIONS", "DIAMONDS"]}
-                  forceScrolled={true}
-                />
+          <> 
+      <Header
+        logoLight=""
+        logoDark="/logo.svg"
+        navItems={[
+          { label: "Our Expertise" },
+          {
+            label: "Product",
+            submenu: [
+              "Bracelets",
+              "Earrings",
+              "Necklace",
+              "Pendant",
+              "Rings",
+              "View All",
+            ],
+          },
+          { label: "Enquiry" },
+        ]}
+        forceScrolled={true}
+      />
       <Box
         sx={{
           background: '#f1f2f6',

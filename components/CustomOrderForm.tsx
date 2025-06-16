@@ -6,237 +6,371 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Container,
   MenuItem,
   Select,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import { ChevronDown } from "lucide-react";
+import { ReactNode, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ProductCardWithWishlist from "./ProductCardWithWishlist";
 
-export default function CustomOrderForm() {
+// Props interface
+interface CustomOrderFormProps {
+  heading?: string;
+  showAccordion?: boolean;
+  accordionTitle?: string;
+  accordionContent?: ReactNode;
+  wishlistHead?:boolean;
+}
+
+export default function CustomOrderForm({
+  heading = "Make Custom Order",
+  showAccordion = false,
+  wishlistHead = false,
+  accordionContent,
+}: CustomOrderFormProps) {
   const radioOptions = [1, 2, 3, 4];
   const metalTypes = ["10 KT", "14 KT", "18 KT", "PALLADIUM"];
   const metalColors = ["#f5f5f5", "#e0e0e0", "#ffd700", "#a9a9a9"];
   const certifications = ["IGI", "GIA", "NAME", "NAME"];
   const hallmarks = ["BIS", "NAME", "NAME", "NAME"];
 
+  // State variables
+  const [metalType, setMetalType] = useState("");
+  const [diamondQuality, setDiamondQuality] = useState("");
+  const [itemSize, setItemSize] = useState("");
+  const [lockType, setLockType] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [hallmark, setHallmark] = useState("");
+  const [certification, setCertification] = useState("");
+  const [comments, setComments] = useState("");
+
+  const handleSubmit = () => {
+    const formData = {
+      metalType,
+      diamondQuality,
+      itemSize,
+      lockType,
+      quantity,
+      hallmark,
+      certification,
+      comments,
+    };
+    console.log("Submitted Custom Order:", formData);
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Box
+    <Box sx={{ flex: 1 }}>
+      <Typography
+        variant="h4"
         sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          gap: 4,
+          fontWeight: 700,
+          fontFamily: "Manrope",
+          fontSize: "28px",
+          marginBottom:'20px',
         }}
       >
-        {/* Upload section */}
-        <Box
+        {heading}
+      </Typography>
+       
+       {/* whishlist Head */}
+       {wishlistHead && (
+       <ProductCardWithWishlist />
+      )}
+
+       {/* whishlist Head */}
+
+
+
+
+      {/* accordian */}
+      {showAccordion && (
+        <Accordion
           sx={{
-            flexShrink: 0,
-            width: 526,
-            height: 526,
-            border: "1px dashed #ccc",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            color: "#999",
-            fontSize: "14px",
-            mx: "auto",
+            mb: 3,
+            px: "0",
+            py: "0",
+            minHeight: "unset",
+            "& .MuiButtonBase-root": {
+              margin: 0,
+              padding: "0",
+            },
+            "&.css-1lj39kh-MuiAccordionDetails-root": {
+              padding: "0 0 16px",
+            },
           }}
         >
-          Upload Image
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography sx={{ fontWeight: 600, fontSize: "14px" }}>
+              SPECIFICATION AND DESCRIPTION
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ padding: "0 0 20px 0" }}>
+            <Box
+              sx={{ color: "#222", fontSize: "14px", fontFamily: "Manrope" }}
+            >
+              {accordionContent}
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      )}
+  {/* accordian */}
+
+
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+        {/* METAL TYPE */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
+            METAL TYPE
+          </Typography>
+          <Select
+            value={metalType}
+            onChange={(e) => setMetalType(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Metal Type"}
+            sx={{ "&.MuiOutlinedInput-root": { borderRadius: 0 } }}
+          >
+            <MenuItem value="" disabled>
+              Select Metal Type
+            </MenuItem>
+            {metalTypes.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
+          </Select>
         </Box>
 
-        {/* Form Section */}
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="h5" fontWeight={600} mb={2}>
-            Make Custom Order
+        {/* METAL COLOR */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
+            METAL COLOR
           </Typography>
+          <Stack direction="row" spacing={2}>
+            {metalColors.map((color, index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "4px",
+                  backgroundColor: color,
+                  border: "1px solid #ccc",
+                  cursor: "pointer",
+                }}
+              />
+            ))}
+          </Stack>
+        </Box>
 
-          {/* Accordion: Metal Type */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+        {/* DIAMOND QUALITY */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>METAL TYPE</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1} flexWrap="wrap">
-                {metalTypes.map((type) => (
-                  <Button key={type} variant="outlined">
-                    {type}
-                  </Button>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
-          {/* Accordion: Metal Color */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+            DIAMOND QUALITY
+          </Typography>
+          <Select
+            value={diamondQuality}
+            onChange={(e) => setDiamondQuality(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Diamond Quality"}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>METAL COLOR</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1}>
-                {metalColors.map((color, i) => (
-                  <Box
-                    key={i}
-                    sx={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: "4px",
-                      backgroundColor: color,
-                      border: "1px solid #ccc",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+            <MenuItem value="" disabled>
+              Select Diamond Quality
+            </MenuItem>
+            {radioOptions.map((val) => (
+              <MenuItem key={val} value={val}>
+                {val}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
 
-          {/* Accordion: Diamond Quality */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+        {/* ITEM SIZE */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>DIAMOND QUALITY</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1}>
-                {radioOptions.map((val) => (
-                  <Button key={val} variant={val === 1 ? "outlined" : "text"}>
-                    {val}
-                  </Button>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
-          {/* Accordion: Item Size */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+            ITEM SIZE
+          </Typography>
+          <Select
+            value={itemSize}
+            onChange={(e) => setItemSize(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Item Size"}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>ITEM SIZE</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1}>
-                {radioOptions.map((val) => (
-                  <Button key={val} variant={val === 1 ? "outlined" : "text"}>
-                    {val}
-                  </Button>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+            <MenuItem value="" disabled>
+              Select Item Size
+            </MenuItem>
+            {radioOptions.map((val) => (
+              <MenuItem key={val} value={val}>
+                {val}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
 
-          {/* Accordion: Lock Type */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+        {/* LOCK TYPE */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>LOCK TYPE</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1}>
-                {radioOptions.map((val) => (
-                  <Button key={val} variant={val === 1 ? "outlined" : "text"}>
-                    {val}
-                  </Button>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
-          {/* Accordion: Certification */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+            LOCK TYPE
+          </Typography>
+          <Select
+            value={lockType}
+            onChange={(e) => setLockType(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Lock Type"}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>CERTIFICATION</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1}>
-                {certifications.map((cert) => (
-                  <Button
-                    key={cert}
-                    variant={cert === "IGI" ? "outlined" : "text"}
-                  >
-                    {cert}
-                  </Button>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+            <MenuItem value="" disabled>
+              Select Lock Type
+            </MenuItem>
+            {radioOptions.map((val) => (
+              <MenuItem key={val} value={val}>
+                {val}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
 
-          {/* Accordion: Hallmarking */}
-          <Accordion
-            sx={{
-              boxShadow: "none",
-            }}
+        {/* QUANTITY */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography fontWeight={600}>HALLMARKING</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction="row" spacing={1}>
-                {hallmarks.map((mark) => (
-                  <Button
-                    key={mark}
-                    variant={mark === "BIS" ? "outlined" : "text"}
-                  >
-                    {mark}
-                  </Button>
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
-          {/* Quantity */}
-          <Select fullWidth displayEmpty sx={{ my: 2 }}>
-            <MenuItem value="">Quantity</MenuItem>
+            QUANTITY
+          </Typography>
+          <Select
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Quantity"}
+          >
+            <MenuItem value="" disabled>
+              Select Quantity
+            </MenuItem>
             {[1, 2, 3, 4, 5].map((q) => (
               <MenuItem key={q} value={q}>
                 {q}
               </MenuItem>
             ))}
           </Select>
+        </Box>
 
-          {/* Item No & Comments */}
-          <Stack spacing={2} mb={4}>
-            <TextField fullWidth placeholder="Item No." variant="outlined" />
-            <TextField
-              fullWidth
-              placeholder="Comments"
-              variant="outlined"
-              multiline
-              rows={4}
-            />
-          </Stack>
+        {/* HALLMARKING */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
+            HALLMARKING
+          </Typography>
+          <Select
+            value={hallmark}
+            onChange={(e) => setHallmark(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Hallmark"}
+          >
+            <MenuItem value="" disabled>
+              Select Hallmark
+            </MenuItem>
+            {hallmarks.map((mark) => (
+              <MenuItem key={mark} value={mark}>
+                {mark}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
 
-          <Button fullWidth variant="contained" sx={{ bgcolor: "#2f4eb6" }}>
+        {/* CERTIFICATION */}
+        <Box sx={{ flex: "1 1 45%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
+            CERTIFICATION
+          </Typography>
+          <Select
+            value={certification}
+            onChange={(e) => setCertification(e.target.value)}
+            fullWidth
+            displayEmpty
+            IconComponent={ChevronDown}
+            renderValue={(selected) => selected || "Select Certification"}
+          >
+            <MenuItem value="" disabled>
+              Select Certification
+            </MenuItem>
+            {certifications.map((cert) => (
+              <MenuItem key={cert} value={cert}>
+                {cert}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+
+        {/* COMMENTS */}
+        <Box sx={{ flex: "1 1 100%" }}>
+          <Typography
+            fontWeight={500}
+            mb={1}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+          >
+            COMMENTS
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            placeholder="Comments"
+            variant="outlined"
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+          />
+        </Box>
+
+        {/* SUBMIT BUTTON */}
+        <Box sx={{ flex: "1 1 100%" }}>
+          <Button fullWidth variant="contained" onClick={handleSubmit}>
             SUBMIT
           </Button>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 }

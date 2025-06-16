@@ -48,6 +48,7 @@ const LoginPage = () => {
         if (!res.ok) throw new Error(data.message || "Login failed");
 
         alert("Login successful");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         setErrors({ password: error.message });
       } finally {
@@ -60,13 +61,26 @@ const LoginPage = () => {
 
   return (
     <>
-      <Header
-        logoLight=""
-        logoDark="/logo.svg"
-        navItems={["HOME", "PRODUCTS", "COLLECTIONS", "DIAMONDS"]}
-        forceScrolled={true}
-      />
-
+           <Header
+             logoLight=""
+             logoDark="/logo.svg"
+             navItems={[
+               { label: "Our Expertise" },
+               {
+                 label: "Product",
+                 submenu: [
+                   "Bracelets",
+                   "Earrings",
+                   "Necklace",
+                   "Pendant",
+                   "Rings",
+                   "View All",
+                 ],
+               },
+               { label: "Enquiry" },
+             ]}
+             forceScrolled={true}
+           />
       <Box
         sx={{
           background: "#EDEFF6",

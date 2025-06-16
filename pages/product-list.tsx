@@ -1,12 +1,23 @@
 "use client";
-import CardCollection from "@/components/CardCollection";
-import Footer from "@/components/Footer";
-// import CardCollection from "@/components/CardCollection";
+
+import { useState } from "react";
+import { Box, Container } from "@mui/material";
+
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import InnerBanner from "@/components/InnerBanner";
 import ProductFilterSidebar from "@/components/ProductFilterSidebar";
-// import ProductList from "@/components/ProductList";
-import { Box, Container } from "@mui/material";
+import CardCollection from "@/components/CardCollection";
+import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
+
+// Define Product type
+type Product = {
+  id: string;
+  price: string;
+  gold: string;
+  diamond: string;
+  image: string;
+};
 
 const filters = [
   {
@@ -33,7 +44,7 @@ const filters = [
   },
 ];
 
-const productsItem = [
+const productsItem: Product[] = [
   {
     id: "Ring-001",
     price: "₹25,000",
@@ -62,17 +73,69 @@ const productsItem = [
     diamond: "0.5ct",
     image: "./Categories/img1.png",
   },
+  {
+    id: "Pendant-003",
+    price: "₹18,000",
+    gold: "2g",
+    diamond: "0.15ct",
+    image: "./Categories/img3.png",
+  },
+  {
+    id: "Bracelet-004",
+    price: "₹45,000",
+    gold: "5g",
+    diamond: "0.5ct",
+    image: "./Categories/img1.png",
+  },
+  {
+    id: "Pendant-003",
+    price: "₹18,000",
+    gold: "2g",
+    diamond: "0.15ct",
+    image: "./Categories/img3.png",
+  },
+  {
+    id: "Bracelet-004",
+    price: "₹45,000",
+    gold: "5g",
+    diamond: "0.5ct",
+    image: "./Categories/img1.png",
+  },
+  
 ];
 
 export default function ProductListPage() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setDrawerOpen(true);
+  };
+
   return (
     <>
       <Header
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
-        navItems={["catalogue", "Collections", "Diamonds"]}
-        searchEnabled
+        searchEnabled={true}
+        navItems={[
+          { label: "Our Expertise" },
+          {
+            label: "Product",
+            submenu: [
+              "Bracelets",
+              "Earrings",
+              "Necklace",
+              "Pendant",
+              "Rings",
+              "View All",
+            ],
+          },
+          { label: "Enquiry" },
+        ]}
       />
+
       <InnerBanner
         title="Our Latest Collection"
         breadcrumbs={[
@@ -89,7 +152,6 @@ export default function ProductListPage() {
             gap: 4,
           }}
         >
-          {/* Sidebar */}
           <Box
             sx={{
               flex: { xs: "0 0 100%", md: "0 0 25%" },
@@ -99,22 +161,25 @@ export default function ProductListPage() {
             <ProductFilterSidebar filters={filters} />
           </Box>
 
-          {/* Product List */}
-          <Box
-            sx={{
-              flex: 1,
-              width: "100%",
-            }}
-          >
-            <CardCollection 
-                   products={productsItem}
-                   columns={3}
-                   showProductCountAndSort={true}
-                 />
+          <Box sx={{ flex: 1 }}>
+            
+            <CardCollection
+              products={productsItem}
+              columns={3}
+              showProductCountAndSort={true}
+              onProductClick={handleProductClick}
+            />
           </Box>
         </Box>
       </Container>
+
       <Footer />
+
+      <ProductDetailsDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        product={selectedProduct}
+      />
     </>
   );
 }
