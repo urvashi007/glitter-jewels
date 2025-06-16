@@ -5,7 +5,7 @@ import { Box, Container, Typography, Link } from "@mui/material";
 import { ArrowRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import { motion } from "framer-motion";
+
 import "swiper/css";
 
 const categories = [
@@ -17,28 +17,13 @@ const categories = [
   { title: "EARRINGS", img: "./Categories/img3.png", link: "#" },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+
 
 export default function CategorySlider() {
   return (
     <Box sx={{ py: 10, backgroundColor: "#F9FAFF" }}>
       <Container maxWidth="lg">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={fadeUp}
-        >
+
           <Box
             sx={{
               display: "flex",
@@ -79,15 +64,9 @@ export default function CategorySlider() {
               VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
             </Link>
           </Box>
-        </motion.div>
 
-        {/* Banner / Slider */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeUp}
-        >
+
+
           <Swiper
             modules={[Autoplay, Pagination]}
             slidesPerView={3}
@@ -223,7 +202,7 @@ export default function CategorySlider() {
               }}
             />
           </Box>
-        </motion.div>
+  
       </Container>
     </Box>
   );

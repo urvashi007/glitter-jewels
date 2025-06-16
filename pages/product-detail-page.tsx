@@ -52,7 +52,7 @@ export default function ProductDetail() {
               gap: 4,
             }}
           >
-            <Box sx={{ minWidth: "680px" }}>
+            <Box sx={{ minWidth: "640px" }}>
               <ProductGallery />
             </Box>
             <Box

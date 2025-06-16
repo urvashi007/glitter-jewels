@@ -19,8 +19,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -63,8 +62,8 @@ export default function CardCollection({
   showProductCountAndSort = true,
   onProductClick,
 }: LatestCollectionProps) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+ 
+ 
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -97,12 +96,7 @@ export default function CardCollection({
   }, [products, sortBy, showProductCountAndSort]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-    >
+
       <Box>
        
           {(title || viewAllLink) && (
@@ -158,7 +152,7 @@ export default function CardCollection({
           )}
      
       </Box>
-    </motion.div>
+
   );
 
   function renderCard(item: Product) {
@@ -217,6 +211,7 @@ export default function CardCollection({
                 color: favorites[item.id] ? 'red' : '#000',
                 width: 36,
                 height: 36,
+                borderRadius:'0',
               }}
             >
               {favorites[item.id] ? (
@@ -234,6 +229,7 @@ export default function CardCollection({
                 color: '#fff',
                 width: 36,
                 height: 36,
+                borderRadius:'0',
                 '&:hover': { background: '#334a7d' },
               }}
             >

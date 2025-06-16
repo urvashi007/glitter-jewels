@@ -1,6 +1,7 @@
 // utils/types.ts
 
 import { SxProps, Theme } from "@mui/material";
+import { RefObject } from "react";
 
 export type InfoCardBannerProps = {
   image: string;
@@ -26,4 +27,11 @@ export type Product = {
   goldWeight: number;
   diamondWeight: number;
   price: string;
+};
+
+
+export type ProfileMenuProps = {
+  anchorRef: RefObject<HTMLDivElement | null>;
+  userName: string;
+  onLogout: () => void;
 };

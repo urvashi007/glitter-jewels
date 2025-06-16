@@ -34,8 +34,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
+          '&:not(.MuiInputBase-multiline)': {
+        height: '48px',
+      },
+         
           '& .MuiOutlinedInput-notchedOutline': {
             border: '1px solid #a6a6a6',
+           
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
             border: '1px solid #445B9C',
@@ -74,6 +79,9 @@ const theme = createTheme({
           top: "calc(45% - 0.5em)",
           width: "19px",
         },
+        root:{
+          height: "48px",
+        }
       },
     },
     MuiMenu: {

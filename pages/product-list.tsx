@@ -163,12 +163,18 @@ export default function ProductListPage() {
         ]}
       />
 
-      <Container maxWidth="lg" sx={{ py: 8, }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4,}}>
-          <Box sx={{ flex: { xs: '0 0 100%', md: '0 0 25%' }, maxWidth: { md: '25%' } }}>
+      <Container maxWidth="lg" sx={{ py: 8,"@media (max-width:540px)": {
+        paddingTop:'50px',
+        }, }} >
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4,  }} >
+          <Box sx={{ flex: { xs: '0 0 100%', md: '0 0 25%' }, maxWidth: { md: '25%',"@media (max-width:540px)": {
+         order:'2',
+        }, } }}>
             <ProductFilterSidebar filters={filters} />
           </Box>
-          <Box sx={{ flex: 1 }}>
+          <Box sx={{ flex: 1, "@media (max-width:540px)": {
+         order:'1',
+        }, }}>
             <CardCollection
               products={productsItem}
               columns={3}
