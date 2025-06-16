@@ -1,6 +1,204 @@
-const ChangePassword = () => {
-    return <div>Change Password Content</div>;
+"use client";
+
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import {
+  Visibility,
+  VisibilityOff,
+  CheckCircle,
+} from "@mui/icons-material";
+import { useState } from "react";
+
+export default function ChangePasswordForm() {
+  const [form, setForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [showPassword, setShowPassword] = useState({
+    old: false,
+    new: false,
+    confirm: false,
+  });
+
+  const handlePasswordChange = (field: string, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
-  
-  export default ChangePassword;
-  
+
+  const rules = [
+    { label: "Having at least 8 Characters", valid: form.newPassword.length >= 8 },
+    { label: "Includes at least one dight (0-9)", valid: /\d/.test(form.newPassword) },
+    {
+      label: "Includes at least one lowercase letter (a-z)",
+      valid: /[a-z]/.test(form.newPassword),
+    },
+    {
+      label: "Includes at least one special character (e.g. !,@,#,$,%,&*)",
+      valid: /[!@#$%^&*]/.test(form.newPassword),
+    },
+    {
+      label: "Includes at least one uppercase letter (A-Z)",
+      valid: /[A-Z]/.test(form.newPassword),
+    },
+   
+    {
+      label: "Match your re-entered Password",
+      valid: form.newPassword === form.confirmPassword,
+    },
+  ];
+
+  const inputStyle = {
+    flex: 1,
+    mt: 1,
+    "& .MuiOutlinedInput-root": { borderRadius: 0 },
+    "& input::placeholder": { opacity: 1, color: "#666" },
+  };
+
+  return (
+     <Box
+          sx={{
+            background: "#fff",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+          }}
+        >
+      <Typography
+              variant="h6"
+              fontWeight={700}
+              sx={{
+                fontSize: "18px",
+                padding: "12px 20px",
+                borderBottom: "1px solid #ebebeb",
+                
+                "@media (max-width:540px)": {
+                  display: "none",
+                },
+              }}
+            >
+        Change Password
+      </Typography>
+       <Box sx={{ padding: "20px",fontFamily:'Jost', }}>
+
+      <Box sx={{display: 'grid',  gridTemplateColumns: "repeat(2, 1fr)",gap:'20px', textTransform:'uppercase', fontWeight:'400'}} >
+        <Box flex={1}>
+          <Typography fontSize={14}>
+            Old Password
+          </Typography>
+          <TextField
+            placeholder="Enter old password"
+            type={showPassword.old ? "text" : "password"}
+            value={form.oldPassword}
+            onChange={(e) => handlePasswordChange("oldPassword", e.target.value)}
+            InputLabelProps={{ shrink: false }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() =>
+                      setShowPassword((prev) => ({ ...prev, old: !prev.old }))
+                    }
+                  >
+                    {showPassword.old ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+            sx={inputStyle}
+          />
+        </Box>
+
+        <Box flex={1}>
+          <Typography fontSize={14} fontWeight={400} sx={{fontFamily:'Jost',}}>
+            New Password
+          </Typography>
+          <TextField
+            placeholder="Enter new password"
+            type={showPassword.new ? "text" : "password"}
+            value={form.newPassword}
+            onChange={(e) => handlePasswordChange("newPassword", e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() =>
+                      setShowPassword((prev) => ({ ...prev, new: !prev.new }))
+                    }
+                  >
+                    {showPassword.new ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+            sx={inputStyle}
+          />
+        </Box>
+      </Box>
+     <Box sx={{display: 'grid',  gridTemplateColumns: "repeat(2, 1fr)", gap:'20px',}} >
+      <Box mt={2} width={{ xs: "100%", md: "100%" }}>
+      <Typography fontSize={14} fontWeight={400} sx={{fontFamily:'Jost',textTransform:"uppercase"}}>
+          Confirm Password
+        </Typography>
+        <TextField
+          placeholder="Confirm new password"
+          type={showPassword.confirm ? "text" : "password"}
+          value={form.confirmPassword}
+          onChange={(e) => handlePasswordChange("confirmPassword", e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() =>
+                    setShowPassword((prev) => ({ ...prev, confirm: !prev.confirm }))
+                  }
+                >
+                  {showPassword.confirm ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          fullWidth
+          sx={inputStyle}
+        />
+      </Box>
+      </Box>
+      <Typography mt={4} fontWeight={600}>
+        Your new password must follow these rules
+      </Typography>
+
+      <Box display="flex" flexWrap="wrap" justifyContent="space-between" mt={2} gap={1}>
+        {rules.map((rule, i) => (
+          <Box key={i} display="flex" alignItems="center" width={{ xs: "100%", sm: "48%", }} gap={1}>
+            <CheckCircle fontSize="small" sx={{ color: rule.valid ? "#4caf50" : "#ccc",}}/>
+            <Typography variant="body2" color={rule.valid ? "#000" : "#5E5E5E"} sx={{fontFamily:'Jost', fontWeight:'400', fontSize:'16px'}}>
+              {rule.label}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+
+      <Box display="flex" justifyContent="flex-end" mt={4}>
+        <Button
+          variant="contained"
+          sx={{
+            px: 4,
+            py: 1.5,
+            textTransform: "uppercase",
+            borderRadius:'0',
+            fontWeight:'700'
+            }}
+        >
+          Change Password
+        </Button>
+      </Box>
+      </Box>
+    </Box>
+  );
+}

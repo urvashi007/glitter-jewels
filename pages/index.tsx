@@ -125,10 +125,12 @@ export default function HomePage() {
         <CardCollection
           products={productsItem2}
           title="Our Bestsellers"
-          showProductCountAndSort={false}
+          showProductCountAndSort={true}
           viewAllLink="/products"
+          onProductClick={handleProductClick}
           
         />
+         
       </Box>
 
       <Container maxWidth="lg">

@@ -2,44 +2,57 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import Profile from "./Profile";
 import Wishlist from "./Wishlist";
-import Addresses from "./Addresses";
-import ChangePassword from "./ChangePassword";
 import MyOrders from "./MyOrders";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/SidebarMenu";
+import EditProfileForm from "./Profile";
+import ManageAddresses from "./ManageAddresses";
+import ChangePasswordPage from "./ChangePassword";
 
 export default function AccountPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const tab = searchParams.get("tab") || "orders";
 
-  // Optional: Scroll to top when tab changes
+  const [tabReady, setTabReady] = useState(false);
+  const tab = searchParams?.get("tab") || "orders";
+
   useEffect(() => {
+    // Wait until searchParams is hydrated
+    setTabReady(true);
     window.scrollTo(0, 0);
   }, [tab]);
+
+  const tabTitles: Record<string, string> = {
+    orders: "My Orders",
+    profile: "Edit Profile",
+    wishlist: "My Wishlist",
+    addresses: "My Addresses",
+    password: "Change Password",
+  };
 
   const renderComponent = () => {
     switch (tab) {
       case "orders":
         return <MyOrders />;
       case "profile":
-        return <Profile />;
+        return <EditProfileForm />;
       case "wishlist":
         return <Wishlist />;
       case "addresses":
-        return <Addresses />;
+        return <ManageAddresses />;
       case "password":
-        return <ChangePassword />;
+        return <ChangePasswordPage />;
       default:
         return <MyOrders />;
     }
   };
+
+  if (!tabReady) return null; // or return a loader here if needed
 
   return (
     <>
@@ -63,13 +76,16 @@ export default function AccountPage() {
         ]}
         forceScrolled={true}
       />
-      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0", }}>
+
+      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
         <Container maxWidth="lg">
-        <Typography
-        variant="h2" sx={{fontSize:'30px', fontWeight:'700', marginBottom:'24px'}}
-      >
-        My Orders
-      </Typography>
+          <Typography
+            variant="h2"
+            sx={{ fontSize: "30px", fontWeight: "700", marginBottom: "24px",  fontFamily:'Manrope'}}
+          >
+            {tabTitles[tab] || "My Orders"}
+          </Typography>
+
           <Grid
             spacing={4}
             sx={{
@@ -78,15 +94,14 @@ export default function AccountPage() {
               "@media (max-width:991px)": {
                 display: "block",
               },
-             
             }}
           >
             <Grid
               sx={{
                 width: "280px",
-                marginRight:'40px',
+                marginRight: "40px",
                 "@media (max-width:991px)": {
-                  width:'100%',
+                  width: "100%",
                 },
                 "@media (max-width:540px)": {
                   display: "none",

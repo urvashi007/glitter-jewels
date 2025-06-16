@@ -101,15 +101,28 @@ const theme = createTheme({
         },
       },
     },
-    MuiStack: {
+     MuiRadio: {
       styleOverrides: {
         root: {
-          "& > :not(style) ~ :not(style)": {
-            marginTop: "0px !important",
+          '&.Mui-checked': {
+            color: '#445B9C', // Replace with your desired color
           },
+          
         },
       },
+
     },
+   
+      
+    // MuiStack: {
+    //   styleOverrides: {
+    //     root: {
+    //       "& > :not(style) ~ :not(style)": {
+    //         marginTop: "0px !important",
+    //       },
+    //     },
+    //   },
+    // },
   },
 });
 
