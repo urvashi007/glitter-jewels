@@ -60,12 +60,14 @@ export default function ProductDetail() {
                 background: "#fff",
                 padding: " 20px 20px 20px 20px",
                 marginTop: "30px",
+
+                position: "sticky",
+                top: "100px"
               }}
             >
               <CustomOrderForm
-                heading=""
                 showAccordion={true}
-                wishlistHead = {true}
+                wishlistHead={true}
                 accordionTitle="Specification and Description"
                 accordionContent={
                   <>

@@ -1,9 +1,9 @@
-// TabSection.tsx
+
 "use client";
 
 import React, { useState } from "react";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
-import CardCollection, { Product } from "@/components/CardCollection"; // ✅ Replace path as needed
+import CardCollection, { Product } from "@/components/CardCollection";
 import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
 
 const Wishlist = () => {
@@ -36,13 +36,6 @@ const Wishlist = () => {
       diamond: "0.15ct",
       image: "./Categories/img3.png",
     },
-    {
-      id: "Bracelet-004",
-      price: "₹45,000",
-      gold: "5g",
-      diamond: "0.5ct",
-      image: "./Categories/img1.png",
-    },
   ];
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -51,10 +44,28 @@ const Wishlist = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", px: 2, py: 4 }}>
-      <Typography variant="h6" fontWeight="bold" mb={2}>
+    <Box
+         sx={{
+           background: "#fff",
+           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+         }}
+       >
+     <Typography
+             variant="h6"
+             fontWeight={700}
+             sx={{
+               fontSize: "18px",
+               padding: "12px 20px",
+               borderBottom: "1px solid #ebebeb",
+               "@media (max-width:540px)": {
+                 display: "none",
+               },
+             }}
+           >
         My Wishlist
       </Typography>
+
+       <Box sx={{ padding: "20px" }}>
 
       <Tabs
         value={tabIndex}
@@ -82,20 +93,30 @@ const Wishlist = () => {
           />
         )}
         {tabIndex === 1 && (
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            Wedding Gift content goes here...
-          </Typography>
+          <CardCollection
+          products={productsItem}
+          showProductCountAndSort={false}
+          onProductClick={handleProductClick}
+          columns={3}
+        />
         )}
         {tabIndex === 2 && (
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            My Collection 01 content goes here...
-          </Typography>
+          <CardCollection
+          products={productsItem}
+          showProductCountAndSort={false}
+          onProductClick={handleProductClick}
+          columns={3}
+        />
         )}
         {tabIndex === 3 && (
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            Birthday Gift content goes here...
-          </Typography>
+         <CardCollection
+         products={productsItem}
+         showProductCountAndSort={false}
+         onProductClick={handleProductClick}
+         columns={3}
+       />
         )}
+      </Box>
       </Box>
       <ProductDetailsDrawer
         open={drawerOpen}

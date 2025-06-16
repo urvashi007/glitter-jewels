@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import HeroBanner from "@/components/Banner";
 import CardCollection, { Product } from "@/components/CardCollection";
@@ -12,13 +12,13 @@ import Box from "@mui/material/Box";
 import { useState } from "react";
 
 export default function HomePage() {
-   const [drawerOpen, setDrawerOpen] = useState(false);
-   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-   
-     const handleProductClick = (product: Product) => {
-       setSelectedProduct(product);
-       setDrawerOpen(true);
-     };
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setDrawerOpen(true);
+  };
   const productsItem = [
     {
       id: "Ring-001",
@@ -69,7 +69,7 @@ export default function HomePage() {
 
   return (
     <>
-    {/* Header */}
+      {/* Header */}
       <Header
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
@@ -78,7 +78,14 @@ export default function HomePage() {
           { label: "Our Expertise" },
           {
             label: "Product",
-            submenu: ["Bracelets", "Earrings", "Necklace", "Pendant", "Rings", "View All"],
+            submenu: [
+              "Bracelets",
+              "Earrings",
+              "Necklace",
+              "Pendant",
+              "Rings",
+              "View All",
+            ],
           },
           { label: "Enquiry" },
         ]}
@@ -90,20 +97,20 @@ export default function HomePage() {
         subtitle="A celebration of Bvlgari’s mastery in reinventing forms and colours, Polychroma embodies a distinctive High Jewellery vision."
         buttonText="Discover the collection"
       />
-   {/* CategoriesSection */}
+      {/* CategoriesSection */}
       <CategoriesSection />
 
-     {/* card collection */}
-     <Box maxWidth='lg' sx={{margin: "0 auto",}}>
-      <Box sx={{ padding: '80px 0' }}>
-        <CardCollection
-          products={productsItem}
-          title="Our Latest Collection"
-          viewAllLink="/products"
-          showProductCountAndSort={false}
-          onProductClick={handleProductClick}
-        />
-      </Box>
+      {/* card collection */}
+      <Box maxWidth="lg" sx={{ margin: "0 auto" }}>
+        <Box sx={{ padding: "80px 0" }}>
+          <CardCollection
+            products={productsItem}
+            title="Our Latest Collection"
+            viewAllLink="/products"
+            showProductCountAndSort={false}
+            onProductClick={handleProductClick}
+          />
+        </Box>
       </Box>
 
       <InfoCardBanner
@@ -122,21 +129,19 @@ export default function HomePage() {
           "& p": { width: "640px" },
         }}
       />
-  <Box maxWidth='lg' sx={{margin: "0 auto",}}>
-      <Box sx={{ padding: '80px 0' }}>
-        <CardCollection
-          products={productsItem2}
-          title="Our Bestsellers"
-          showProductCountAndSort={false}
-          viewAllLink="/products"
-          onProductClick={handleProductClick}
-          
-        />
-         
-      </Box>
+      <Box maxWidth="lg" sx={{ margin: "0 auto" }}>
+        <Box sx={{ padding: "80px 0" }}>
+          <CardCollection
+            products={productsItem2}
+            title="Our Bestsellers"
+            showProductCountAndSort={false}
+            viewAllLink="/products"
+            onProductClick={handleProductClick}
+          />
+        </Box>
       </Box>
 
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ padding: "0" }}>
         <Box
           sx={{
             width: "100%",
@@ -174,11 +179,11 @@ export default function HomePage() {
       </Container>
 
       <Footer />
-       <ProductDetailsDrawer
-              open={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-              product={selectedProduct}
-            />
+      <ProductDetailsDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        product={selectedProduct}
+      />
     </>
   );
 }

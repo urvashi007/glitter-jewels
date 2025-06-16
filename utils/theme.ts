@@ -97,6 +97,7 @@ const theme = createTheme({
           boxShadow: "none",
           "&:hover": {
             boxShadow: "none",
+            
           },
         },
         contained: {
@@ -144,13 +145,14 @@ const theme = createTheme({
         },
       },
     },
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 0,
-        },
-      },
-    },
+    // MuiIconButton: {
+    //   styleOverrides: {
+    //     root: {
+    //       borderRadius: 0,
+          
+    //     },
+    //   },
+    // },
       MuiTabs: {
         styleOverrides: {
           indicator: {

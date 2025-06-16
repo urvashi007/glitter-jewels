@@ -77,7 +77,7 @@ export default function SidebarMenu({ selectedTab, onSelectTab }: SidebarProps) 
               py: 1.5,
               cursor: "pointer",
               backgroundColor: isActive ? "#E5E9F5" : "transparent",
-              borderLeft: isActive ? "2px solid #445B9C" : "",
+              borderLeft: isActive ? "2px solid #445B9C" : "2px solid transparent",
               transition: "all 0.3s ease",
               transform: isActive ? "translateX(2px)" : "none",
               ":hover": {

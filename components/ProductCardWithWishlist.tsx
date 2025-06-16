@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import {
@@ -55,8 +56,8 @@ export default function ProductCardWithWishlist() {
           onClick={handleHeartClick}
           sx={{
             position: "absolute",
-            top: 8,
-            right: 8,
+            top: 0,
+            right: 0,
             transition: "color 0.3s",
           }}
         >
@@ -67,12 +68,12 @@ export default function ProductCardWithWishlist() {
           )}
         </IconButton>
 
-        <Typography variant="h6" fontWeight={600}>
+        <Typography variant="h6" fontWeight={600} sx={{fontSize:'18px'}}>
           BGL230
         </Typography>
-        <Box sx={{ display: "flex", gap: 3, mt: 1 }}>
-          <Typography>Gold WT : 0.051</Typography>
-          <Typography>Dia WT : 0.051</Typography>
+        <Box sx={{ display: "flex", gap: 3,marginTop:'8px'}}>
+          <Typography sx={{fontSize:'14px' }}>Gold WT : 0.051</Typography>
+          <Typography sx={{fontSize:'14px' }}>Dia WT : 0.051</Typography>
         </Box>
         <Typography variant="h5" fontWeight={700} mt={2} mb={2}>
           ₹ 27,774
@@ -103,7 +104,7 @@ export default function ProductCardWithWishlist() {
 
         {/* Create new */}
         <List>
-          <ListItem button>
+          <ListItem>
             <AddIcon sx={{ mr: 2, color: "#3f51b5" }} />
             <ListItemText primary="Create new wishlist" />
           </ListItem>
@@ -114,7 +115,7 @@ export default function ProductCardWithWishlist() {
         {/* Wishlist Options */}
         <List>
           {wishlistOptions.map((item, idx) => (
-            <ListItem key={idx} secondaryAction={<Checkbox />} button>
+            <ListItem key={idx} secondaryAction={<Checkbox />}>
               <Box sx={{ mr: 2 }}>{item.icon}</Box>
               <ListItemText primary={item.label} />
             </ListItem>

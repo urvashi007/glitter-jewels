@@ -27,7 +27,6 @@ interface CustomOrderFormProps {
 }
 
 export default function CustomOrderForm({
-  heading = "Make Custom Order",
   showAccordion = false,
   wishlistHead = false,
   accordionContent,
@@ -63,18 +62,8 @@ export default function CustomOrderForm({
   };
 
   return (
-    <Box sx={{ flex: 1 }}>
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 700,
-          fontFamily: "Manrope",
-          fontSize: "28px",
-          marginBottom:'20px',
-        }}
-      >
-        {heading}
-      </Typography>
+    <Box sx={{ flex: 1, }}>
+     
        
        {/* whishlist Head */}
        {wishlistHead && (
@@ -164,12 +153,12 @@ export default function CustomOrderForm({
               <Box
                 key={index}
                 sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "4px",
+                  width: 36,
+                  height: 36,
                   backgroundColor: color,
                   border: "1px solid #ccc",
                   cursor: "pointer",
+                  padding:'5px'
                 }}
               />
             ))}
