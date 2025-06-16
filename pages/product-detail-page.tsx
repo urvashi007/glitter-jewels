@@ -52,7 +52,7 @@ export default function ProductDetail() {
               gap: 4,
             }}
           >
-            <Box sx={{ minWidth: "680px" }}>
+            <Box sx={{ minWidth: "640px" }}>
               <ProductGallery />
             </Box>
             <Box
@@ -60,12 +60,14 @@ export default function ProductDetail() {
                 background: "#fff",
                 padding: " 20px 20px 20px 20px",
                 marginTop: "30px",
+
+                position: "sticky",
+                top: "100px"
               }}
             >
               <CustomOrderForm
-                heading=""
                 showAccordion={true}
-                wishlistHead = {true}
+                wishlistHead={true}
                 accordionTitle="Specification and Description"
                 accordionContent={
                   <>

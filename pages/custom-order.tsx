@@ -30,7 +30,9 @@ export default function ProductListPage() {
         ]}
       />
 
-      <Container maxWidth="lg" sx={{ padding:'80px 0' }}>
+      <Container maxWidth="lg" sx={{ padding:'80px 0', "@media (max-width:540px)": {
+        paddingTop:'50px',
+        },  }}>
           <Box
                 sx={{
                   display: "flex",

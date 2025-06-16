@@ -23,18 +23,17 @@ interface CustomOrderFormProps {
   showAccordion?: boolean;
   accordionTitle?: string;
   accordionContent?: ReactNode;
-  wishlistHead?:boolean;
+  wishlistHead?: boolean;
 }
 
 export default function CustomOrderForm({
-  heading = "Make Custom Order",
   showAccordion = false,
   wishlistHead = false,
   accordionContent,
 }: CustomOrderFormProps) {
   const radioOptions = [1, 2, 3, 4];
   const metalTypes = ["10 KT", "14 KT", "18 KT", "PALLADIUM"];
-  const metalColors = ["#f5f5f5", "#e0e0e0", "#ffd700", "#a9a9a9"];
+  const metalColors = ["#f5f5f5", "#e0e0e0", "#ffd700",];
   const certifications = ["IGI", "GIA", "NAME", "NAME"];
   const hallmarks = ["BIS", "NAME", "NAME", "NAME"];
 
@@ -64,27 +63,10 @@ export default function CustomOrderForm({
 
   return (
     <Box sx={{ flex: 1 }}>
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 700,
-          fontFamily: "Manrope",
-          fontSize: "28px",
-          marginBottom:'20px',
-        }}
-      >
-        {heading}
-      </Typography>
-       
-       {/* whishlist Head */}
-       {wishlistHead && (
-       <ProductCardWithWishlist />
-      )}
+      {/* whishlist Head */}
+      {wishlistHead && <ProductCardWithWishlist />}
 
-       {/* whishlist Head */}
-
-
-
+      {/* whishlist Head */}
 
       {/* accordian */}
       {showAccordion && (
@@ -117,8 +99,7 @@ export default function CustomOrderForm({
           </AccordionDetails>
         </Accordion>
       )}
-  {/* accordian */}
-
+      {/* accordian */}
 
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
         {/* METAL TYPE */}
@@ -162,16 +143,17 @@ export default function CustomOrderForm({
           <Stack direction="row" spacing={2}>
             {metalColors.map((color, index) => (
               <Box
-                key={index}
-                sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "4px",
-                  backgroundColor: color,
-                  border: "1px solid #ccc",
-                  cursor: "pointer",
-                }}
-              />
+              key={index}
+              className="color-box"
+              sx={{
+                width: 48,
+                height: 48,
+                backgroundColor: color,
+                border: "1px solid #ccc",
+                cursor: "pointer",
+                padding: "5px",
+              }}
+            />
             ))}
           </Stack>
         </Box>
@@ -349,9 +331,9 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222", }}
           >
-            COMMENTS
+      
           </Typography>
           <TextField
             fullWidth

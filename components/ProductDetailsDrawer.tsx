@@ -43,7 +43,9 @@ export default function ProductDetailsDrawer({
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <Box
-        sx={{ width: 500, p: 4, fontFamily: "Manrope", position: "relative" }}
+        sx={{ width: 500, p: 4, fontFamily: "Manrope", position: "relative", "@media (max-width:540px)": {
+         width:'100%',
+        }, }}
       >
         {/* Header */}
         <Box>

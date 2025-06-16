@@ -2,7 +2,7 @@
 
 import {
   Box,
-  Container,
+
   Typography,
   Card,
   CardContent,
@@ -19,8 +19,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -63,8 +62,8 @@ export default function CardCollection({
   showProductCountAndSort = true,
   onProductClick,
 }: LatestCollectionProps) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+ 
+ 
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -97,14 +96,9 @@ export default function CardCollection({
   }, [products, sortBy, showProductCountAndSort]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-    >
+
       <Box>
-        <Container maxWidth="lg">
+       
           {(title || viewAllLink) && (
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
               {title && (
@@ -156,9 +150,9 @@ export default function CardCollection({
               ))}
             </Grid>
           )}
-        </Container>
+     
       </Box>
-    </motion.div>
+
   );
 
   function renderCard(item: Product) {
@@ -169,7 +163,7 @@ export default function CardCollection({
           sx={{
             p: 2,
             backgroundColor: '#f7f7f7',
-            borderRadius: 2,
+            borderRadius:0,
             position: 'relative',
             overflow: 'visible',
             '&:hover .hover-icons': {
@@ -215,9 +209,9 @@ export default function CardCollection({
               sx={{
                 background: '#fff',
                 color: favorites[item.id] ? 'red' : '#000',
-                borderRadius: 1,
                 width: 36,
                 height: 36,
+                borderRadius:'0',
               }}
             >
               {favorites[item.id] ? (
@@ -233,9 +227,9 @@ export default function CardCollection({
               sx={{
                 background: '#445B9C',
                 color: '#fff',
-                borderRadius: 1,
                 width: 36,
                 height: 36,
+                borderRadius:'0',
                 '&:hover': { background: '#334a7d' },
               }}
             >

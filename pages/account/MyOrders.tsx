@@ -46,24 +46,11 @@ const orders: OrderCardProps[] = [
     styleCode: "JDSRNG00699",
     arrowReq: true,
   },
-  {
-    id: "PS0064ER1",
-    image: "/Categories/img3.png",
-    goldWt: "0.51",
-    diaWt: "0.81",
-    metalType: "14KT",
-    metalColor: "Rose",
-    diaQuality: "FL",
-    status: "Dispatch",
-    statusColor: "#005AA7",
-    price: "₹ 27,774",
-    styleCode: "JDSRNG00771",
-    arrowReq: true,
-  },
 ];
 
 const MyOrders = () => {
   return (
+    <Box>
     <Box flex={1} sx={{ background: "#fff" }}>
       <Typography
         variant="h6"
@@ -86,6 +73,7 @@ const MyOrders = () => {
           <SingleOrderCard key={order.id + order.styleCode} {...order} />
         ))}
       </Stack>
+    </Box>
     </Box>
   );
 };

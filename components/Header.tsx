@@ -14,25 +14,18 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
-  Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Container,
 } from "@mui/material";
-import {
-  Search,
-  Menu,
-  Close,
-  Logout,
-  Person,
-  Favorite,
-  LocationOn,
-  Lock,
-  ShoppingBag,
-} from "@mui/icons-material";
-import Container from "@mui/material/Container";
-import { useState, useEffect, useRef } from "react";
-import { styled } from "@mui/system";
-import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Menu, Close } from "@mui/icons-material";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, styled } from "@mui/material/styles";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import LoginPopup from "./LoginPopup";
+
 type HeaderNavItem = { label: string } | { label: string; submenu: string[] };
 
 type HeaderProps = {
@@ -46,14 +39,11 @@ type HeaderProps = {
 const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
   ({ theme, scrolled }) => ({
     background: scrolled ? "#fff" : "transparent",
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     transition: "all 0.3s ease",
     zIndex: 9999,
     boxShadow: scrolled ? theme.shadows[2] : "none",
-    borderBottom: scrolled ? "none" : "1px solidrgba(0, 0, 0, 0.44)",
+    borderBottom: scrolled ? "none" : "1px solid rgba(0, 0, 0, 0.44)",
     animation: !scrolled ? "borderFadeIn 1s ease forwards" : "none",
     "@keyframes borderFadeIn": {
       "0%": { borderBottom: "1px solid transparent" },
@@ -66,7 +56,6 @@ const DrawerContent = styled(Box)(({ theme }) => ({
   width: 250,
   height: "100%",
   padding: 0,
-  position: "relative",
   animation: `slideIn 0.4s ease`,
   "@keyframes slideIn": {
     from: { transform: "translateX(-100%)", opacity: 0 },
@@ -83,16 +72,15 @@ export default function Header({
 }: HeaderProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(forceScrolled);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const searchBoxRef = useRef<HTMLDivElement | null>(null);
-  const profileMenuRef = useRef<HTMLDivElement | null>(null);
   const loginPopupRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -100,37 +88,19 @@ export default function Header({
       setScrolled(true);
       return;
     }
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [forceScrolled]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        searchBoxRef.current &&
-        !searchBoxRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      if (searchBoxRef.current && !searchBoxRef.current.contains(target))
         setSearchOpen(false);
-      }
 
-      if (
-        profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target as Node)
-      ) {
-        setProfileMenuOpen(false);
-      }
-
-      if (
-        loginPopupRef.current &&
-        !loginPopupRef.current.contains(event.target as Node)
-      ) {
+      if (loginPopupRef.current && !loginPopupRef.current.contains(target))
         setShowLoginPopup(false);
-      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -153,7 +123,7 @@ export default function Header({
       sx={{
         zIndex: "3",
         padding: "0",
-        boxShadow: '0px 4px 10px rgba(27, 36, 44, 0.08)',
+        boxShadow: "0px 4px 10px rgba(27, 36, 44, 0.08)",
         "@media (max-width:768px)": {
           padding: "0 16px",
         },
@@ -162,15 +132,14 @@ export default function Header({
       <Container
         maxWidth="lg"
         disableGutters
-        sx={{ px: 0, position: "relative" }}
-      >
-        <Toolbar
-          sx={{
-            justifyContent: "space-between",
-            position: "relative",
+        sx={{
+          "@media (max-width:540px)": {
             padding: "0",
-          }}
-        >
+          },
+        }}
+      >
+        <Toolbar sx={{ justifyContent: "space-between", p: 0 }}>
+          {/* LEFT: Navigation */}
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
               <Menu sx={{ color: iconColor }} />
@@ -178,19 +147,14 @@ export default function Header({
           ) : (
             <Stack direction="row" spacing={4} alignItems="center">
               {navItems.map((item, index) => {
-                const hasSubmenu =
-                  typeof item !== "string" && "submenu" in item;
-                const label = typeof item === "string" ? item : item.label;
-                const submenu = "submenu" in item ? item.submenu : [];
+                const hasSubmenu = "submenu" in item;
+                const label = item.label;
+                const submenu = hasSubmenu ? item.submenu : [];
                 return (
                   <Box
                     key={index}
                     sx={{
                       position: "relative",
-                      ml: { xs: "0px", lg: "16px" },
-                      "@media (max-width:1024px)": {
-                        ml: "0px !important",
-                      },
                       "&:hover .submenu": {
                         opacity: 1,
                         visibility: "visible",
@@ -212,7 +176,6 @@ export default function Header({
                     >
                       {label}
                     </Typography>
-
                     {hasSubmenu && (
                       <Box
                         className="submenu"
@@ -226,31 +189,37 @@ export default function Header({
                           transform: "translateY(10px)",
                           transition: "all 0.3s ease",
                           zIndex: 2000,
-                          paddingTop: "17px",
+                          pt: "17px",
                           color: "#222",
                         }}
                       >
-                        {submenu.map((subItem: string, i: number) => (
-                          <Typography
+                        {submenu.map((subItem, i) => (
+                          <Link
                             key={i}
-                            sx={{
-                              px: 2,
-                              py: 1,
-                              fontSize: "0.875rem",
-                              fontWeight: 400,
-                              color: "#222",
-                              cursor: "pointer",
-                              whiteSpace: "nowrap",
-                              background: "#fff",
-                              "&:first-of-type": { paddingTop: "20px" },
-                              "&:last-of-type": { paddingBottom: "20px" },
-                              "&:hover": {
-                                backgroundColor: "#f5f5f5",
-                              },
-                            }}
+                            href={`/${subItem
+                              .toLowerCase()
+                              .replace(/\s+/g, "-")}`}
+                            passHref
+                            style={{ color: "inherit", textDecoration: "none" }}
                           >
-                            {subItem}
-                          </Typography>
+                            <Typography
+                              sx={{
+                                display: "block",
+                                px: 2,
+                                py: 1,
+                                fontSize: "0.875rem",
+                                color: "#222",
+                                backgroundColor: "#fff",
+                                textDecoration: "none",
+                                "&:hover": {
+                                  backgroundColor: "#fff",
+                                  color: "#445B9C",
+                                },
+                              }}
+                            >
+                              {subItem}
+                            </Typography>
+                          </Link>
                         ))}
                       </Box>
                     )}
@@ -260,36 +229,56 @@ export default function Header({
             </Stack>
           )}
 
-          <Box
-            component="img"
-            src={logo}
-            alt="Logo"
-            sx={{
-              width: 100,
-              objectFit: "contain",
-              transition: "0.3s ease",
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-50%)",
-              top: "12px",
-            }}
-          />
+          {/* CENTER: Logo */}
+          <Link href="/" passHref>
+            <Box
+              component="img"
+              src={logo}
+              alt="Logo"
+              sx={{
+                width: 100,
+                objectFit: "contain",
+                transition: "0.3s ease",
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+                top: "12px",
+              }}
+            />
+          </Link>
 
-          <Stack direction="row" spacing={2} alignItems="center">
+          {/* RIGHT: Icons */}
+          <Stack direction="row" spacing={{ xs: 0, md: 2 }} alignItems="center">
+            <Link href="/custom-order" passHref legacyBehavior>
+              <IconButton
+                sx={{
+                  ml: {
+                    xs: 0,
+                    md: "auto",
+                  },
+                }}
+              >
+                <Box
+                  component="img"
+                  src={scrolled ? "/plus-black.svg" : "/plus-white.svg"}
+                  alt="add"
+                  sx={{ width: 22, height: 22 }}
+                />
+              </IconButton>
+            </Link>
+
             {!isMobile && searchEnabled && (
               <Box
                 ref={searchBoxRef}
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  border: searchOpen
-                    ? `1px solid ${iconColor}`
-                    : "1px solid transparent",
+                  border: `1px solid ${searchOpen ? iconColor : "transparent"}`,
                   width: searchOpen ? "220px" : "50px",
                   height: "36px",
                   overflow: "hidden",
                   transition: "all 0.3s ease",
-                  borderRadius: "4px",
+                  marginLeft: "0!important",
                   backgroundColor: searchOpen
                     ? scrolled
                       ? "#fff"
@@ -312,14 +301,16 @@ export default function Header({
                     },
                   }}
                 />
-                <IconButton
-                  onClick={handleSearchToggle}
-                  sx={{ p: 0.5, mt: "5px" }}
-                >
-                  <Search sx={{ color: iconColor }} />
+                <IconButton onClick={handleSearchToggle} sx={{ p: 0.5 }}>
+                  <Box
+                    component="img"
+                    src={scrolled ? "/search-black.svg" : "/search.svg"}
+                    alt="Search"
+                  />
                 </IconButton>
               </Box>
             )}
+
             <IconButton>
               <Box
                 component="img"
@@ -328,139 +319,48 @@ export default function Header({
                 sx={{ width: 22, height: 22 }}
               />
             </IconButton>
-            <IconButton
-              onClick={() => {
-                if (isLoggedIn) {
-                  setProfileMenuOpen((prev) => !prev);
-                } else {
-                  setShowLoginPopup(true);
+
+            {/* USER ICON + LOGIN POPUP */}
+            <Box sx={{ position: "relative" }}>
+              <IconButton
+                onClick={() =>
+                  isLoggedIn
+                    ? console.log("User menu removed")
+                    : setShowLoginPopup(true)
                 }
-              }}
-            >
-              <Box
-                component="img"
-                src={scrolled ? "/user.svg" : "/user-white.svg"}
-                alt="user"
-                sx={{ width: 22, height: 22 }}
-              />
-            </IconButton>
+              >
+                <Box
+                  component="img"
+                  src={scrolled ? "/user.svg" : "/user-white.svg"}
+                  alt="user"
+                  sx={{ width: 22, height: 22 }}
+                />
+              </IconButton>
+
+              {showLoginPopup && (
+                <Box
+                  ref={loginPopupRef}
+                  sx={{
+                    position: "absolute",
+                    top: "calc(100% + 10px)",
+                    right: 0,
+                    zIndex: 3000,
+                  }}
+                >
+                  <LoginPopup
+                    onLoginClick={() => {
+                      setIsLoggedIn(true);
+                      setShowLoginPopup(false);
+                    }}
+                    onCreateAccountClick={() => {}}
+                  />
+                </Box>
+              )}
+            </Box>
           </Stack>
         </Toolbar>
 
-        {/* ✅ Profile Menu */}
-        {profileMenuOpen && (
-          <Paper
-            ref={profileMenuRef}
-            elevation={4}
-            sx={{
-              position: "absolute",
-              right: 16,
-              top: 70,
-              width: 260,
-              p: 2,
-              borderRadius: 2,
-              zIndex: 1100,
-            }}
-          >
-            <Typography variant="subtitle2" color="text.secondary">
-              Hello,
-            </Typography>
-            <Typography variant="h6" fontWeight={600} mb={2}>
-              Ashish Sharma
-            </Typography>
-
-            <Stack spacing={1}>
-              <MenuItem
-                icon={<ShoppingBag fontSize="small" />}
-                label="My Orders"
-              />
-              <MenuItem
-                icon={<Person fontSize="small" />}
-                label="Edit Profile"
-              />
-              <MenuItem
-                icon={<Favorite fontSize="small" />}
-                label="My Favourites"
-              />
-              <MenuItem
-                icon={<LocationOn fontSize="small" />}
-                label="Manage Addresses"
-              />
-              <MenuItem
-                icon={<Lock fontSize="small" />}
-                label="Change Password"
-              />
-            </Stack>
-
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-              mt={2}
-              sx={{ color: "error.main", cursor: "pointer" }}
-              onClick={() => {
-                setIsLoggedIn(false);
-                setProfileMenuOpen(false);
-              }}
-            >
-              <Logout fontSize="small" />
-              <Typography variant="body2" fontWeight={500}>
-                Logout
-              </Typography>
-            </Stack>
-          </Paper>
-        )}
-        {/* login popup */}
-        {showLoginPopup && (
-          <Paper
-            ref={loginPopupRef}
-            elevation={4}
-            sx={{
-              position: "absolute",
-              right: 16,
-              top: 70,
-              width: 260,
-              p: 2,
-              zIndex: 1100,
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            <Box
-              sx={{
-                bgcolor: "#445B9C",
-                color: "#fff",
-                padding: "10px 0",
-                textAlign: "center",
-                fontWeight: 500,
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "14px",
-              }}
-              onClick={() => {
-                setIsLoggedIn(true);
-                setShowLoginPopup(false);
-              }}
-            >
-              LOGIN
-            </Box>
-            <Box
-              sx={{
-                border: "1px solid #445B9C",
-                color: "#445B9C",
-                padding: "10px 0",
-                textAlign: "center",
-                fontWeight: 500,
-                cursor: "pointer",
-                fontSize: "14px",
-              }}
-            >
-              CREATE ACCOUNT
-            </Box>
-          </Paper>
-        )}
-
+        {/* Mobile Drawer */}
         <Drawer
           anchor="left"
           open={drawerOpen}
@@ -468,16 +368,8 @@ export default function Header({
           transitionDuration={400}
         >
           <DrawerContent>
-            <Box sx={{ display: "flex", padding: "15px 0 0 20px" }}>
-              <Box
-                component="img"
-                src="./logo.svg"
-                sx={{
-                  height: "40px",
-                  objectFit: "cover",
-                  mb: 2,
-                }}
-              />
+            <Box sx={{ display: "flex", p: "15px 0 0 20px" }}>
+              <Box component="img" src="./logo.svg" sx={{ height: 40 }} />
               <IconButton
                 onClick={toggleDrawer(false)}
                 sx={{ position: "absolute", top: 8, right: 8 }}
@@ -488,24 +380,19 @@ export default function Header({
 
             <List sx={{ mt: 3 }}>
               {navItems.map((item, index) => {
-                const hasSubmenu =
-                  typeof item !== "string" && "submenu" in item;
-                const label = typeof item === "string" ? item : item.label;
-                const submenu = hasSubmenu ? (item as any).submenu : [];
+                const hasSubmenu = "submenu" in item;
+                const label = item.label;
+                const submenu = hasSubmenu ? item.submenu : [];
 
                 return hasSubmenu ? (
                   <Accordion key={index} sx={{ boxShadow: "none" }}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMore />}
-                      aria-controls={`panel-${index}-content`}
-                      id={`panel-${index}-header`}
-                    >
+                    <AccordionSummary expandIcon={<ExpandMore />}>
                       <Typography>{label}</Typography>
                     </AccordionSummary>
-                    <AccordionDetails sx={{ padding: "0" }}>
+                    <AccordionDetails sx={{ p: 0 }}>
                       <List disablePadding>
-                        {submenu.map((subItem: string, subIndex: number) => (
-                          <ListItem button key={subIndex}>
+                        {submenu.map((subItem, subIndex) => (
+                          <ListItem key={subIndex}>
                             <ListItemText primary={subItem} />
                           </ListItem>
                         ))}
@@ -513,7 +400,7 @@ export default function Header({
                     </AccordionDetails>
                   </Accordion>
                 ) : (
-                  <ListItem button key={index}>
+                  <ListItem key={index}>
                     <ListItemText primary={label} />
                   </ListItem>
                 );
@@ -525,21 +412,3 @@ export default function Header({
     </HeaderContainer>
   );
 }
-
-const MenuItem = ({
-  icon,
-  label,
-}: {
-  icon: React.ReactNode;
-  label: string;
-}) => (
-  <Stack
-    direction="row"
-    spacing={1}
-    alignItems="center"
-    sx={{ cursor: "pointer" }}
-  >
-    {icon}
-    <Typography variant="body2">{label}</Typography>
-  </Stack>
-);
