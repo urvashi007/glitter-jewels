@@ -43,12 +43,12 @@ export default function ProductDetailsDrawer({
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <Box
-        sx={{ width: 500, p: 4, fontFamily: "Manrope", position: "relative", "@media (max-width:540px)": {
+        sx={{ width: 550, fontFamily: "Manrope", position: "relative", "@media (max-width:540px)": {
          width:'100%',
         }, }}
       >
         {/* Header */}
-        <Box>
+        <Box sx={{borderBottom:'1px solid #ebebeb', padding:'22px 20px'}}>
           <Typography
             variant="h5"
             sx={{ fontSize: "24px", fontWeight: "700", color: "#222" }}
@@ -57,12 +57,11 @@ export default function ProductDetailsDrawer({
           </Typography>
           <IconButton
             onClick={onClose}
-            sx={{ position: "absolute", right: 16, top: 16 }}
+            sx={{ position: "absolute", right: 16, top: 18 }}
           >
             <X />
           </IconButton>
         </Box>
-
         {product && (
           <>
             {/* Tabs */}
@@ -70,7 +69,7 @@ export default function ProductDetailsDrawer({
               value={selectedTab}
               onChange={handleTabChange}
               variant="standard"
-              sx={{ mb: 2, mt: 4 }}
+              sx={{padding:'16px 16px 0 16px', borderBottom:'1px solid #ebebeb', marginBottom:'10px', '&.css-1f9mxli-MuiTabs-indicator' :{    height:'3px'}}}
             >
               {tabLabels.map((label, index) => (
                 <Tab key={label} label={label} value={index} />
@@ -94,6 +93,8 @@ export default function ProductDetailsDrawer({
 
           </>
         )}
+<Box sx={{padding:'0px  20px 22px 20px'}}>
+
 
         {/* Form stays outside */}
           <CustomOrderForm
@@ -114,6 +115,7 @@ export default function ProductDetailsDrawer({
                     </>
                   }
                 />
+      </Box>
       </Box>
     </Drawer>
   );

@@ -10,13 +10,12 @@ import {
   ListItem,
   ListItemText,
   Checkbox,
-  Divider,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { Plus } from "lucide-react";
 
 export default function ProductCardWithWishlist() {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -88,50 +87,74 @@ export default function ProductCardWithWishlist() {
         sx={{
           "& .MuiDrawer-paper": {
             width: '550px',
-            p: 3,
           },
         }}
       >
       
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h6" fontWeight={600}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" sx={{borderBottom:'1px solid #ebebeb', padding:'20px 20px'}}> 
+          <Typography variant="h6" fontWeight={600} sx={{    fontSize: "24px", fontWeight:'700'}}>
             Add to Wishlist
           </Typography>
           <IconButton onClick={toggleDrawer}>
             <CloseIcon />
           </IconButton>
         </Box>
+        
+        <Box sx={{padding:'20px'}}>
 
         {/* Create new */}
-        <List>
-          <ListItem>
-            <AddIcon sx={{ mr: 2, color: "#3f51b5" }} />
-            <ListItemText primary="Create new wishlist" />
+        <List sx={{p:'0', marginBottom:'20px',}}>
+          <ListItem sx={{padding:'0'}}>
+            <IconButton
+              size="small"
+              sx={{
+                background: "#445B9C",
+                color: "#fff",
+                width: 60,
+                height: 40,
+                borderRadius: "0",
+                "&:hover": { background: "#334a7d" },
+              }}
+            >
+              <Plus size={20} />
+            </IconButton>
+            <ListItemText primary="Create new wishlist"  sx={{marginLeft:'16px'}}/>
           </ListItem>
         </List>
 
-        <Divider sx={{ my: 2 }} />
+        {/* <Divider/> */}
 
         {/* Wishlist Options */}
-        <List>
+        <List sx={{p:'0'}}>
           {wishlistOptions.map((item, idx) => (
-            <ListItem key={idx} secondaryAction={<Checkbox />}>
-              <Box sx={{ mr: 2 }}>{item.icon}</Box>
-              <ListItemText primary={item.label} />
+            <ListItem key={idx} secondaryAction={ <Checkbox
+              sx={{
+                width: 30,
+                height: 30,
+                p: 0,
+                "&.Mui-checked": {
+                  color: "#445B9C",
+                },
+                "& .MuiSvgIcon-root": {
+                  fontSize: 25,
+                },
+              }}
+            />} sx={{p:'0', marginBottom:'20px',fontFamily:'Jost'}}>
+              <Box sx={{width: "60px",height:"40px",  background: "#F2F2F2",display:'flex', alignItems:'center', justifyContent:'center'}}>{item.icon}</Box>
+              <ListItemText primary={item.label}  sx={{marginLeft: "16px",}}/>
             </ListItem>
           ))}
         </List>
-
+        </Box>
         {/* Footer Buttons */}
-        <Box mt="auto" display="flex" justifyContent="space-between" pt={2} sx={{gap:'22px'}}>
+        <Box mt="auto" display="flex" justifyContent="space-between" sx={{gap:'22px', padding:'20px'}}>
           <Box
             onClick={handleCancel}
             sx={{
               px: 3,
               py: 1,
-              border: "1px solid #3f51b5",
-              borderRadius: 1,
-              color: "#3f51b5",
+              border: "1px solid #445B9C",
+              color: "#445B9C",
               fontWeight: 600,
               cursor: "pointer",
               width:'100%',
@@ -145,9 +168,8 @@ export default function ProductCardWithWishlist() {
             sx={{
               px: 4,
               py: 1,
-              backgroundColor: "#3f51b5",
+              backgroundColor: "#445B9C",
               color: "white",
-              borderRadius: 1,
               fontWeight: 600,
               cursor: "pointer",
                width:'100%',
@@ -157,6 +179,7 @@ export default function ProductCardWithWishlist() {
             SAVE
           </Box>
         </Box>
+       
       </Drawer>
     </>
   );

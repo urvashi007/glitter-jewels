@@ -26,6 +26,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import LoginPopup from "./LoginPopup";
 
+// Type definition
 type HeaderNavItem = { label: string } | { label: string; submenu: string[] };
 
 type HeaderProps = {
@@ -35,6 +36,13 @@ type HeaderProps = {
   searchEnabled?: boolean;
   forceScrolled?: boolean;
 };
+
+// ✅ Type guard
+function hasSubmenu(
+  item: HeaderNavItem
+): item is { label: string; submenu: string[] } {
+  return typeof item === "object" && item !== null && "submenu" in item;
+}
 
 const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
   ({ theme, scrolled }) => ({
@@ -137,9 +145,8 @@ export default function Header({
             padding: "0",
           },
         }}
-      >
-        <Toolbar sx={{ justifyContent: "space-between", p: 0 }}>
-          {/* LEFT: Navigation */}
+      > <Toolbar sx={{ justifyContent: "space-between", p: 0 }}>
+          {/* LEFT: Desktop Nav or Mobile Menu */}
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
               <Menu sx={{ color: iconColor }} />
@@ -147,36 +154,35 @@ export default function Header({
           ) : (
             <Stack direction="row" spacing={4} alignItems="center">
               {navItems.map((item, index) => {
-                const hasSubmenu = "submenu" in item;
                 const label = item.label;
-                const submenu = hasSubmenu ? item.submenu : [];
-                return (
-                  <Box
-                    key={index}
-                    sx={{
-                      position: "relative",
-                      "&:hover .submenu": {
-                        opacity: 1,
-                        visibility: "visible",
-                        transform: "translateY(0)",
-                      },
-                    }}
-                  >
-                    <Typography
+                if (hasSubmenu(item)) {
+                  const submenu = item.submenu;
+                  return (
+                    <Box
+                      key={index}
                       sx={{
-                        fontWeight: 500,
-                        cursor: "pointer",
-                        color: iconColor,
-                        fontSize: "0.95rem",
-                        fontFamily: "Jost, sans-serif",
-                        textTransform: "uppercase",
-                        px: 1.5,
-                        py: 0.5,
+                        position: "relative",
+                        "&:hover .submenu": {
+                          opacity: 1,
+                          visibility: "visible",
+                          transform: "translateY(0)",
+                        },
                       }}
                     >
-                      {label}
-                    </Typography>
-                    {hasSubmenu && (
+                      <Typography
+                        sx={{
+                          fontWeight: 500,
+                          cursor: "pointer",
+                          color: iconColor,
+                          fontSize: "0.95rem",
+                          fontFamily: "Jost, sans-serif",
+                          textTransform: "uppercase",
+                          px: 1.5,
+                          py: 0.5,
+                        }}
+                      >
+                        {label}
+                      </Typography>
                       <Box
                         className="submenu"
                         sx={{
@@ -196,11 +202,12 @@ export default function Header({
                         {submenu.map((subItem, i) => (
                           <Link
                             key={i}
-                            href={`/${subItem
-                              .toLowerCase()
-                              .replace(/\s+/g, "-")}`}
+                            href={`/${subItem.toLowerCase().replace(/\s+/g, "-")}`}
                             passHref
-                            style={{ color: "inherit", textDecoration: "none" }}
+                            style={{
+                              color: "inherit",
+                              textDecoration: "none",
+                            }}
                           >
                             <Typography
                               sx={{
@@ -210,7 +217,6 @@ export default function Header({
                                 fontSize: "0.875rem",
                                 color: "#222",
                                 backgroundColor: "#fff",
-                                textDecoration: "none",
                                 "&:hover": {
                                   backgroundColor: "#fff",
                                   color: "#445B9C",
@@ -222,7 +228,26 @@ export default function Header({
                           </Link>
                         ))}
                       </Box>
-                    )}
+                    </Box>
+                  );
+                }
+
+                return (
+                  <Box key={index}>
+                    <Typography
+                      sx={{
+                        fontWeight: 500,
+                        cursor: "pointer",
+                        color: iconColor,
+                        fontSize: "0.95rem",
+                        fontFamily: "Jost, sans-serif",
+                        textTransform: "uppercase",
+                        px: 1.5,
+                        py: 0.5,
+                      }}
+                    >
+                      {label}
+                    </Typography>
                   </Box>
                 );
               })}
@@ -250,7 +275,7 @@ export default function Header({
           {/* RIGHT: Icons */}
           <Stack direction="row" spacing={{ xs: 0, md: 2 }} alignItems="center">
             <Link href="/custom-order" passHref legacyBehavior>
-              <IconButton
+            <IconButton
                 sx={{
                   ml: {
                     xs: 0,
@@ -380,26 +405,27 @@ export default function Header({
 
             <List sx={{ mt: 3 }}>
               {navItems.map((item, index) => {
-                const hasSubmenu = "submenu" in item;
                 const label = item.label;
-                const submenu = hasSubmenu ? item.submenu : [];
+                if (hasSubmenu(item)) {
+                  return (
+                    <Accordion key={index} sx={{ boxShadow: "none" }}>
+                      <AccordionSummary expandIcon={<ExpandMore />}>
+                        <Typography>{label}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ p: 0 }}>
+                        <List disablePadding>
+                          {item.submenu.map((subItem, subIndex) => (
+                            <ListItem key={subIndex}>
+                              <ListItemText primary={subItem} />
+                            </ListItem>
+                          ))}
+                        </List>
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                }
 
-                return hasSubmenu ? (
-                  <Accordion key={index} sx={{ boxShadow: "none" }}>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                      <Typography>{label}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ p: 0 }}>
-                      <List disablePadding>
-                        {submenu.map((subItem, subIndex) => (
-                          <ListItem key={subIndex}>
-                            <ListItemText primary={subItem} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </AccordionDetails>
-                  </Accordion>
-                ) : (
+                return (
                   <ListItem key={index}>
                     <ListItemText primary={label} />
                   </ListItem>
