@@ -35,3 +35,13 @@ export type ProfileMenuProps = {
   userName: string;
   onLogout: () => void;
 };
+
+export type FilterOption = {
+  value: string;
+  count: number;
+};
+
+export type Filter = {
+  label: string;
+  options: FilterOption[];
+};

@@ -7,7 +7,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 export default function Footer() {
   return (
-    <Box sx={{ backgroundColor: "#000", color: "#fff", pt: 6, pb: 2 }}>
+    <Box sx={{ backgroundColor: "#DFDFDF", color: "#222222", pt: 6, pb: 2 }}>
       <Container maxWidth="lg">
         <Grid
           container
@@ -20,7 +20,7 @@ export default function Footer() {
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
+              sx={{ fontSize: "18px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
                 fontSize:'18px',
                },}}
             >
@@ -36,7 +36,7 @@ export default function Footer() {
                 "Fancy Rings",
                 "Pendants",
               ].map((item) => (
-                <Link key={item} href="#" underline="none" color="#ccc">
+                <Link key={item} href="#" underline="none" color="#222222">
                   {item}
                 </Link>
               ))}
@@ -48,9 +48,7 @@ export default function Footer() {
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
-                fontSize:'18px',
-               },}}
+              sx={{ fontSize: "18px", fontFamily: "Manrope"}}
             >
               Services
             </Typography>
@@ -64,7 +62,7 @@ export default function Footer() {
                 "Customization Service",
                 "My Virtual Webstore",
               ].map((item) => (
-                <Link key={item} href="#" underline="none" color="#ccc">
+                <Link key={item} href="#" underline="none" color="#222222" sx={{fontSize:'14px'}}>
                   {item}
                 </Link>
               ))}
@@ -76,15 +74,13 @@ export default function Footer() {
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
-                fontSize:'18px',
-               },}}
+              sx={{ fontSize: "18px", fontFamily: "Manrope"}}
             >
               Important Links
             </Typography>
             <Stack spacing={1}>
               {["About Us", "Product", "Diamond", "Contact Us"].map((item) => (
-                <Link key={item} href="#" underline="none" color="#ccc">
+                <Link key={item} href="#" underline="none" color="#222222">
                   {item}
                 </Link>
               ))}
@@ -97,9 +93,7 @@ export default function Footer() {
               variant="h6"
               fontWeight={600}
               gutterBottom
-              sx={{ fontSize: "24px", fontFamily: "Manrope" ,  "@media (max-width:540px)": {
-                fontSize:'18px',
-               },}}
+              sx={{ fontSize: "18px", fontFamily: "Manrope"}}
             >
               Get In Touch
             </Typography>
@@ -107,27 +101,30 @@ export default function Footer() {
               <Link
                 href="#"
                 underline="none"
-                color="#ccc"
+                color="#222"
                 display="flex"
                 alignItems="center"
+                sx={{fontSize:'14px'}}
               >
                 <FacebookIcon sx={{ mr: 1 }} /> Facebook
               </Link>
               <Link
                 href="#"
                 underline="none"
-                color="#ccc"
+                color="#222"
                 display="flex"
                 alignItems="center"
+                sx={{fontSize:'14px'}}
               >
                 <InstagramIcon sx={{ mr: 1 }} /> Instagram
               </Link>
               <Link
                 href="#"
                 underline="none"
-                color="#ccc"
+                color="#222"
                 display="flex"
                 alignItems="center"
+                sx={{fontSize:'14px'}}
               >
                 <WhatsAppIcon sx={{ mr: 1 }} /> WhatsApp (+91 9869548525)
               </Link>
@@ -146,14 +143,14 @@ export default function Footer() {
             alignItems: "center",
           }}
         >
-          <Typography variant="body2" color="#ccc">
+          <Typography variant="body2" color="#222222">
             Copyright © 2025 Glitter Jewels. All rights reserved.
           </Typography>
           <Stack direction="row" spacing={3} mt={{ xs: 2, sm: 0 }}>
-            <Link href="#" underline="none" color="#ccc">
+            <Link href="#" underline="none" color="#222222">
               Privacy Policy
             </Link>
-            <Link href="#" underline="none" color="#ccc">
+            <Link href="#" underline="none" color="#222222">
               Terms & Conditions
             </Link>
           </Stack>

@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
 import {
   Box,
-
   Typography,
   Card,
   CardContent,
@@ -11,28 +10,27 @@ import {
   Grid,
   Stack,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
   SelectChangeEvent,
   useMediaQuery,
   useTheme,
-} from '@mui/material';
-import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from 'lucide-react';
-import { useState, useMemo } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+} from "@mui/material";
+import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 const StyledChevronDown = ({ open }: { open: boolean }) => (
   <ChevronDown
     style={{
-      color: '#222',
-      transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-      transition: 'transform 0.3s ease',
-      position: 'absolute',
-      right: '8px',
-      fontWeight: '400',
-      width: '18px',
+      color: "#222",
+      transform: open ? "rotate(180deg)" : "rotate(0deg)",
+      transition: "transform 0.3s ease",
+      position: "absolute",
+      right: "8px",
+      fontWeight: "400",
+      width: "18px",
     }}
   />
 );
@@ -51,7 +49,7 @@ type LatestCollectionProps = {
   products: Product[];
   columns?: number;
   showProductCountAndSort?: boolean;
-  onProductClick?: (product: Product) => void; // ✅
+  onProductClick?: (product: Product) => void;
 };
 
 export default function CardCollection({
@@ -62,14 +60,11 @@ export default function CardCollection({
   showProductCountAndSort = true,
   onProductClick,
 }: LatestCollectionProps) {
- 
- 
-
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
-  const [sortBy, setSortBy] = useState('priceLowHigh');
+  const [sortBy, setSortBy] = useState("priceLowHigh");
   const [sortOpen, setSortOpen] = useState(false);
 
   const toggleFavorite = (id: string) => {
@@ -80,79 +75,155 @@ export default function CardCollection({
   };
 
   const sortedProducts = useMemo(() => {
-    if (!showProductCountAndSort) return products;
     return [...products].sort((a, b) => {
-      const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
-      const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
+      const priceA = parseInt(a.price.replace(/[^\d]/g, ""), 10) || 0;
+      const priceB = parseInt(b.price.replace(/[^\d]/g, ""), 10) || 0;
+
       switch (sortBy) {
-        case 'priceLowHigh':
+        case "priceLowHigh":
           return priceA - priceB;
-        case 'priceHighLow':
+        case "priceHighLow":
           return priceB - priceA;
         default:
           return 0;
       }
     });
-  }, [products, sortBy, showProductCountAndSort]);
+  }, [products, sortBy]);
 
   return (
-
-      <Box>
-       
-          {(title || viewAllLink) && (
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-              {title && (
-                <Typography variant="h2">
-                  {title}
-                </Typography>
-              )}
-              {viewAllLink && (
-                <Link href={viewAllLink} underline="none" sx={{ color: '#445B9C',fontFamily:'jost',fontSize:'18px', fontWeight:'500', display: 'inline-flex',
-                  alignItems: 'center', }}>
-                  VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
-                </Link>
-              )}
-            </Box>
+    <Box>
+      {(title || viewAllLink) && (
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={4}
+        >
+          {title && <Typography variant="h2">{title}</Typography>}
+          {viewAllLink && (
+            <Link
+              href={viewAllLink}
+              underline="none"
+              sx={{
+                color: "#445B9C",
+                fontFamily: "jost",
+                fontSize: "18px",
+                fontWeight: "500",
+                display: "inline-flex",
+                alignItems: "center",
+              }}
+            >
+              VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
+            </Link>
           )}
+        </Box>
+      )}
 
-          {showProductCountAndSort && (
-            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-              <Typography variant="h6" fontWeight={600}>
-                {products.length} Products
-              </Typography>
-              <FormControl size="small" sx={{ minWidth: 160 }}>
-                <InputLabel>Sort by</InputLabel>
-                <Select
-                  value={sortBy}
-                  label="Sort by"
-                  onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
-                  onOpen={() => setSortOpen(true)}
-                  onClose={() => setSortOpen(false)}
-                  IconComponent={() => <StyledChevronDown open={sortOpen} />}
-                >
-                  <MenuItem value="priceLowHigh" sx={{fontSize:'14px', color:'#222',}}>Price: Low to High</MenuItem>
-                  <MenuItem value="priceHighLow" sx={{fontSize:'14px',color:'#222'}}>Price: High to Low</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-          )}
+      {showProductCountAndSort && (
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={3}
+        >
+          <Typography variant="h6" fontWeight={600}>
+            {products.length} Products
+          </Typography>
 
-          {isMobile ? (
-            <Swiper spaceBetween={16} slidesPerView={1.2}>
-              {sortedProducts.map((item) => (
-                <SwiperSlide key={item.id}>{renderCard(item)}</SwiperSlide>
-              ))}
-            </Swiper>
-          ) : (
-            <Grid container spacing={3} sx={{ display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
-              {sortedProducts.map((item) => (
-                <Grid key={item.id}>{renderCard(item)}</Grid>
-              ))}
-            </Grid>
-          )}
-     
-      </Box>
+          <FormControl
+            size="small"
+            variant="outlined"
+            sx={{
+              minWidth: 160,
+              height: "40px",
+              border: "1px solid #333",
+              borderRadius: 0,
+              position: "relative",
+              ".MuiOutlinedInput-root": {
+                padding: "0px 12px",
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "none !important",
+                },
+                "&.Mui-focused": {
+                  boxShadow: "none",
+                },
+              },
+              ".MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+              ".MuiSelect-select": {
+                padding: 0,
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#222",
+                display: "flex",
+                alignItems: "center",
+              },
+            }}
+          >
+            <Select
+              value={sortBy}
+              displayEmpty
+              onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
+              onOpen={() => setSortOpen(true)}
+              onClose={() => setSortOpen(false)}
+              IconComponent={() => <StyledChevronDown open={sortOpen} />}
+              sx={{
+                border: "none",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                fontSize: "14px",
+                color: "#222",
+              }}
+            >
+              <MenuItem disabled value="">
+                Sort by
+              </MenuItem>
+              <MenuItem
+                value="priceLowHigh"
+                sx={{ fontSize: "14px", color: "#222" }}
+              >
+                Price: Low to High
+              </MenuItem>
+              <MenuItem
+                value="priceHighLow"
+                sx={{ fontSize: "14px", color: "#222" }}
+              >
+                Price: High to Low
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
+      )}
 
+      {isMobile ? (
+        <Swiper spaceBetween={16} slidesPerView={1.2}>
+          {sortedProducts.map((item) => (
+            <SwiperSlide key={item.id}>{renderCard(item)}</SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <Grid
+          container
+          spacing={3}
+          sx={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          }}
+        >
+          {sortedProducts.map((item) => (
+            <Grid key={item.id}>{renderCard(item)}</Grid>
+          ))}
+        </Grid>
+      )}
+    </Box>
   );
 
   function renderCard(item: Product) {
@@ -162,21 +233,39 @@ export default function CardCollection({
           elevation={0}
           sx={{
             p: 2,
-            backgroundColor: '#f7f7f7',
-            borderRadius:0,
-            position: 'relative',
-            overflow: 'visible',
-            '&:hover .hover-icons': {
+            backgroundColor: "#f7f7f7",
+            borderRadius: 0,
+            position: "relative",
+            overflow: "visible",
+            "&:hover .hover-icons": {
               opacity: 1,
-              transform: 'translateY(0px)',
+              transform: "translateY(0px)",
             },
           }}
         >
           <Box display="flex" gap={1} mb={1}>
-            <Box sx={{ fontSize: '12px', background: '#fff', px: 1, py: 0.5, borderRadius: 0.5, fontWeight: 500 }}>
+            <Box
+              sx={{
+                fontSize: "12px",
+                background: "#fff",
+                px: 1,
+                py: 0.5,
+                borderRadius: 0.5,
+                fontWeight: 500,
+              }}
+            >
               Gold W : {item.gold}
             </Box>
-            <Box sx={{ fontSize: '12px', background: '#fff', px: 1, py: 0.5, borderRadius: 0.5, fontWeight: 500 }}>
+            <Box
+              sx={{
+                fontSize: "12px",
+                background: "#fff",
+                px: 1,
+                py: 0.5,
+                borderRadius: 0.5,
+                fontWeight: 500,
+              }}
+            >
               Dia. WT : {item.diamond}
             </Box>
           </Box>
@@ -185,33 +274,32 @@ export default function CardCollection({
             component="img"
             src={item.image}
             alt={item.id}
-            sx={{ width: '100%', height: 240, objectFit: 'contain', mb: 2 }}
+            sx={{ width: "100%", height: 240, objectFit: "contain", mb: 2 }}
           />
 
           <Box
             className="hover-icons"
             sx={{
-              position: 'absolute',
+              position: "absolute",
               bottom: 16,
               right: 16,
-              display: 'flex',
-              flexDirection: 'column',
+              display: "flex",
+              flexDirection: "column",
               gap: 1,
               opacity: 0,
-              transform: 'translateY(10px)',
-              transition: 'all 0.3s ease',
+              transform: "translateY(10px)",
+              transition: "all 0.3s ease",
             }}
           >
             <IconButton
-            
               size="small"
               onClick={() => toggleFavorite(item.id)}
               sx={{
-                background: '#fff',
-                color: favorites[item.id] ? 'red' : '#000',
+                background: "#fff",
+                color: favorites[item.id] ? "red" : "#000",
                 width: 36,
                 height: 36,
-                borderRadius:'0',
+                borderRadius: "0",
               }}
             >
               {favorites[item.id] ? (
@@ -225,12 +313,13 @@ export default function CardCollection({
               size="small"
               onClick={() => onProductClick?.(item)}
               sx={{
-                background: '#445B9C',
-                color: '#fff',
+                background: "#445B9C",
+                color: "#fff",
                 width: 36,
                 height: 36,
-                borderRadius:'0',
-                '&:hover': { background: '#334a7d' },
+                borderRadius: "0",
+                // marginRight:'12px',
+                "&:hover": { background: "#334a7d", },
               }}
             >
               <Plus size={16} />
@@ -241,7 +330,9 @@ export default function CardCollection({
         <CardContent sx={{ px: 0, pt: 1 }}>
           <Typography variant="body1" sx={{ fontSize: 14, fontWeight: 500 }}>
             {item.id} &nbsp;–&nbsp;
-            <Box component="span" sx={{ fontWeight: 700 }}>{item.price}</Box>
+            <Box component="span" sx={{ fontWeight: 700 }}>
+              {item.price}
+            </Box>
           </Typography>
         </CardContent>
       </>

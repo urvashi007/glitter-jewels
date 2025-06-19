@@ -9,6 +9,7 @@ import InnerBanner from '@/components/InnerBanner';
 import ProductFilterSidebar from '@/components/ProductFilterSidebar';
 import CardCollection from '@/components/CardCollection';
 import ProductDetailsDrawer from '@/components/ProductDetailsDrawer';
+import { Filter } from '@/utils/type';
 
 type Product = {
   id: string;
@@ -18,28 +19,38 @@ type Product = {
   image: string;
 };
 
-const filters = [
+const filters: Filter[] = [
   {
     label: 'Price',
     options: [
-      '₹5,000 to ₹10,000',
-      '₹10,000 to ₹25,000',
-      '₹25,000 to ₹50,000',
-      '₹50,000 to ₹100,000',
-      '₹100,000 and above',
+      { value: '₹5,000 to ₹10,000', count: 3 },
+      { value: '₹10,000 to ₹25,000', count: 12 },
+      { value: '₹25,000 to ₹50,000', count: 88 },
+      { value: '₹50,000 to ₹100,000', count: 20 },
+      { value: '₹100,000 and above', count: 11 },
     ],
   },
   {
     label: 'Diamond carat',
-    options: ['0.1', '0.25', '0.5', '1.0'],
+    options: [
+      { value: '0.25 to 0.5 ct', count: 9 },
+      { value: '0.5 to 1 ct', count: 7 },
+    ],
   },
   {
     label: 'Gold Weight',
-    options: ['2g', '5g', '10g'],
+    options: [
+      { value: '2g', count: 5 },
+      { value: '5g', count: 8 },
+    ],
   },
   {
     label: 'Diamond Shape',
-    options: ['Round', 'Princess', 'Emerald'],
+    options: [
+      { value: 'Round', count: 13 },
+      { value: 'Princess', count: 6 },
+      { value: 'Emerald', count: 4 },
+    ],
   },
 ];
 
@@ -72,62 +83,7 @@ const productsItem: Product[] = [
     diamond: '0.5ct',
     image: './Categories/img1.png',
   },
-  {
-    id: 'Pendant-003-2',
-    price: '₹18,000',
-    gold: '2g',
-    diamond: '0.15ct',
-    image: './Categories/img3.png',
-  },
-  {
-    id: 'Bracelet-004-2',
-    price: '₹45,000',
-    gold: '5g',
-    diamond: '0.5ct',
-    image: './Categories/img1.png',
-  },
-  {
-    id: 'Pendant-003-3',
-    price: '₹18,000',
-    gold: '2g',
-    diamond: '0.15ct',
-    image: './Categories/img3.png',
-  },
-  {
-    id: 'Bracelet-004-3',
-    price: '₹45,000',
-    gold: '5g',
-    diamond: '0.5ct',
-    image: './Categories/img1.png',
-  },
-  {
-    id: 'Bracelet-004-3',
-    price: '₹45,000',
-    gold: '5g',
-    diamond: '0.5ct',
-    image: './Categories/img1.png',
-  },
-  {
-    id: 'Bracelet-004-3',
-    price: '₹45,000',
-    gold: '5g',
-    diamond: '0.5ct',
-    image: './Categories/img1.png',
-  },
-  {
-    id: 'Bracelet-004-3',
-    price: '₹45,000',
-    gold: '5g',
-    diamond: '0.5ct',
-    image: './Categories/img1.png',
-  },
-  {
-    id: 'Bracelet-004-3',
-    price: '₹45,000',
-    gold: '5g',
-    diamond: '0.5ct',
-    image: './Categories/img1.png',
-  },
+  // ...repeat as needed
 ];
 
 export default function ProductListPage() {
@@ -163,18 +119,42 @@ export default function ProductListPage() {
         ]}
       />
 
-      <Container maxWidth="lg" sx={{ py: 8,"@media (max-width:540px)": {
-        paddingTop:'50px',
-        }, }} >
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4,  }} >
-          <Box sx={{ flex: { xs: '0 0 100%', md: '0 0 25%' }, maxWidth: { md: '25%',"@media (max-width:540px)": {
-         order:'2',
-        }, } }}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          py: 8,
+          "@media (max-width:540px)": {
+            paddingTop: '50px',
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: 4,
+          }}
+        >
+          <Box
+            sx={{
+              flex: { xs: '0 0 100%', md: '0 0 25%' },
+              maxWidth: { md: '25%' },
+              "@media (max-width:540px)": {
+                order: '2',
+              },
+            }}
+          >
             <ProductFilterSidebar filters={filters} />
           </Box>
-          <Box sx={{ flex: 1, "@media (max-width:540px)": {
-         order:'1',
-        }, }}>
+
+          <Box
+            sx={{
+              flex: 1,
+              "@media (max-width:540px)": {
+                order: '1',
+              },
+            }}
+          >
             <CardCollection
               products={productsItem}
               columns={3}
