@@ -153,14 +153,6 @@ const theme = createTheme({
         },
       },
     },
-    // MuiIconButton: {
-    //   styleOverrides: {
-    //     root: {
-    //       borderRadius: 0,
-          
-    //     },
-    //   },
-    // },
       MuiTabs: {
         styleOverrides: {
           indicator: {
@@ -176,6 +168,13 @@ const theme = createTheme({
             '&.Mui-selected': {
               color: '#445B9C',
             },
+          },
+        },
+      },
+      MuiFormHelperText: {
+        styleOverrides: {
+          root: {
+            margin: 0,
           },
         },
       },
