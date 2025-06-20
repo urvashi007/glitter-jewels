@@ -2,270 +2,275 @@
 
 import {
   Box,
-  Button,
-  MenuItem,
   TextField,
   Typography,
+  MenuItem,
   Select,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
+  InputAdornment,
   IconButton,
-  FormHelperText,
-  Grid,
+  Button,
+  FormControl,
 } from "@mui/material";
-import { Visibility, VisibilityOff, CloudUpload } from "@mui/icons-material";
-import { useState } from "react";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CloseIcon from "@mui/icons-material/Close";
+import React, { useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
-// const initialState = {
-//   firstName: '',
-//   lastName: '',
-//   entityName: '',
-//   entityType: '',
-//   mobile: '',
-//   email: '',
-//   postcode: '',
-//   country: '',
-//   state: '',
-//   city: '',
-//   pan: '',
-//   password: '',
-//   confirmPassword: '',
-//   address: '',
-// };
+export default function RegisterForm() {
+  const [countryCode, setCountryCode] = useState("+91");
+  const [entity, setEntity] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [fileName, setFileName] = useState("");
 
-export default function RegistrationForm() {
-  // const [form, setForm] = useState(initialState);
-  // const [errors, setErrors] = useState<Record<string, string>>({});
-  // const [showPassword, setShowPassword] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   setForm({ ...form, [e.target.name]: e.target.value });
-  //   setErrors({ ...errors, [e.target.name]: '' });
-  // };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setFileName(file.name);
+  };
 
-  // const handleSubmit = () => {
-  //   const newErrors: Record<string, string> = {};
-  //   const requiredFields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];
+  const handleFileRemove = () => {
+    setFileName("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
-  //   requiredFields.forEach((field) => {
-  //     if (!form[field]) newErrors[field] = 'This field is required';
-  //   });
-
-  //   if (form.email && !/\S+@\S+\.\S+/.test(form.email)) {
-  //     newErrors.email = 'Enter a valid email';
-  //   }
-
-  //   if (form.password !== form.confirmPassword) {
-  //     newErrors.confirmPassword = 'Passwords do not match';
-  //   }
-
-  //   setErrors(newErrors);
-
-  //   if (Object.keys(newErrors).length === 0) {
-  //     console.log('Form submitted:', form);
-  //   }
-  // };
+  const renderLabel = (text: string) => (
+    <Typography variant="body2" fontWeight={500} mb={0.5}>
+      {text}
+    </Typography>
+  );
 
   return (
-    <Box sx={{ p: 4, maxWidth: 1100, mx: "auto" }}>
-      <Typography variant="h5" fontWeight="bold" gutterBottom>
-        Create an Account
+     <Box sx={{height:"100vh"}}>
+    <Box
+      sx={{
+        background: "#fff",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+      }}
+    >
+      <Typography
+        variant="h6"
+        fontWeight={700}
+        sx={{
+          fontSize: "18px",
+          padding: "12px 20px",
+          borderBottom: "1px solid #ebebeb",
+          "@media (max-width:540px)": {
+            display: "none",
+          },
+        }}
+      >
+        Edit Profile
       </Typography>
-      <Typography variant="body2" gutterBottom>
-        Save time during checkout, view your shopping bag and saved items from
-        any device and access your order history.
-      </Typography>
 
-      <Grid item spacing={2} mt={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body2" sx={{ mb: 0.5, color: "#333" }}>
-            First Name
-          </Typography>
-
-          <TextField
-            fullWidth
-            name="email"
-            margin="normal"
-            // onChange={handleChange}
-            // error={!!errors.firstName}
-            // helperText={errors.firstName}
-            placeholder="Enter Your Email"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="body2" sx={{ mb: 0.5, color: "#333" }}>
-            Last Name
-          </Typography>
-          <TextField
-            fullWidth
-            name="lastName"
-            // onChange={handleChange}
-            // error={!!errors.lastName}
-            // helperText={errors.lastName}
-            placeholder="Enter Your Email"
-          />
-        </Grid>
-
-        {/* <Grid item xs={12} sm={8}>
-          <TextField
-            fullWidth
-            label="Name of Entity"
-            name="entityName"
-            value={form.entityName}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <FormControl fullWidth>
-            <InputLabel>Entity</InputLabel>
-            <Select
-              value={form.entityType}
-              onChange={(e) => setForm({ ...form, entityType: e.target.value })}
-              input={<OutlinedInput label="Entity" />}
-            >
-              <MenuItem value="Retailer">Retailer</MenuItem>
-              <MenuItem value="Wholesaler">Wholesaler</MenuItem>
-              <MenuItem value="Distributor">Distributor</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField fullWidth label="Mobile Number" name="mobile" value={form.mobile} onChange={handleChange} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={3}>
-          <TextField fullWidth label="Post Code" name="postcode" value={form.postcode} onChange={handleChange} />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <FormControl fullWidth>
-            <InputLabel>Select Country</InputLabel>
-            <Select
-              value={form.country}
-              onChange={(e) => setForm({ ...form, country: e.target.value })}
-              input={<OutlinedInput label="Select Country" />}
-            >
-              <MenuItem value="India">India</MenuItem>
-              <MenuItem value="Australia">Australia</MenuItem>
-              <MenuItem value="Germany">Germany</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <FormControl fullWidth>
-            <InputLabel>Select State</InputLabel>
-            <Select
-              value={form.state}
-              onChange={(e) => setForm({ ...form, state: e.target.value })}
-              input={<OutlinedInput label="Select State" />}
-            >
-              <MenuItem value="Delhi">Delhi</MenuItem>
-              <MenuItem value="Maharashtra">Maharashtra</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <FormControl fullWidth>
-            <InputLabel>Select City</InputLabel>
-            <Select
-              value={form.city}
-              onChange={(e) => setForm({ ...form, city: e.target.value })}
-              input={<OutlinedInput label="Select City" />}
-            >
-              <MenuItem value="Mumbai">Mumbai</MenuItem>
-              <MenuItem value="Chennai">Chennai</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField fullWidth label="PAN No." name="pan" value={form.pan} onChange={handleChange} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<CloudUpload />}
-            sx={{ height: '56px', borderStyle: 'dashed', color: '#888' }}
-          >
-            Upload Any Of Above Documents
-          </Button>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth error={!!errors.password}>
-            <InputLabel>Password</InputLabel>
-            <OutlinedInput
-              type={showPassword ? 'text' : 'password'}
-              value={form.password}
-              name="password"
-              onChange={handleChange}
-              endAdornment={
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              }
-              label="Password"
-            />
-            {errors.password && <FormHelperText>{errors.password}</FormHelperText>}
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            type={showPassword ? 'text' : 'password'}
-            label="Confirm Password"
-            name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            error={!!errors.confirmPassword}
-            helperText={errors.confirmPassword}
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Address"
-            multiline
-            rows={2}
-            name="address"
-            value={form.address}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
-          <Typography>
-            Already on glitter jewels?{' '}
-            <Typography component="a" href="/login" color="primary" fontWeight="bold" sx={{ cursor: 'pointer' }}>
-              Sign In
-            </Typography>
-          </Typography>
-          <Box>
-            <Button variant="outlined" sx={{ mr: 2 }}>
-              Back
-            </Button>
-            <Button variant="contained" onClick={handleSubmit}>
-              Create My Account
-            </Button>
+      <Box sx={{ padding: "20px" }}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          gap={2}
+          sx={{ textTransform: "uppercase" }}
+        >
+          {/* Row 1 */}
+          <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("First Name")}
+            <TextField fullWidth placeholder="Enter your first name" />
           </Box>
-        </Grid> */}
-      </Grid>
+
+        <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("Last Name")}
+            <TextField fullWidth placeholder="Enter your last name" />
+          </Box>
+
+          {/* Row 2 */}
+         <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("Name of Entity")}
+            <TextField fullWidth placeholder="Enter entity name" />
+          </Box>
+
+          <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("Entity Type")}
+            <FormControl fullWidth>
+              <Select
+                value={entity}
+                onChange={(e) => setEntity(e.target.value)}
+                displayEmpty
+                IconComponent={ChevronDown}
+                renderValue={(selected) => selected || "Select Entity"}
+              >
+                <MenuItem value="" disabled>
+                  Select Entity
+                </MenuItem>
+                <MenuItem value="Retailer">Retailer</MenuItem>
+                <MenuItem value="Wholesaler">Wholesaler</MenuItem>
+                <MenuItem value="Manufacturer">Manufacturer</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+          {/* Row 3 */}
+          <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("Mobile Number")}
+            <Box display="flex" gap={1}>
+              <FormControl sx={{ width: "30%" }}>
+                <Select
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value)}
+                  IconComponent={ChevronDown}
+                >
+                  <MenuItem value="+91">+91</MenuItem>
+                  <MenuItem value="+1">+1</MenuItem>
+                  <MenuItem value="+44">+44</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField fullWidth placeholder="Enter mobile number" />
+            </Box>
+          </Box>
+
+           <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("Email")}
+            <TextField fullWidth placeholder="Enter your email" />
+          </Box>
+
+          {/* Row 4 */}
+         <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("Country")}
+            <FormControl fullWidth>
+              <Select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                displayEmpty
+                IconComponent={ChevronDown}
+                renderValue={(selected) => selected || "Select Country"}
+              >
+                <MenuItem value="" disabled>
+                  Select Country
+                </MenuItem>
+                <MenuItem value="India">India</MenuItem>
+                <MenuItem value="USA">USA</MenuItem>
+                <MenuItem value="UK">UK</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+         <Box sx={{ flex: "1 1 48%", fontSize:'14px', fontFamily:'jost', color:'#404040' }}>
+            {renderLabel("State")}
+            <FormControl fullWidth>
+              <Select
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                displayEmpty
+                IconComponent={ChevronDown}
+                renderValue={(selected) => selected || "Select State"}
+              >
+                <MenuItem value="" disabled>
+                  Select State
+                </MenuItem>
+                <MenuItem value="Rajasthan">Rajasthan</MenuItem>
+                <MenuItem value="Gujarat">Gujarat</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box sx={{ flex: "1 1 23%" }}>
+            {renderLabel("City")}
+            <FormControl fullWidth>
+              <Select
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                displayEmpty
+                IconComponent={ChevronDown}
+                renderValue={(selected) => selected || "Select City"}
+              >
+                <MenuItem value="" disabled>
+                  Select City
+                </MenuItem>
+                <MenuItem value="Jaipur">Jaipur</MenuItem>
+                <MenuItem value="Ahmedabad">Ahmedabad</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box sx={{ flex: "1 1 23%" }}>
+            {renderLabel("Post Code")}
+            <TextField fullWidth placeholder="Enter post code" />
+          </Box>
+
+          {/* Row 5 */}
+          <Box sx={{ flex: "1 1 31%" }}>
+            {renderLabel("PAN No.")}
+            <TextField fullWidth placeholder="Enter PAN number" />
+          </Box>
+
+          <Box sx={{ flex: "1 1 31%" }}>
+            {renderLabel("GST No.")}
+            <TextField fullWidth placeholder="Enter GST number" />
+          </Box>
+
+          <Box sx={{ flex: "1 1 31%" }}>
+            {renderLabel("Upload Document")}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
+            <TextField
+              fullWidth
+              placeholder="Aadhar, PAN Card"
+              value={fileName}
+              onClick={() => {
+                if (!fileName) fileInputRef.current?.click();
+              }}
+              InputProps={{
+                readOnly: true,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AttachFileIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: fileName && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFileRemove();
+                      }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+        </Box>
+
+        {/* Address */}
+        <Box mt={3}>
+          {renderLabel("Address")}
+          <TextField
+            fullWidth
+            multiline
+            minRows={3}
+            placeholder="Enter your address"
+          />
+        </Box>
+
+        {/* Submit */}
+        <Box mt={3} display="flex" justifyContent="flex-end">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ borderRadius: 0, fontFamily: "Jost", fontWeight: 500 }}
+          >
+            Save Changes
+          </Button>
+        </Box>
+      </Box>
+    </Box>
     </Box>
   );
 }

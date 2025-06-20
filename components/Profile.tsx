@@ -16,7 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-export default function EditProfileForm() {
+export default function ProfileForm() {
   const [countryCode, setCountryCode] = useState("+91");
   const [entity, setEntity] = useState("");
   const [country, setCountry] = useState("");
@@ -37,7 +37,7 @@ export default function EditProfileForm() {
   };
 
   const renderLabel = (text: string) => (
-    <Typography variant="body2" fontWeight={500} mb={0.5}>
+    <Typography variant="body2" fontWeight={500} mb={0.5} sx={{fontFamily:'jost', color:'#404040'}}>
       {text}
     </Typography>
   );
@@ -70,26 +70,26 @@ export default function EditProfileForm() {
           display="flex"
           flexWrap="wrap"
           gap={2}
-          sx={{ textTransform: "uppercase" }}
+          sx={{ fontFamily:'jost', }}
         >
           {/* Row 1 */}
-          <Box sx={{ flex: "1 1 48%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("First Name")}
             <TextField fullWidth placeholder="Enter your first name" />
           </Box>
 
-          <Box sx={{ flex: "1 1 48%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Last Name")}
             <TextField fullWidth placeholder="Enter your last name" />
           </Box>
 
           {/* Row 2 */}
-          <Box sx={{ flex: "1 1 48%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Name of Entity")}
             <TextField fullWidth placeholder="Enter entity name" />
           </Box>
 
-          <Box sx={{ flex: "1 1 48%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Entity Type")}
             <FormControl fullWidth>
               <Select
@@ -98,6 +98,7 @@ export default function EditProfileForm() {
                 displayEmpty
                 IconComponent={ChevronDown}
                 renderValue={(selected) => selected || "Select Entity"}
+                sx={{fontWeight:'400'}}
               >
                 <MenuItem value="" disabled>
                   Select Entity
@@ -110,7 +111,7 @@ export default function EditProfileForm() {
           </Box>
 
           {/* Row 3 */}
-          <Box sx={{ flex: "1 1 48%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Mobile Number")}
             <Box display="flex" gap={1}>
               <FormControl sx={{ width: "30%" }}>
@@ -128,7 +129,7 @@ export default function EditProfileForm() {
             </Box>
           </Box>
 
-          <Box sx={{ flex: "1 1 48%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Email")}
             <TextField fullWidth placeholder="Enter your email" />
           </Box>
@@ -192,23 +193,23 @@ export default function EditProfileForm() {
             </FormControl>
           </Box>
 
-          <Box sx={{ flex: "1 1 23%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Post Code")}
             <TextField fullWidth placeholder="Enter post code" />
           </Box>
 
           {/* Row 5 */}
-          <Box sx={{ flex: "1 1 31%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("PAN No.")}
             <TextField fullWidth placeholder="Enter PAN number" />
           </Box>
 
-          <Box sx={{ flex: "1 1 31%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("GST No.")}
             <TextField fullWidth placeholder="Enter GST number" />
           </Box>
 
-          <Box sx={{ flex: "1 1 31%" }}>
+          <Box sx={{ flex: "1 1 48%",  }}>
             {renderLabel("Upload Document")}
             <input
               type="file"

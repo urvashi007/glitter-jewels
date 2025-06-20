@@ -161,44 +161,47 @@ export default function CardCollection({
               },
             }}
           >
-            <Select
-              value={sortBy}
-              displayEmpty
-              onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
-              onOpen={() => setSortOpen(true)}
-              onClose={() => setSortOpen(false)}
-              IconComponent={() => <StyledChevronDown open={sortOpen} />}
-              sx={{
-                border: "none",
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                fontSize: "14px",
-                color: "#222",
-              }}
-            >
-              <MenuItem disabled value="">
-                Sort by
-              </MenuItem>
-              <MenuItem
-                value="priceLowHigh"
-                sx={{ fontSize: "14px", color: "#222" }}
-              >
-                Price: Low to High
-              </MenuItem>
-              <MenuItem
-                value="priceHighLow"
-                sx={{ fontSize: "14px", color: "#222" }}
-              >
-                Price: High to Low
-              </MenuItem>
-            </Select>
+<Select
+  value={sortBy}
+  displayEmpty
+  onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
+  onOpen={() => setSortOpen(true)}
+  onClose={() => setSortOpen(false)}
+  IconComponent={() => <StyledChevronDown open={sortOpen} />}
+  MenuProps={{
+    PaperProps: {
+      sx: {
+        mt: 1, // margin-top for spacing from button
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      },
+    },
+    disableScrollLock: true, // important if the header is getting scroll-locked
+  }}
+  sx={{
+    border: "none",
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: "none",
+    },
+    fontSize: "14px",
+    color: "#222",
+  }}
+>
+  <MenuItem disabled value="">
+    Sort by
+  </MenuItem>
+  <MenuItem value="priceLowHigh" sx={{ fontSize: "14px", color: "#222" }}>
+    Price: Low to High
+  </MenuItem>
+  <MenuItem value="priceHighLow" sx={{ fontSize: "14px", color: "#222" }}>
+    Price: High to Low
+  </MenuItem>
+</Select>
           </FormControl>
         </Stack>
       )}

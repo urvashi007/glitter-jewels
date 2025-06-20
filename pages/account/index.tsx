@@ -4,15 +4,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import Wishlist from "./Wishlist";
-import MyOrders from "./MyOrders";
+import Wishlist from "../../components/Wishlist";
+import MyOrders from "../../components/MyOrders";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/SidebarMenu";
-import EditProfileForm from "./Profile";
-import ManageAddresses from "./ManageAddresses";
-import ChangePasswordPage from "./ChangePassword";
+import ManageAddresses from "../../components/ManageAddresses";
+import ChangePasswordPage from "../../components/ChangePassword";
+import ProfileForm from "@/components/Profile";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function AccountPage() {
       case "orders":
         return <MyOrders />;
       case "profile":
-        return <EditProfileForm />;
+        return <ProfileForm />;
       case "wishlist":
         return <Wishlist />;
       case "addresses":
@@ -102,9 +102,6 @@ export default function AccountPage() {
                 marginRight: "40px",
                 "@media (max-width:991px)": {
                   width: "100%",
-                },
-                "@media (max-width:540px)": {
-                  display: "none",
                 },
               }}
             >

@@ -7,7 +7,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 export default function Footer() {
   return (
-    <Box sx={{ backgroundColor: "#DFDFDF", color: "#222222", pt: 6, pb: 2 }}>
+    <Box sx={{ backgroundColor: "#DFDFDF", pt: 6, pb: 2 }}>
       <Container maxWidth="lg">
         <Grid
           container
@@ -26,7 +26,7 @@ export default function Footer() {
             >
               Categories
             </Typography>
-            <Stack spacing={1}>
+            <Stack spacing={1} sx={{fontSize:'14px'}}>
               {[
                 "Engagement Rings",
                 "Wedding Bands",
@@ -36,7 +36,7 @@ export default function Footer() {
                 "Fancy Rings",
                 "Pendants",
               ].map((item) => (
-                <Link key={item} href="#" underline="none" color="#222222">
+                <Link key={item} href="#" underline="none" color="#404040">
                   {item}
                 </Link>
               ))}
@@ -52,7 +52,7 @@ export default function Footer() {
             >
               Services
             </Typography>
-            <Stack spacing={1}>
+            <Stack spacing={1} sx={{fontSize:'14px',}}>
               {[
                 "Casting Services",
                 "Finished Jewelry",
@@ -62,7 +62,7 @@ export default function Footer() {
                 "Customization Service",
                 "My Virtual Webstore",
               ].map((item) => (
-                <Link key={item} href="#" underline="none" color="#222222" sx={{fontSize:'14px'}}>
+                <Link key={item} href="#" underline="none" color="#404040" sx={{fontSize:'14px'}}>
                   {item}
                 </Link>
               ))}
@@ -78,9 +78,9 @@ export default function Footer() {
             >
               Important Links
             </Typography>
-            <Stack spacing={1}>
+            <Stack spacing={1} sx={{fontSize:'14px'}}>
               {["About Us", "Product", "Diamond", "Contact Us"].map((item) => (
-                <Link key={item} href="#" underline="none" color="#222222">
+                <Link key={item} href="#" underline="none" color="#404040">
                   {item}
                 </Link>
               ))}
@@ -101,7 +101,7 @@ export default function Footer() {
               <Link
                 href="#"
                 underline="none"
-                color="#222"
+                color="#404040"
                 display="flex"
                 alignItems="center"
                 sx={{fontSize:'14px'}}
@@ -111,7 +111,7 @@ export default function Footer() {
               <Link
                 href="#"
                 underline="none"
-                color="#222"
+                color="#404040"
                 display="flex"
                 alignItems="center"
                 sx={{fontSize:'14px'}}
@@ -121,7 +121,7 @@ export default function Footer() {
               <Link
                 href="#"
                 underline="none"
-                color="#222"
+                color="#404040"
                 display="flex"
                 alignItems="center"
                 sx={{fontSize:'14px'}}
@@ -143,14 +143,14 @@ export default function Footer() {
             alignItems: "center",
           }}
         >
-          <Typography variant="body2" color="#222222">
+          <Typography variant="body2" color="#404040">
             Copyright © 2025 Glitter Jewels. All rights reserved.
           </Typography>
           <Stack direction="row" spacing={3} mt={{ xs: 2, sm: 0 }}>
-            <Link href="#" underline="none" color="#222222">
+            <Link href="#" underline="none" color="#404040">
               Privacy Policy
             </Link>
-            <Link href="#" underline="none" color="#222222">
+            <Link href="#" underline="none" color="#404040">
               Terms & Conditions
             </Link>
           </Stack>
