@@ -171,7 +171,7 @@ export default function CardCollection({
   MenuProps={{
     PaperProps: {
       sx: {
-        mt: 1, // margin-top for spacing from button
+        mt: 1,
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
       },
     },
@@ -249,7 +249,7 @@ export default function CardCollection({
           <Box display="flex" gap={1} mb={1}>
             <Box
               sx={{
-                fontSize: "12px",
+                fontSize: "14px",
                 background: "#fff",
                 px: 1,
                 py: 0.5,
@@ -261,7 +261,7 @@ export default function CardCollection({
             </Box>
             <Box
               sx={{
-                fontSize: "12px",
+                fontSize: "14px",
                 background: "#fff",
                 px: 1,
                 py: 0.5,
@@ -321,7 +321,6 @@ export default function CardCollection({
                 width: 36,
                 height: 36,
                 borderRadius: "0",
-                // marginRight:'12px',
                 "&:hover": { background: "#334a7d", },
               }}
             >
@@ -331,7 +330,7 @@ export default function CardCollection({
         </Card>
 
         <CardContent sx={{ px: 0, pt: 1 }}>
-          <Typography variant="body1" sx={{ fontSize: 14, fontWeight: 500 }}>
+          <Typography variant="body1" sx={{ fontSize: 18, fontWeight: 500 }}>
             {item.id} &nbsp;–&nbsp;
             <Box component="span" sx={{ fontWeight: 700 }}>
               {item.price}

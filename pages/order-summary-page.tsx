@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import DeliveryDetailsCard from "../components/DeliveryDetailsCard";
 import PriceDetailsCard from "@/components/PriceDetailsCard";
@@ -7,6 +8,30 @@ import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+const initialCardData: OrderCardProps[] = [
+  {
+    id: "NK00381",
+    image: "/Categories/img1.png",
+    goldWt: "0.51",
+    diaWt: "0.81",
+    metalType: "14KT",
+    metalColor: "White",
+    diaQuality: "FL",
+    status: "",
+    statusColor: "#B06900",
+    price: "27,774",
+    styleCode: "JDSRNG00771",
+    arrowReq: false,
+    checked: false,
+    quantity: 1,
+    onCheck: () => {},
+    onQuantityChange: () => {},
+    onEditHref: "/edit/NK00381",
+    showCheckbox: false,
+    showEdit: false,
+    showSelect: false,
+  },
+];
 
 const priceDetailsData = {
   itemsTotal: "₹88,519",
@@ -17,24 +42,9 @@ const priceDetailsData = {
   totalItems: 3,
   totalAmount: "₹1,828",
   paymentMethod: "Credit Card",
+  HeadingReq: "Price Details",
 };
 
-const singleCardDta: OrderCardProps[] = [
-  {
-    id: "NK00381",
-    image: "/Categories/img1.png",
-    goldWt: "0.51",
-    diaWt: "0.81",
-    metalType: "14KT",
-    metalColor: "White",
-    diaQuality: "FL",
-    status: "InProduction",
-    statusColor: "#B06900",
-    price: "₹ 27,774",
-    styleCode: "JDSRNG00771",
-    arrowReq: false,
-  },
-];
 const deliveryDetailsData = {
   name: "Ashish Sharma",
   address: "S-4A, kabir marg, bani park, Jaipur, Rajasthan 302016, India",
@@ -42,6 +52,25 @@ const deliveryDetailsData = {
 };
 
 export default function OrderSummaryPage() {
+  const [orders, setOrders] = useState(initialCardData);
+  const [appliedDiscount, setAppliedDiscount] = useState("FLAT300");
+
+  const handleCheck = (index: number, checked: boolean) => {
+    const updated = [...orders];
+    updated[index].checked = checked;
+    setOrders(updated);
+  };
+
+  const handleQuantityChange = (index: number, qty: number) => {
+    const updated = [...orders];
+    updated[index].quantity = qty;
+    setOrders(updated);
+  };
+
+  const handleRemoveDiscount = () => {
+    setAppliedDiscount("");
+  };
+
   return (
     <>
       <Header
@@ -74,20 +103,34 @@ export default function OrderSummaryPage() {
             Order Details
           </Typography>
 
-          <Box
-            sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 3 }}
-          > 
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
             <Box sx={{ flex: 1 }}>
-              {singleCardDta.map((order) => (
-                <SingleOrderCard key={order.id + order.styleCode} {...order} />
+              {orders.map((order, index) => (
+                <SingleOrderCard
+                  key={order.id + order.styleCode}
+                  {...order}
+                  onCheck={(checked) => handleCheck(index, checked)}
+                  onQuantityChange={(qty) => handleQuantityChange(index, qty)}
+                />
               ))}
+
               <Box mt={2}>
-              <DeliveryDetailsCard {...deliveryDetailsData} />
+                <DeliveryDetailsCard {...deliveryDetailsData} />
               </Box>
             </Box>
 
             <Box sx={{ width: { xs: "100%", md: 416 } }}>
-              <PriceDetailsCard {...priceDetailsData} />
+              <PriceDetailsCard
+                {...priceDetailsData}
+                appliedDiscountCode={appliedDiscount}
+                onRemoveDiscount={handleRemoveDiscount}
+                showPaymentInfo={true}
+                showDiscountSection={false}
+                primaryButtonText="BACK TO MY ACCOUNT"
+                primaryButtonVariant="outlined"
+                // secondaryButtonText="CONTINUE SHOPPING"
+                // secondaryButtonVariant="contained"
+              />
             </Box>
           </Box>
         </Container>
