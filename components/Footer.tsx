@@ -36,7 +36,7 @@ export default function Footer() {
                 "Fancy Rings",
                 "Pendants",
               ].map((item) => (
-                <Link key={item} href="#" underline="none" color="#404040">
+                <Link key={item} href="#" underline="none" color="#404040" sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}>
                   {item}
                 </Link>
               ))}
@@ -62,7 +62,7 @@ export default function Footer() {
                 "Customization Service",
                 "My Virtual Webstore",
               ].map((item) => (
-                <Link key={item} href="#" underline="none" color="#404040" sx={{fontSize:'14px'}}>
+                <Link key={item} href="#" underline="none" color="#404040" sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}>
                   {item}
                 </Link>
               ))}
@@ -80,7 +80,7 @@ export default function Footer() {
             </Typography>
             <Stack spacing={1} sx={{fontSize:'14px'}}>
               {["About Us", "Product", "Diamond", "Contact Us"].map((item) => (
-                <Link key={item} href="#" underline="none" color="#404040">
+                <Link key={item} href="#" underline="none" color="#404040" sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}>
                   {item}
                 </Link>
               ))}
@@ -104,7 +104,7 @@ export default function Footer() {
                 color="#404040"
                 display="flex"
                 alignItems="center"
-                sx={{fontSize:'14px'}}
+                sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}
               >
                 <FacebookIcon sx={{ mr: 1 }} /> Facebook
               </Link>
@@ -114,7 +114,7 @@ export default function Footer() {
                 color="#404040"
                 display="flex"
                 alignItems="center"
-                sx={{fontSize:'14px'}}
+                sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}
               >
                 <InstagramIcon sx={{ mr: 1 }} /> Instagram
               </Link>
@@ -124,7 +124,7 @@ export default function Footer() {
                 color="#404040"
                 display="flex"
                 alignItems="center"
-                sx={{fontSize:'14px'}}
+                sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}
               >
                 <WhatsAppIcon sx={{ mr: 1 }} /> WhatsApp (+91 9869548525)
               </Link>
@@ -143,14 +143,14 @@ export default function Footer() {
             alignItems: "center",
           }}
         >
-          <Typography variant="body2" color="#404040">
+          <Typography variant="body2" color="#404040" sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}>
             Copyright © 2025 Glitter Jewels. All rights reserved.
           </Typography>
           <Stack direction="row" spacing={3} mt={{ xs: 2, sm: 0 }}>
-            <Link href="#" underline="none" color="#404040">
+            <Link href="#" underline="none" color="#404040" sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}}>
               Privacy Policy
             </Link>
-            <Link href="#" underline="none" color="#404040">
+            <Link href="#" underline="none" color="#404040"sx={{fontSize:'14px', fontFamily:'jost',fontWeight:400}} >
               Terms & Conditions
             </Link>
           </Stack>
