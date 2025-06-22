@@ -1,25 +1,38 @@
 "use client";
 
 import { Avatar, Box, Stack, Typography, useMediaQuery } from "@mui/material";
-import { Store, User, Heart, Home, Lock } from "lucide-react";
 import { useTheme } from "@mui/material/styles";
+import React from "react";
+
+type MenuItem = {
+  label: string;
+  icon: React.ElementType;
+  tab: string;
+};
 
 type SidebarProps = {
   selectedTab: string;
   onSelectTab: (tab: string) => void;
+  menuItems?: MenuItem[];
 };
 
-const menuItems = [
-  { label: "My Orders", icon: Store, tab: "orders" },
-  { label: "Edit Profile", icon: User, tab: "profile" },
-  { label: "My Wishlist", icon: Heart, tab: "wishlist" },
-  { label: "Manage Addresses", icon: Home, tab: "addresses" },
-  { label: "Change Password", icon: Lock, tab: "password" },
+const defaultMenu: MenuItem[] = [
+  { label: "My Orders", icon: () => null, tab: "orders" },
+  { label: "Edit Profile", icon: () => null, tab: "profile" },
+  { label: "My Wishlist", icon: () => null, tab: "wishlist" },
+  { label: "Manage Addresses", icon: () => null, tab: "addresses" },
+  { label: "Change Password", icon: () => null, tab: "password" },
 ];
 
-export default function SidebarMenu({ selectedTab, onSelectTab }: SidebarProps) {
+export default function SidebarMenu({
+  selectedTab,
+  onSelectTab,
+  menuItems,
+}: SidebarProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // true if screen width < 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const items = menuItems || defaultMenu;
 
   return (
     <Box
@@ -80,8 +93,9 @@ export default function SidebarMenu({ selectedTab, onSelectTab }: SidebarProps) 
         overflow={isMobile ? "auto" : "visible"}
         gap={isMobile ? 1 : 0}
       >
-        {menuItems.map((item) => {
+        {items.map((item) => {
           const isActive = selectedTab === item.tab;
+          const Icon = item.icon;
 
           return (
             <Box
@@ -115,7 +129,7 @@ export default function SidebarMenu({ selectedTab, onSelectTab }: SidebarProps) 
                 whiteSpace: "nowrap",
               }}
             >
-              <item.icon
+              <Icon
                 size={18}
                 style={{ marginRight: 8 }}
                 color={isActive ? "#445B9C" : "#666"}

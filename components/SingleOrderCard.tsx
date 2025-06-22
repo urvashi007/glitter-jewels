@@ -78,6 +78,8 @@ export default function SingleOrderCard(order: OrderCardProps) {
           height={140}
           flexShrink={0}
           sx={{
+            position: "relative",
+            
             background: "#f7f7f7",
             "@media (max-width:540px)": {
               width: "100%",
@@ -86,12 +88,19 @@ export default function SingleOrderCard(order: OrderCardProps) {
             },
           }}
         >
-          <Image
-            src={order.image}
-            alt={order.id}
-            fill
-            style={{ objectFit: "contain", borderRadius: 4 }}
-          />
+            <Image
+              src={order.image}
+              alt={order.id}
+              width={100}
+              height={100}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                borderRadius: 4,
+              }}
+              priority
+            />
         </Box>
       </Box>
 
@@ -164,8 +173,8 @@ export default function SingleOrderCard(order: OrderCardProps) {
           </Typography>
         </Stack>
 
-        {/* Price + Quantity Select */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mt={1}>
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{marginTop:'10px'}}>
           <Typography fontWeight={600} fontSize="18px">
             ₹ {order.price}
           </Typography>
@@ -175,7 +184,7 @@ export default function SingleOrderCard(order: OrderCardProps) {
               size="small"
               value={order.quantity ?? 1}
               onChange={(e) => order.onQuantityChange?.(+e.target.value)}
-              sx={{ width: 120, height: "40px!important", fontFamily: "jost" }}
+              sx={{ width: 120, height: "40px!important", fontFamily: "jost", fontWeight: '600', color:'#222'}}
             >
               {[1, 2, 3, 4, 5].map((val) => (
                 <MenuItem key={val} value={val}>

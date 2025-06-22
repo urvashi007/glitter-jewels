@@ -10,7 +10,7 @@ import {
   CardContent,
   IconButton,
 } from "@mui/material";
-import Image from 'next/image';
+import Image from "next/image";
 
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CloseIcon from "@mui/icons-material/Close";
@@ -26,13 +26,16 @@ export interface PriceDetailsProps {
   paymentMethod: string;
   appliedDiscountCode?: string;
   onRemoveDiscount?: () => void;
-  showDiscountSection?: boolean; // ✅ NEW PROP
+  showDiscountSection?: boolean;
   showPaymentInfo?: boolean;
+  backToCart?: string;
   HeadingReq?: string;
+  subHeadReq?: string;
   primaryButtonText?: string;
   primaryButtonVariant?: "contained" | "outlined" | "text";
   secondaryButtonText?: string;
   secondaryButtonVariant?: "contained" | "outlined" | "text";
+  secondaryButtonOnClick?: () => void;
 }
 
 export default function PriceDetailsCard({
@@ -51,20 +54,26 @@ export default function PriceDetailsCard({
   showPaymentInfo = true,
   primaryButtonText,
   primaryButtonVariant = "outlined",
+  subHeadReq,
   secondaryButtonText,
   secondaryButtonVariant = "contained",
+  backToCart,
+  secondaryButtonOnClick,
 }: PriceDetailsProps) {
   return (
     <Box sx={{ backgroundColor: "#fff" }}>
-      <Card sx={{ boxShadow: "none", borderRadius: 0 }}>
-        <CardContent>
-          {HeadingReq && (
-            <Typography variant="h6" sx={{ fontSize: "18px", fontWeight: 700, mb: 2 }}>
+      <Card sx={{ boxShadow: "none", borderRadius: 0, }}>
+      {HeadingReq && (
+            <Typography
+              variant="h6"
+              sx={{ fontSize: "20px", fontWeight: 700, borderBottom:'1px solid #ebebeb', padding:'20px'}}
+            >
               {HeadingReq}
             </Typography>
           )}
+        <CardContent sx={{padding:"20px"}}>
+         
 
-          {/* ✅ Discount Section */}
           {showDiscountSection &&
             (appliedDiscountCode ? (
               <Box
@@ -108,19 +117,40 @@ export default function PriceDetailsCard({
                 </Typography>
               </Box>
             ))}
-
+          {subHeadReq && (
+            <Typography
+              variant="h6"
+              sx={{ fontSize: "18px", fontWeight: 700, mb: 2 }}
+            >
+              {subHeadReq}
+            </Typography>
+          )}
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography fontSize={16} sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}>
+            <Typography
+              fontSize={16}
+              sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}
+            >
               Item(s) total
             </Typography>
-            <Typography fontSize={16} sx={{ fontFamily: "Jost", fontWeight: 500 }}>
+            <Typography
+              fontSize={16}
+              sx={{ fontFamily: "Jost", fontWeight: 500 }}
+            >
               {itemsTotal}
             </Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography fontSize={16} sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}>
+            <Typography
+              fontSize={16}
+              sx={{
+                fontFamily: "Jost",
+                fontWeight: 400,
+                mb: 2,
+                color: "#0F743B",
+              }}
+            >
               Discount
             </Typography>
             <Typography
@@ -135,16 +165,25 @@ export default function PriceDetailsCard({
           <Divider sx={{ mb: 2 }} />
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography fontSize={16} sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}>
+            <Typography
+              fontSize={16}
+              sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}
+            >
               Subtotal
             </Typography>
-            <Typography fontSize={16} sx={{ fontFamily: "Jost", fontWeight: 500 }}>
+            <Typography
+              fontSize={16}
+              sx={{ fontFamily: "Jost", fontWeight: 500 }}
+            >
               {subtotal}
             </Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography fontSize={16} sx={{ fontFamily: "Jost", fontWeight: 400 }}>
+            <Typography
+              fontSize={16}
+              sx={{ fontFamily: "Jost", fontWeight: 400, color: "#0F743B" }}
+            >
               Delivery
             </Typography>
             <Typography
@@ -167,7 +206,6 @@ export default function PriceDetailsCard({
             </Typography>
           </Stack>
 
-
           {showPaymentInfo && (
             <Box
               sx={{
@@ -178,12 +216,17 @@ export default function PriceDetailsCard({
                 padding: "12px",
               }}
             >
-            <Image src="/paid-icon.svg" alt="paid-icon" width={20} height={20} />
-              <Typography sx={{marginLeft:'12px'}}>Paid by {paymentMethod}</Typography>
+              <Image
+                src="/paid-icon.svg"
+                alt="paid-icon"
+                width={20}
+                height={20}
+              />
+              <Typography sx={{ marginLeft: "12px" }}>
+                Paid by {paymentMethod}
+              </Typography>
             </Box>
           )}
-
-          {/* ✅ Buttons */}
           {primaryButtonText && (
             <Box sx={{ mt: 2 }}>
               <Button
@@ -208,6 +251,7 @@ export default function PriceDetailsCard({
               <Button
                 fullWidth
                 variant={secondaryButtonVariant}
+                onClick={secondaryButtonOnClick}
                 sx={{
                   borderRadius: 0,
                   height: "48px",
@@ -220,6 +264,20 @@ export default function PriceDetailsCard({
               </Button>
             </Box>
           )}
+           {backToCart && (
+          <Button
+            fullWidth
+            sx={{
+              fontSize: "16px",
+              fontWeight: "500",
+              fontFamily: "jost",
+              color: "#222",
+              marginTop: "20px",
+            }}
+          >
+           {backToCart}
+          </Button>
+           )}
         </CardContent>
       </Card>
     </Box>

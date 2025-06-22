@@ -115,7 +115,7 @@ export default function OrderSummaryPage() {
               ))}
 
               <Box mt={2}>
-                <DeliveryDetailsCard {...deliveryDetailsData} />
+                <DeliveryDetailsCard HeadReq={"Delivery Details"} {...deliveryDetailsData} />
               </Box>
             </Box>
 

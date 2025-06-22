@@ -13,6 +13,7 @@ import Sidebar from "@/components/SidebarMenu";
 import ManageAddresses from "../../components/ManageAddresses";
 import ChangePasswordPage from "../../components/ChangePassword";
 import ProfileForm from "@/components/Profile";
+import { accountMenu } from "@/utils/accountMenu";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function AccountPage() {
     }
   };
 
-  if (!tabReady) return null; // or return a loader here if needed
+  if (!tabReady) return null;
 
   return (
     <>
@@ -81,7 +82,12 @@ export default function AccountPage() {
         <Container maxWidth="lg">
           <Typography
             variant="h2"
-            sx={{ fontSize: "30px", fontWeight: "700", marginBottom: "24px",  fontFamily:'Manrope'}}
+            sx={{
+              fontSize: "30px",
+              fontWeight: "700",
+              marginBottom: "24px",
+              fontFamily: "Manrope",
+            }}
           >
             {tabTitles[tab] || "My Orders"}
           </Typography>
@@ -110,6 +116,7 @@ export default function AccountPage() {
                 onSelectTab={(tab: string) =>
                   router.push(`/account?tab=${tab}`)
                 }
+                menuItems={accountMenu}
               />
             </Grid>
             <Grid flex={1} key={tab}>

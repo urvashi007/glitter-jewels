@@ -44,7 +44,7 @@ export default function ManageAddresses() {
   };
 
   return (
-    <Box sx={{height:"100vh"}}>
+
     <Box
       sx={{
         background: "#fff",
@@ -193,6 +193,6 @@ export default function ManageAddresses() {
         />
       </Box>
     </Box>
-    </Box>
+   
   );
 }

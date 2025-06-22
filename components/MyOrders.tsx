@@ -14,7 +14,7 @@ const orders: OrderCardProps[] = [
     diaQuality: "FL",
     status: "InProduction",
     statusColor: "#B06900",
-    price: "₹ 27,774",
+    price: "27,774",
     styleCode: "JDSRNG00771",
     arrowReq: true,
   },
@@ -28,7 +28,7 @@ const orders: OrderCardProps[] = [
     diaQuality: "VVS",
     status: "InProduction",
     statusColor: "#005AA7",
-    price: "₹ 31,520",
+    price: "31,520",
     styleCode: "JDSRNG00812",
     arrowReq: true,
   },
@@ -42,7 +42,7 @@ const orders: OrderCardProps[] = [
     diaQuality: "VS",
     status: "InProduction",
     statusColor: "#0F743B",
-    price: "₹ 26,140",
+    price: "26,140",
     styleCode: "JDSRNG00699",
     arrowReq: true,
   },
@@ -51,29 +51,35 @@ const orders: OrderCardProps[] = [
 const MyOrders = () => {
   return (
     <Box>
-    <Box flex={1} sx={{ background: "#fff" }}>
-      <Typography
-        variant="h6"
-        fontWeight={700}
-        sx={{
-          fontSize: "18px",
-          marginBottom: 0,
-          padding: "12px 20px",
-         
-          "@media (max-width:540px)": {
-            display: "none",
-          },
-        }}
-      >
-        My Orders
-      </Typography>
+      <Box flex={1} sx={{ background: "#fff" }}>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{
+            fontSize: "18px",
+            marginBottom: 0,
+            padding: "12px 20px",
 
-      <Stack spacing={2}>
-        {orders.map((order) => (
-          <SingleOrderCard key={order.id + order.styleCode} {...order} />
-        ))}
-      </Stack>
-    </Box>
+            "@media (max-width:540px)": {
+              display: "none",
+            },
+          }}
+        >
+          My Orders
+        </Typography>
+        <Stack
+          spacing={2}
+          sx={{
+            "& > :not(style) ~ :not(style)": {
+              marginTop: 0,
+            },
+          }}
+        >
+          {orders.map((order) => (
+            <SingleOrderCard key={order.id + order.styleCode} {...order} />
+          ))}
+        </Stack>
+      </Box>
     </Box>
   );
 };
