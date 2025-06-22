@@ -232,6 +232,7 @@ export default function OrderSummaryPage() {
                   showCheckbox={true}
                   showEdit={true}
                   showSelect={true}
+                  
                 />
               ))}
             </Box>

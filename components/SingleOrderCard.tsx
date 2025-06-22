@@ -59,13 +59,13 @@ export default function SingleOrderCard(order: OrderCardProps) {
           {order.showCheckbox && (
             <Checkbox
               checked={order.checked}
-              onChange={(e) => order.onCheck?.(e.target.checked)}
+              // onChange={(e) => order.onCheck?.(e.target.checked)}
               sx={{
                 position: "absolute",
                 top: 0,
                 left: 0,
                 zIndex: 1,
-                color: "#445B9C",
+                color: "#A6A6A6",
                 borderRadius: "0",
                 "&.Mui-checked": {
                   color: "#445B9C",

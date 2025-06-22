@@ -14,7 +14,7 @@ export default function CreditDebitCard() {
         placeholder="Enter card number"
         fullWidth
         sx={{ mb: 2 }}
-        InputProps={{ endAdornment: <span>💳</span> }}
+        InputProps={{ endAdornment:'' }}
       />
 
       <Typography fontWeight={500} fontSize={12} mb={1}>

@@ -46,7 +46,7 @@ export default function ManageAddresses() {
   return (
     <Box sx={{ height: {
       xs: "auto",    
-      sm: "100vh", 
+      // sm: "100vh", 
     }}}>
 
      <Box

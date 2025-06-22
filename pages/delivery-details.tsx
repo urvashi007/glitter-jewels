@@ -74,7 +74,7 @@ export default function OrderSummaryPage() {
       />
 
 
-      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
+      <Box sx={{ background: "#E5E9F5", padding: "160px 0 80px 0" }}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -133,7 +133,7 @@ export default function OrderSummaryPage() {
                   md: "sticky",
                 },
                 top: {
-                  md: "150px",
+                  md: "0px",
                 },
                 alignSelf: "flex-start",
               }}

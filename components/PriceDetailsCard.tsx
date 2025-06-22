@@ -66,7 +66,7 @@ export default function PriceDetailsCard({
       {HeadingReq && (
             <Typography
               variant="h6"
-              sx={{ fontSize: "20px", fontWeight: 700, borderBottom:'1px solid #ebebeb', padding:'20px'}}
+              sx={{ fontSize: "20px", fontWeight: 700, borderBottom:'1px solid #ebebeb', padding:'12px 20px'}}
             >
               {HeadingReq}
             </Typography>
