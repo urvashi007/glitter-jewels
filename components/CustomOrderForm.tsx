@@ -33,7 +33,7 @@ export default function CustomOrderForm({
 }: CustomOrderFormProps) {
   const radioOptions = [1, 2, 3, 4];
   const metalTypes = ["10 KT", "14 KT", "18 KT", "PALLADIUM"];
-  const metalColors = ["#f5f5f5", "#e0e0e0", "#ffd700",];
+  const metalColors = ["#E4BE99", "#fff", "#F3D951",];
   const certifications = ["IGI", "GIA", "NAME", "NAME"];
   const hallmarks = ["BIS", "NAME", "NAME", "NAME"];
 
@@ -46,6 +46,8 @@ export default function CustomOrderForm({
   const [hallmark, setHallmark] = useState("");
   const [certification, setCertification] = useState("");
   const [comments, setComments] = useState("");
+
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const handleSubmit = () => {
     const formData = {
@@ -92,7 +94,7 @@ export default function CustomOrderForm({
           </AccordionSummary>
           <AccordionDetails sx={{ padding: "0 0 20px 0" }}>
             <Box
-              sx={{ color: "#222", fontSize: "14px", fontFamily: "Manrope" }}
+              sx={{ color: "#404040", fontSize: "14px", fontFamily: "Manrope" }}
             >
               {accordionContent}
             </Box>
@@ -107,7 +109,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             METAL TYPE
           </Typography>
@@ -136,26 +138,34 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             METAL COLOR
           </Typography>
           <Stack direction="row" spacing={2}>
-            {metalColors.map((color, index) => (
-              <Box
-              key={index}
-              className="color-box"
-              sx={{
-                width: 48,
-                height: 48,
-                backgroundColor: color,
-                border: "1px solid #ccc",
-                cursor: "pointer",
-                padding: "5px",
-              }}
-            />
-            ))}
-          </Stack>
+      {metalColors.map((color, index) => (
+        <Box
+          key={index}
+          onClick={() => setSelectedIndex(index)}
+          sx={{
+            width: 48,
+            height: 48,
+            padding: "5px",
+            border: selectedIndex === index ? "1px solid #445B9C" : "1px solid #ccc",
+            boxSizing: "border-box",
+            cursor: "pointer",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: color,
+            }}
+          />
+        </Box>
+      ))}
+    </Stack>
         </Box>
 
         {/* DIAMOND QUALITY */}
@@ -163,7 +173,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             DIAMOND QUALITY
           </Typography>
@@ -191,7 +201,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             ITEM SIZE
           </Typography>
@@ -219,7 +229,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             LOCK TYPE
           </Typography>
@@ -247,7 +257,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             QUANTITY
           </Typography>
@@ -275,7 +285,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             HALLMARKING
           </Typography>
@@ -303,7 +313,7 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222" }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040" }}
           >
             CERTIFICATION
           </Typography>
@@ -331,9 +341,9 @@ export default function CustomOrderForm({
           <Typography
             fontWeight={500}
             mb={1}
-            sx={{ fontFamily: "Manrope", fontSize: "14px", color: "#222", }}
+            sx={{ fontFamily: "Jost", fontSize: "14px", color: "#404040", textTransform:'uppercase' }}
           >
-      
+      comments
           </Typography>
           <TextField
             fullWidth

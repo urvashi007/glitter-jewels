@@ -69,7 +69,7 @@ export default function ProductDetailsDrawer({
               value={selectedTab}
               onChange={handleTabChange}
               variant="standard"
-              sx={{padding:'16px 16px 0 16px', borderBottom:'1px solid #ebebeb', marginBottom:'10px', '&.css-1f9mxli-MuiTabs-indicator' :{    height:'3px'}}}
+              sx={{padding:'0px 16px 0 16px', borderBottom:'1px solid #ebebeb', marginBottom:'10px', '&.css-1f9mxli-MuiTabs-indicator' :{    height:'3px'}}}
             >
               {tabLabels.map((label, index) => (
                 <Tab key={label} label={label} value={index} />

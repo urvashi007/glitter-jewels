@@ -25,6 +25,8 @@ import { useTheme, styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import LoginPopup from "./LoginPopup";
+import CheckoutStepper from "./Stepper";
+import HorizontalStepper from "./Stepper";
 
 // Type definition
 type HeaderNavItem = { label: string } | { label: string; submenu: string[] };
@@ -35,6 +37,7 @@ type HeaderProps = {
   navItems: HeaderNavItem[];
   searchEnabled?: boolean;
   forceScrolled?: boolean;
+  stepperReq?: boolean;
 };
 
 // ✅ Type guard
@@ -48,7 +51,7 @@ const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
   ({ theme, scrolled }) => ({
     background: scrolled ? "#fff" : "transparent",
     padding: theme.spacing(1, 2),
-    transition: "all 0.3s ease",
+    transition: "all 0.2s ease",
     zIndex: 9999,
     boxShadow: scrolled ? theme.shadows[2] : "none",
     borderBottom: scrolled ? "none" : "1px solid rgba(0, 0, 0, 0.44)",
@@ -77,6 +80,8 @@ export default function Header({
   navItems,
   searchEnabled = true,
   forceScrolled = false,
+  stepperReq = false,
+
 }: HeaderProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -435,6 +440,12 @@ export default function Header({
           </DrawerContent>
         </Drawer>
       </Container>
+      {stepperReq && (
+      <Container maxWidth='lg'>
+      <HorizontalStepper activeStep={1}/>
+      </Container>
+      )}
+
     </HeaderContainer>
   );
 }

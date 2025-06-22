@@ -52,9 +52,9 @@ export default function ProductCardWithWishlist() {
 
   const wishlistOptions = [
     { label: "All Items wishlist", icon: <FavoriteIcon sx={{ color: "red" }} /> },
-    { label: "Wedding Gift", icon: <img src="/diamond-round.png" alt="" width={30} /> },
-    { label: "My collection 01", icon: <img src="/diamond-emerald.png" alt="" width={30} /> },
-    { label: "Birthday Gift", icon: <img src="/diamond-pear.png" alt="" width={30} /> },
+    { label: "Wedding Gift", icon: <img src="/stone.png" alt="" width={30} /> },
+    { label: "My collection 01", icon:<img src="/stone.png" alt="" width={30} /> },
+    { label: "Birthday Gift", icon: <img src="/stone.png" alt="" width={30} /> },
   ];
 
   return (
@@ -99,7 +99,11 @@ export default function ProductCardWithWishlist() {
             width: "550px",
             display: "flex",
             flexDirection: "column",
+            "@media (max-width:540px)": {
+              width: "100%",
+            },
           },
+         
         }}
       >
         {/* Drawer Header */}
@@ -214,6 +218,8 @@ export default function ProductCardWithWishlist() {
             </>
           )}
         </Box>
+
+
 
         {/* Drawer Footer Buttons */}
         <Box

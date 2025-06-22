@@ -34,6 +34,9 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
+          fontFamily:'jost',
+          fontWeight:'600',
+        
           '&:not(.MuiInputBase-multiline)': {
         height: '48px',
       },
@@ -49,7 +52,18 @@ const theme = createTheme({
             border: '1px solid #445B9C',
           },
         },
+        input: {
+          fontFamily:'jost',
+          textTransform :'capitalize',
+          "&::placeholder": {
+            color: "#5E5E5E",   
+            fontWeight: 400,
+            fontSize:'16px',
+            opacity: 1,
+          },
+        },
       },
+      
     },
     MuiSelect: {
       defaultProps: {
@@ -73,6 +87,9 @@ const theme = createTheme({
         select: {
           color: "#404040",
           fontSize: "14px",
+          fontFamily:'jost',
+          fontWeight:'400',
+          textTransform :'capitalize',
         },
         icon: {
           right: "10px",
@@ -112,6 +129,7 @@ const theme = createTheme({
           backgroundColor: "#445B9C",
           height: "48px",
           fontSize: "16px",
+          fontFamily:'jost',
           color: "#fff",
           "&:hover": {
             backgroundColor: "#445B9C",
@@ -175,6 +193,9 @@ const theme = createTheme({
         styleOverrides: {
           root: {
             margin: 0,
+            "&.Mui-error": {
+              color: "#A90003",
+            },
           },
         },
       },

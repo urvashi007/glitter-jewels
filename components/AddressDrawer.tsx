@@ -20,7 +20,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { ChevronDown } from "lucide-react";
 import { Address } from "@/utils/address";
-import ConfirmationDialog from "./ConfirmationDialog"; // ✅ Add this
+import ConfirmationDialog from "./ConfirmationDialog";
 
 type Props = {
   open: boolean;
@@ -50,7 +50,7 @@ export default function AddressDrawer({
 
   const [addressType, setAddressType] = useState("Home");
   const [isDefault, setIsDefault] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false); // ✅ Confirmation state
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -77,8 +77,8 @@ export default function AddressDrawer({
   const handleConfirmSave = () => {
     const updated = { ...formData, label: addressType };
     onSave(updated);
-    setShowConfirm(false); // Close confirmation
-    onClose(); // Close drawer
+    setShowConfirm(false);
+    onClose();
   };
 
   const selectSx = {
@@ -90,8 +90,25 @@ export default function AddressDrawer({
 
   return (
     <>
-      <Drawer anchor="right" open={open} onClose={onClose}>
-        <Box sx={{ width: 550, p: 3 }}>
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={onClose}
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", sm: 550 },
+            height: "100%",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            p: 3,
+          }}
+        >
           {/* Header */}
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h6" fontWeight={600}>
@@ -102,9 +119,10 @@ export default function AddressDrawer({
             </IconButton>
           </Box>
 
-          <Box mt={3}>
-            {/* Name */}
-            <Typography fontSize={12} mb={0.5} fontWeight={500}>
+          {/* Scrollable Content */}
+          <Box sx={{ flex: 1, overflowY: "auto", mt: 3 }}>
+            {/* Full Name */}
+            <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
               FULL NAME
             </Typography>
             <TextField
@@ -116,8 +134,8 @@ export default function AddressDrawer({
               sx={{ mb: 2 }}
             />
 
-            {/* Phone */}
-            <Typography fontSize={12} mb={0.5} fontWeight={500}>
+            {/* Mobile Number */}
+            <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
               MOBILE NUMBER
             </Typography>
             <Stack direction="row" spacing={2} mb={2}>
@@ -136,66 +154,84 @@ export default function AddressDrawer({
               />
             </Stack>
 
-            {/* Country & Pincode */}
             <Stack direction="row" spacing={2} mb={2}>
-              <FormControl fullWidth>
-                <Select
-                  displayEmpty
-                  value={formData.country}
-                  onChange={(e) => handleChange("country", e.target.value)}
-                  renderValue={(selected) => selected || "Select Country"}
-                  IconComponent={ChevronDown}
-                  sx={selectSx}
-                >
-                  <MenuItem value="" disabled>Select Country</MenuItem>
-                  <MenuItem value="India">India</MenuItem>
-                  <MenuItem value="USA">USA</MenuItem>
-                </Select>
-              </FormControl>
+              <Box flex={1}>
+                <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
+                  COUNTRY
+                </Typography>
+                <FormControl fullWidth>
+                  <Select
+                    displayEmpty
+                    value={formData.country}
+                    onChange={(e) => handleChange("country", e.target.value)}
+                    renderValue={(selected) => selected || "Select Country"}
+                    IconComponent={ChevronDown}
+                    sx={selectSx}
+                  >
+                    <MenuItem value="" disabled>Select Country</MenuItem>
+                    <MenuItem value="India">India</MenuItem>
+                    <MenuItem value="USA">USA</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
 
-              <TextField
-                placeholder="Enter Pincode"
-                fullWidth
-                value={formData.pincode}
-                onChange={(e) => handleChange("pincode", e.target.value)}
-              />
+              <Box flex={1}>
+                <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
+                  PINCODE
+                </Typography>
+                <TextField
+                  placeholder="Enter"
+                  fullWidth
+                  value={formData.pincode}
+                  onChange={(e) => handleChange("pincode", e.target.value)}
+                />
+              </Box>
             </Stack>
 
-            {/* City & State */}
             <Stack direction="row" spacing={2} mb={2}>
-              <FormControl fullWidth>
-                <Select
-                  displayEmpty
-                  value={formData.city}
-                  onChange={(e) => handleChange("city", e.target.value)}
-                  renderValue={(selected) => selected || "Select City"}
-                  IconComponent={ChevronDown}
-                  sx={selectSx}
-                >
-                  <MenuItem value="" disabled>Select City</MenuItem>
-                  <MenuItem value="Jaipur">Jaipur</MenuItem>
-                  <MenuItem value="Mumbai">Mumbai</MenuItem>
-                </Select>
-              </FormControl>
+              <Box flex={1}>
+                <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
+                  CITY
+                </Typography>
+                <FormControl fullWidth>
+                  <Select
+                    displayEmpty
+                    value={formData.city}
+                    onChange={(e) => handleChange("city", e.target.value)}
+                    renderValue={(selected) => selected || "Select City"}
+                    IconComponent={ChevronDown}
+                    sx={selectSx}
+                  >
+                    <MenuItem value="" disabled>Select City</MenuItem>
+                    <MenuItem value="Jaipur">Jaipur</MenuItem>
+                    <MenuItem value="Mumbai">Mumbai</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
 
-              <FormControl fullWidth>
-                <Select
-                  displayEmpty
-                  value={formData.state}
-                  onChange={(e) => handleChange("state", e.target.value)}
-                  renderValue={(selected) => selected || "Select State"}
-                  IconComponent={ChevronDown}
-                  sx={selectSx}
-                >
-                  <MenuItem value="" disabled>Select State</MenuItem>
-                  <MenuItem value="Rajasthan">Rajasthan</MenuItem>
-                  <MenuItem value="Maharashtra">Maharashtra</MenuItem>
-                </Select>
-              </FormControl>
+              <Box flex={1}>
+                <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
+                  STATE
+                </Typography>
+                <FormControl fullWidth>
+                  <Select
+                    displayEmpty
+                    value={formData.state}
+                    onChange={(e) => handleChange("state", e.target.value)}
+                    renderValue={(selected) => selected || "Select State"}
+                    IconComponent={ChevronDown}
+                    sx={selectSx}
+                  >
+                    <MenuItem value="" disabled>Select State</MenuItem>
+                    <MenuItem value="Rajasthan">Rajasthan</MenuItem>
+                    <MenuItem value="Maharashtra">Maharashtra</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </Stack>
 
             {/* Landmark */}
-            <Typography fontSize={12} mb={0.5} fontWeight={500}>
+            <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
               APT / SUITE / LANDMARK / OTHER (OPTIONAL)
             </Typography>
             <TextField
@@ -208,38 +244,64 @@ export default function AddressDrawer({
             />
 
             {/* Address Type */}
-            <Typography fontSize={14} fontWeight={500} mt={2} mb={1}>
-              Address Type:
-            </Typography>
-            <RadioGroup
-              row
-              value={addressType}
-              onChange={(e) => setAddressType(e.target.value)}
-            >
-              <FormControlLabel value="Home" control={<Radio />} label="Home" />
-              <FormControlLabel value="Office" control={<Radio />} label="Office" />
-              <FormControlLabel value="Other" control={<Radio />} label="Other" />
-            </RadioGroup>
+            <Box sx={{ display: "flex", alignItems: "center" }} mt={2} mb={1}>
+              <Typography
+                fontSize={14}
+                fontWeight={500}
+                fontFamily="Jost"
+                sx={{ marginRight: "15px" }}
+              >
+                Address Type:
+              </Typography>
+              <RadioGroup
+                row
+                value={addressType}
+                onChange={(e) => setAddressType(e.target.value)}
+              >
+                {["Home", "Office", "Other"].map((type) => (
+                  <FormControlLabel
+                    key={type}
+                    value={type}
+                    control={<Radio />}
+                    label={type}
+                    sx={{
+                      "& .MuiFormControlLabel-label": {
+                        fontFamily: "Jost",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                      },
+                    }}
+                  />
+                ))}
+              </RadioGroup>
+            </Box>
 
             {/* Default Checkbox */}
             <FormControlLabel
               control={
                 <Checkbox
-  checked={isDefault}
-  onChange={(e) => setIsDefault(e.target.checked)}
-  sx={{
-    '& .MuiSvgIcon-root': {
-      fill: '#445B9C',
-    },
-  }}
-/>
+                  checked={isDefault}
+                  onChange={(e) => setIsDefault(e.target.checked)}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      fill: "#445B9C",
+                    },
+                  }}
+                />
               }
               label="Mark this as my default address"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  fontFamily: "Jost",
+                  fontSize: "14px",
+                  fontWeight: "400",
+                },
+              }}
             />
           </Box>
 
-          {/* Footer Buttons */}
-          <Stack direction="row" spacing={2} mt={4}>
+          {/* Footer */}
+          <Stack direction="row" spacing={2} mt={3}>
             <Button
               variant="outlined"
               sx={{ flex: 1, borderColor: "#2F4AB2", color: "#2F4AB2" }}
@@ -249,7 +311,7 @@ export default function AddressDrawer({
             </Button>
             <Button
               variant="contained"
-              sx={{ flex: 1,}}
+              sx={{ flex: 1 }}
               onClick={() => setShowConfirm(true)}
             >
               SAVE
@@ -258,7 +320,7 @@ export default function AddressDrawer({
         </Box>
       </Drawer>
 
-      {/* ✅ Confirmation Dialog */}
+      {/* Confirmation Dialog */}
       <ConfirmationDialog
         open={showConfirm}
         onClose={() => setShowConfirm(false)}

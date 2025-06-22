@@ -1,9 +1,12 @@
 "use client";
 
+import { useMediaQuery, useTheme } from "@mui/material";
+import BreadcrumbsBar from "@/components/BreadcrumbsBar";
 import CustomOrderForm from "@/components/CustomOrderForm";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProductGallery from "@/components/ProductGallery";
+
 import {
   Box,
   Container,
@@ -15,6 +18,10 @@ import {
 } from "@mui/material";
 
 export default function ProductDetail() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // sm = 600px
+  const deviceType = isMobile ? "mobile" : "desktop";
+
   return (
     <>
       <Header
@@ -44,6 +51,8 @@ export default function ProductDetail() {
         }}
       >
         <Container maxWidth="lg">
+          {deviceType === "desktop" && <BreadcrumbsBar />}
+
           <Box
             sx={{
               display: "flex",
@@ -52,17 +61,26 @@ export default function ProductDetail() {
               gap: 4,
             }}
           >
-            <Box sx={{ minWidth: "640px" }}>
+            <Box
+              sx={{
+                minWidth: "640px",
+                "@media (max-width:1024px)": {
+                  minWidth: "460px",
+                },
+                "@media (max-width:768px)": {
+                  minWidth: "100%",
+                },
+              }}
+            >
               <ProductGallery />
             </Box>
             <Box
               sx={{
                 background: "#fff",
-                padding: " 20px 20px 20px 20px",
+                padding: "20px",
                 marginTop: "30px",
-
                 position: "sticky",
-                top: "100px"
+                top: "100px",
               }}
             >
               <CustomOrderForm

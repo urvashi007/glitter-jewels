@@ -186,7 +186,7 @@ export default function HomePage() {
      
         <FadeInOnScroll>
       <Footer />
-      </FadeInOnScroll>
+      </FadeInOnScroll>    
       <ProductDetailsDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}

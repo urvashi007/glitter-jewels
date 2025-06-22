@@ -17,6 +17,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Header from "@/components/Header";
 import loginContent from "./content/loginContent.json";
+import Copyright from "@/components/Copyright";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -74,11 +75,12 @@ const LoginPage = () => {
       <Box
         sx={{
           background: "#EDEFF6",
-          minHeight: "100vh",
+          minHeight: {md:'100vh', sm:'inherit'},
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           py: 6,
+        
         }}
       >
         <Container>
@@ -91,6 +93,8 @@ const LoginPage = () => {
               overflow: "hidden",
               boxShadow: "0px 4px 12px rgba(27, 36, 44, 0.08)",
               borderRadius: "6px",
+              marginTop: {xs:'40px', md:'0'}
+              
             }}
           >
             {/* Left Section */}
@@ -101,6 +105,8 @@ const LoginPage = () => {
                 py: { xs: 4, md: 5 },
                 position: "relative",
                 borderBottom: { xs: "1px solid #E2E2E2", md: "none" },
+                order: { xs: 2, md: 1 },
+                
                 "&::before": {
                   content: { xs: "none", md: '""' },
                   position: "absolute",
@@ -115,16 +121,23 @@ const LoginPage = () => {
               <Typography
                 variant="h5"
                 sx={{
-                  fontSize: "30px",
+               
                   fontWeight: 700,
                   color: "#222",
                   fontFamily: "Manrope",
-                  mb: 2,
+                  marginBottom:'14px',
+                  fontSize: {
+                    xs: "22px", 
+                    sm: "20px",
+                    md: "30px",
+                  },
+                
+                  
                 }}
               >
                 {leftSection.title}
               </Typography>
-              <Typography variant="body1" sx={{ color: "#404040" }}>
+              <Typography variant="body1" sx={{ color: "#404040", fontFamily:'jost', fontWeight:'400' }}>
                 {leftSection.description}
               </Typography>
               <Button
@@ -136,6 +149,7 @@ const LoginPage = () => {
                   borderColor: "#445B9C",
                   color: "#445B9C",
                   fontWeight: 500,
+                  fontFamily:'jost',
                 }}
               >
                 {leftSection.buttonText}
@@ -148,28 +162,35 @@ const LoginPage = () => {
                 px: { xs: 3, md: 5 },
                 py: { xs: 4, md: 5 },
                 background: "#fff",
+                order: { xs: 1, md: 2 },
+               paddingBottom:{xs:'40px'},
+               borderBottom:{xs:'1px solid #ddd', md:'none'}
               }}
             >
               <Typography
                 variant="h5"
                 sx={{
-                  fontSize: "30px",
                   fontWeight: 700,
                   color: "#222",
                   fontFamily: "Manrope",
                   mb: 2,
+                  fontSize: {
+                    xs: "22px", 
+                    sm: "20px",
+                    md: "30px",
+                  },
                 }}
               >
                 {rightSection.title}
               </Typography>
-              <Typography variant="body1" sx={{ color: "#404040" }}>
+              <Typography variant="body1" sx={{ color: "#404040", fontFamily:'jost', fontWeight:'400' }}>
                 {rightSection.description}
               </Typography>
 
               <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 4 }}>
                 {/* Email */}
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" sx={{ mb: 0.5, color: "#333" }}>
+                  <Typography variant="body2" sx={{ mb: 0.5,fontWeight:'500', fontFamily:'jost', color:'#404040', textTransform:'uppercase'}}>
                     {rightSection.emailLabel}
                   </Typography>
                   <TextField
@@ -180,25 +201,15 @@ const LoginPage = () => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter your email"
                     variant="outlined"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        fontWeight: 700,
-                        fontFamily: "Manrope",
-                        "& input::placeholder": {
-                          fontWeight: "400",
-                          color: "#5E5E5E",
-                          fontSize: "16px",
-                        },
-                      },
-                    }}
+                   
                   />
                 </Box>
 
                 {/* Password */}
                 <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" sx={{ mb: 0.5, color: "#404040" }}>
+                <Typography variant="body2" sx={{ mb: 0.5,fontWeight:'500', fontFamily:'jost', color:'#404040', textTransform:'uppercase'}}>
                     {rightSection.passwordLabel}
                   </Typography>
                   <TextField
@@ -221,22 +232,13 @@ const LoginPage = () => {
                         </InputAdornment>
                       ),
                     }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        fontWeight: 700,
-                        fontFamily: "Manrope",
-                        "& input::placeholder": {
-                          fontWeight: "400",
-                          color: "#5E5E5E",
-                        },
-                      },
-                    }}
+                   
                   />
                 </Box>
 
                 {/* Forgot Password */}
                 <Box textAlign="right" sx={{ mt: 1 }}>
-                  <Link href="/forgot-password" underline="hover" sx={{ color: "#445B9C" }}>
+                  <Link href="/forgot-password" underline="hover" sx={{ color: "#445B9C", fontFamily:'jost', fontWeight:'500' }}>
                     {rightSection.forgotPassword}
                   </Link>
                 </Box>
@@ -251,7 +253,8 @@ const LoginPage = () => {
                     mt: 3,
                     background: "#445B9C",
                     height: "48px",
-                    fontWeight: 600,
+                    fontWeight: 500,
+                    fontFamily:'jost'
                   }}
                 >
                   {rightSection.loginButton}
@@ -261,6 +264,7 @@ const LoginPage = () => {
           </Paper>
         </Container>
       </Box>
+      <Copyright />
     </>
   );
 };

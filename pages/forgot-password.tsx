@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // pages/forgot-password.tsx
 import React from "react";
 import {
   Box,
   Button,
-  Container,
   TextField,
   Typography,
   Alert,
@@ -12,6 +12,9 @@ import {
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Header from "@/components/Header";
+import NextLink from 'next/link';
+import { Link } from '@mui/material';
+import Copyright from "@/components/Copyright";
 
 const ForgotPassword = () => {
   const [successMessage, setSuccessMessage] = React.useState("");
@@ -21,19 +24,27 @@ const ForgotPassword = () => {
   return (
     <>
       <Header
-        logoLight=""
-        logoDark="/logo.svg"
-        navItems={["HOME", "PRODUCTS", "COLLECTIONS", "DIAMONDS"]}
-        forceScrolled={true}
-      />
+             logoLight=""
+             logoDark="/logo.svg"
+             navItems={[
+               { label: "Our Expertise" },
+               {
+                 label: "Product",
+                 submenu: ["Bracelets", "Earrings", "Necklace", "Pendant", "Rings", "View All"],
+               },
+               { label: "Enquiry" },
+             ]}
+             forceScrolled
+           />
 
       <Box
         sx={{
           background: "#f1f2f6",
-          minHeight: "90vh",
+          minHeight: "100vh",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: {md:"center", xs:'flex-start;'},
+          paddingTop:{xs:'80px',  md:'0'},
           p: 2,
         }}
       >
@@ -56,7 +67,7 @@ const ForgotPassword = () => {
           <Typography
             variant="body1"
             gutterBottom
-            sx={{ color: "#404040", marginBottom: "20px" }}
+            sx={{ color: "#404040", marginBottom: "20px", fontFamily:'jost', fontWeight:'400' }}
           >
             Please provide your account email address and we will send you an
             email to reset your password.
@@ -96,7 +107,7 @@ const ForgotPassword = () => {
           >
             {({ values, handleChange, handleBlur, touched, errors }) => (
               <Form>
-                <Typography variant="body2" sx={{ mb: 0.5, color: "#333" }}>
+          <Typography variant="body2" sx={{fontWeight:'500', fontFamily:'jost', color:'#404040', textTransform:'uppercase' }}>
                   Email
                 </Typography>
                 <TextField
@@ -108,31 +119,9 @@ const ForgotPassword = () => {
                   onBlur={handleBlur}
                   error={Boolean(touched.email && errors.email)}
                   helperText={touched.email && errors.email}
-                  placeholder="Enter Your Email"
+                  placeholder="Enter your email"
                   variant="outlined"
-                  sx={{
-                    marginTop: "0",
-                    "& .MuiOutlinedInput-root": {
-                      fontWeight: 700,
-                      fontFamily: "Manrope",
-                      "& input::placeholder": {
-                        fontWeight: "400",
-                        color: "#5E5E5E",
-                        fontSize: "16px",
-                      },
-                      "& fieldset": {
-                        borderWidth: "1px",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderWidth: "1px",
-                        borderColor: "#445B9C",
-                      },
-                      "&.Mui-error fieldset": {
-                        borderWidth: "1px",
-                        borderColor: "#f44336",
-                      },
-                    },
-                  }}
+                  sx={{marginTop:'8px'}}
                 />
 
                 {successMessage && (
@@ -155,11 +144,16 @@ const ForgotPassword = () => {
                 >
                   {loading ? <CircularProgress size={24} /> : "Send Reset Link"}
                 </Button>
+                <Box><NextLink href="/login" passHref legacyBehavior>
+                <Link underline="hover" sx={{ color: "#445B9C", fontWeight: 500, textAlign:'center', display:'block', textTransform:'uppercase', fontFamily:'jost', marginTop:'20px' }}>
+                Back to Login                </Link>
+</NextLink></Box>
               </Form>
             )}
           </Formik>
         </Box>
       </Box>
+      <Copyright />
     </>
   );
 };

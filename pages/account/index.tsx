@@ -4,15 +4,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import Wishlist from "./Wishlist";
-import MyOrders from "./MyOrders";
+import Wishlist from "../../components/Wishlist";
+import MyOrders from "../../components/MyOrders";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/SidebarMenu";
-import EditProfileForm from "./Profile";
-import ManageAddresses from "./ManageAddresses";
-import ChangePasswordPage from "./ChangePassword";
+import ManageAddresses from "../../components/ManageAddresses";
+import ChangePasswordPage from "../../components/ChangePassword";
+import ProfileForm from "@/components/Profile";
+import { accountMenu } from "@/utils/accountMenu";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -40,7 +41,7 @@ export default function AccountPage() {
       case "orders":
         return <MyOrders />;
       case "profile":
-        return <EditProfileForm />;
+        return <ProfileForm />;
       case "wishlist":
         return <Wishlist />;
       case "addresses":
@@ -52,7 +53,7 @@ export default function AccountPage() {
     }
   };
 
-  if (!tabReady) return null; // or return a loader here if needed
+  if (!tabReady) return null;
 
   return (
     <>
@@ -81,7 +82,12 @@ export default function AccountPage() {
         <Container maxWidth="lg">
           <Typography
             variant="h2"
-            sx={{ fontSize: "30px", fontWeight: "700", marginBottom: "24px",  fontFamily:'Manrope'}}
+            sx={{
+              fontSize: "30px",
+              fontWeight: "700",
+              marginBottom: "24px",
+              fontFamily: "Manrope",
+            }}
           >
             {tabTitles[tab] || "My Orders"}
           </Typography>
@@ -103,9 +109,6 @@ export default function AccountPage() {
                 "@media (max-width:991px)": {
                   width: "100%",
                 },
-                "@media (max-width:540px)": {
-                  display: "none",
-                },
               }}
             >
               <Sidebar
@@ -113,6 +116,7 @@ export default function AccountPage() {
                 onSelectTab={(tab: string) =>
                   router.push(`/account?tab=${tab}`)
                 }
+                menuItems={accountMenu}
               />
             </Grid>
             <Grid flex={1} key={tab}>
