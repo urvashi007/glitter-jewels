@@ -30,6 +30,13 @@ export default function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
+      <CssBaseline />
+
+        <style jsx global>{`
+          body {
+            overflow-x: hidden;
+          }
+        `}</style>
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>

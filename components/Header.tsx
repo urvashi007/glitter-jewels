@@ -27,6 +27,7 @@ import { useState, useEffect, useRef } from "react";
 import LoginPopup from "./LoginPopup";
 import CheckoutStepper from "./Stepper";
 import HorizontalStepper from "./Stepper";
+import ProfileDropdown from "./ProfileDropdown";
 
 // Type definition
 type HeaderNavItem = { label: string } | { label: string; submenu: string[] };
@@ -351,42 +352,48 @@ export default function Header({
             </IconButton>
 
             {/* USER ICON + LOGIN POPUP */}
-            <Box sx={{ position: "relative" }}>
-              <IconButton
-                onClick={() =>
-                  isLoggedIn
-                    ? console.log("User menu removed")
-                    : setShowLoginPopup(true)
-                }
-              >
-                <Box
-                  component="img"
-                  src={scrolled ? "/user.svg" : "/user-white.svg"}
-                  alt="user"
-                  sx={{ width: 22, height: 22 }}
-                />
-              </IconButton>
+{/* USER ICON + LOGIN POPUP */}
+<Box sx={{ position: "relative" }}>
+  {isLoggedIn ? (
+    <ProfileDropdown
+      onLogout={() => {
+        setIsLoggedIn(false);
+      }}
+    />
+  ) : (
+    <>
+      <IconButton onClick={() => setShowLoginPopup(true)}>
+        <Box
+          component="img"
+          src={scrolled ? "/user.svg" : "/user-white.svg"}
+          alt="user"
+          sx={{ width: 22, height: 22 }}
+        />
+      </IconButton>
 
-              {showLoginPopup && (
-                <Box
-                  ref={loginPopupRef}
-                  sx={{
-                    position: "absolute",
-                    top: "calc(100% + 10px)",
-                    right: 0,
-                    zIndex: 3000,
-                  }}
-                >
-                  <LoginPopup
-                    onLoginClick={() => {
-                      setIsLoggedIn(true);
-                      setShowLoginPopup(false);
-                    }}
-                    onCreateAccountClick={() => {}}
-                  />
-                </Box>
-              )}
-            </Box>
+      {showLoginPopup && (
+        <Box
+          ref={loginPopupRef}
+          sx={{
+            position: "absolute",
+            top: "calc(100% + 10px)",
+            right: 0,
+            zIndex: 3000,
+          }}
+        >
+          <LoginPopup
+            onLoginClick={() => {
+              setIsLoggedIn(true);
+              setShowLoginPopup(false);
+            }}
+            onCreateAccountClick={() => {}}
+          />
+        </Box>
+      )}
+    </>
+  )}
+</Box>
+
           </Stack>
         </Toolbar>
 
@@ -420,8 +427,8 @@ export default function Header({
                       <AccordionDetails sx={{ p: 0 }}>
                         <List disablePadding>
                           {item.submenu.map((subItem, subIndex) => (
-                            <ListItem key={subIndex}>
-                              <ListItemText primary={subItem} />
+                            <ListItem key={subIndex}> 
+                              <ListItemText primary={subItem}/>
                             </ListItem>
                           ))}
                         </List>
@@ -431,7 +438,7 @@ export default function Header({
                 }
 
                 return (
-                  <ListItem key={index}>
+                  <ListItem key={index} sx={{borderBottom:'1px solid #ccc'}}>
                     <ListItemText primary={label} />
                   </ListItem>
                 );
