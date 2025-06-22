@@ -64,24 +64,28 @@ const Wishlist = () => {
            >
         My Wishlist
       </Typography>
-
-       <Box sx={{ padding: "20px" }}>
-
       <Tabs
         value={tabIndex}
         onChange={handleChange}
-        // variant="scrollable"
+        variant="scrollable"
         // scrollButtons
-        // allowScrollButtonsMobile
+        allowScrollButtonsMobile
         textColor="primary"
         indicatorColor="primary"
-        sx={{ mb: 3 }}
+        sx={{ borderBottom:'1px solid #ebebeb', paddingLeft: {
+          xs: 0,
+          sm: "12px"
+        }, }}
       >
         <Tab label="All Products" />
         <Tab label="Wedding Gift" />
         <Tab label="My Collection 01" />
         <Tab label="Birthday Gift" />
       </Tabs>
+
+       <Box sx={{ padding: "20px" }}>
+
+
 
       <Box>
         {tabIndex === 0 && (

@@ -92,6 +92,16 @@ export default function SidebarMenu({
         flexDirection={isMobile ? "row" : "column"}
         overflow={isMobile ? "auto" : "visible"}
         gap={isMobile ? 1 : 0}
+        sx={{
+          ...(isMobile && {
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            borderBottom:'1px solid #ebebeb',
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+          }),
+        }}
       >
         {items.map((item) => {
           const isActive = selectedTab === item.tab;

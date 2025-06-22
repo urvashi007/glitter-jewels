@@ -1,52 +1,45 @@
 "use client";
 
-import { Box, Typography, Stack } from "@mui/material";
-import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
+import { Box, Typography, } from "@mui/material";
+import OrderStatusCard, { OrderStatus } from "./OrderStatusCard";
 
-const orders: OrderCardProps[] = [
+const orders: {
+  status: OrderStatus;
+  orderId: string;
+  paymentType: "Full" | "Partial";
+  orderDate: string;
+  amount: string;
+}[] = [
   {
-    id: "NK00381",
-    image: "/Categories/img1.png",
-    goldWt: "0.51",
-    diaWt: "0.81",
-    metalType: "14KT",
-    metalColor: "White",
-    diaQuality: "FL",
-    status: "InProduction",
-    statusColor: "#B06900",
-    price: "27,774",
-    styleCode: "JDSRNG00771",
-    arrowReq: true,
+    status: "Order Process",
+    orderId: "22201",
+    paymentType: "Partial",
+    orderDate: "10 June 2025",
+    amount: "88,519",
   },
   {
-    id: "NK00382",
-    image: "/Categories/img2.png",
-    goldWt: "0.58",
-    diaWt: "0.92",
-    metalType: "18KT",
-    metalColor: "Yellow",
-    diaQuality: "VVS",
-    status: "InProduction",
-    statusColor: "#005AA7",
-    price: "31,520",
-    styleCode: "JDSRNG00812",
-    arrowReq: true,
+    status: "In Production",
+    orderId: "22202",
+    paymentType: "Full",
+    orderDate: "10 June 2025",
+    amount: "27,774",
   },
   {
-    id: "NK00383",
-    image: "/Categories/img1.png",
-    goldWt: "0.49",
-    diaWt: "0.78",
-    metalType: "14KT",
-    metalColor: "White",
-    diaQuality: "VS",
-    status: "InProduction",
-    statusColor: "#0F743B",
-    price: "26,140",
-    styleCode: "JDSRNG00699",
-    arrowReq: true,
+    status: "Dispatch",
+    orderId: "22203",
+    paymentType: "Partial",
+    orderDate: "10 June 2025",
+    amount: "27,774",
+  },
+  {
+    status: "Certification",
+    orderId: "22204",
+    paymentType: "Full",
+    orderDate: "10 June 2025",
+    amount: "27,774",
   },
 ];
+
 
 const MyOrders = () => {
   return (
@@ -59,6 +52,7 @@ const MyOrders = () => {
             fontSize: "18px",
             marginBottom: 0,
             padding: "12px 20px",
+            borderBottom:'1px solid #d5d5d5',
 
             "@media (max-width:540px)": {
               display: "none",
@@ -67,18 +61,21 @@ const MyOrders = () => {
         >
           My Orders
         </Typography>
-        <Stack
-          spacing={2}
-          sx={{
-            "& > :not(style) ~ :not(style)": {
-              marginTop: 0,
-            },
+        <Box p={2}>
+      {orders.map((order) => (
+        <OrderStatusCard
+          key={order.orderId}
+          status={order.status}
+          orderId={order.orderId}
+          paymentType={order.paymentType}
+          orderDate={order.orderDate}
+          amount={order.amount}
+          onClick={() => {
+            console.log("Clicked order:", order.orderId);
           }}
-        >
-          {orders.map((order) => (
-            <SingleOrderCard key={order.id + order.styleCode} {...order} />
-          ))}
-        </Stack>
+        />
+      ))}
+    </Box>
       </Box>
     </Box>
   );

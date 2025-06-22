@@ -3,12 +3,16 @@
 import { useState } from "react";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import PriceDetailsCard from "@/components/PriceDetailsCard";
-import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import DiscountDrawer from "@/components/DiscountDrawer";
+import DeliveryDetailsCard from "@/components/DeliveryDetailsCard";
+import AddressDrawer from "@/components/AddressDrawer";
+import { Address } from "@/utils/address";
+import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
+import OrderInfoRow from "@/components/OrdersInfoRow";
 
-const initialCardData: OrderCardProps[] = [
+const orders: OrderCardProps[] = [
   {
     id: "NK00381",
     image: "/Categories/img1.png",
@@ -20,16 +24,8 @@ const initialCardData: OrderCardProps[] = [
     status: "",
     statusColor: "#B06900",
     price: "27,774",
-    styleCode: "JDSRNG00771",
+    styleCode: "",
     arrowReq: false,
-    checked: false,
-    quantity: 1,
-    onCheck: () => {},
-    onQuantityChange: () => {},
-    onEditHref: "/edit/NK00381",
-    showCheckbox: false,
-    showEdit: false,
-    showSelect: false,
   },
   {
     id: "NK00381",
@@ -42,16 +38,8 @@ const initialCardData: OrderCardProps[] = [
     status: "",
     statusColor: "#B06900",
     price: "27,774",
-    styleCode: "JDSRNG00771",
+    styleCode: "",
     arrowReq: false,
-    checked: false,
-    quantity: 1,
-    onCheck: () => {},
-    onQuantityChange: () => {},
-    onEditHref: "/edit/NK00381",
-    showCheckbox: false,
-    showEdit: false,
-    showSelect: false,
   },
   {
     id: "NK00381",
@@ -64,16 +52,8 @@ const initialCardData: OrderCardProps[] = [
     status: "",
     statusColor: "#B06900",
     price: "27,774",
-    styleCode: "JDSRNG00771",
+    styleCode: "",
     arrowReq: false,
-    checked: false,
-    quantity: 1,
-    onCheck: () => {},
-    onQuantityChange: () => {},
-    onEditHref: "/edit/NK00381",
-    showCheckbox: false,
-    showEdit: false,
-    showSelect: false,
   },
   {
     id: "NK00381",
@@ -86,19 +66,26 @@ const initialCardData: OrderCardProps[] = [
     status: "",
     statusColor: "#B06900",
     price: "27,774",
-    styleCode: "JDSRNG00771",
+    styleCode: "",
     arrowReq: false,
-    checked: false,
-    quantity: 1,
-    onCheck: () => {},
-    onQuantityChange: () => {},
-    onEditHref: "/edit/NK00381",
-    showCheckbox: false,
-    showEdit: false,
-    showSelect: false,
   },
+  {
+    id: "NK00381",
+    image: "/Categories/img1.png",
+    goldWt: "0.51",
+    diaWt: "0.81",
+    metalType: "14KT",
+    metalColor: "White",
+    diaQuality: "FL",
+    status: "",
+    statusColor: "#B06900",
+    price: "27,774",
+    styleCode: "",
+    arrowReq: false,
+  },
+
+
 ];
-
 const priceDetailsData = {
   itemsTotal: "₹88,519",
   discount: "₹0",
@@ -112,27 +99,25 @@ const priceDetailsData = {
   subHeadReq: "Price Details",
 };
 
+const deliveryDetailsData = {
+  name: "Ashish Sharma",
+  address: "S-4A, kabir marg, bani park, Jaipur, Rajasthan 302016, India",
+  mobile: "8201475558",
+};
+
 export default function OrderSummaryPage() {
-  const [orders, setOrders] = useState(initialCardData);
-  const [appliedDiscount, setAppliedDiscount] = useState("FLAT300");
+
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [addressDrawerOpen, setAddressDrawerOpen] = useState(false);
+
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
 
-  const handleCheck = (index: number, checked: boolean) => {
-    const updated = [...orders];
-    updated[index].checked = checked;
-    setOrders(updated);
-  };
 
-  const handleQuantityChange = (index: number, qty: number) => {
-    const updated = [...orders];
-    updated[index].quantity = qty;
-    setOrders(updated);
-  };
 
-  const handleRemoveDiscount = () => {
-    setAppliedDiscount("");
+  const handleSaveAddress = (newAddress: Address) => {
+    console.log("Saved address:", newAddress);
+
   };
 
   return (
@@ -156,10 +141,11 @@ export default function OrderSummaryPage() {
           { label: "Enquiry" },
         ]}
         forceScrolled={true}
-        stepperReq={true}
       />
 
-      <Box sx={{ background: "#E5E9F5", padding: "160px 0 80px 0" }}>
+    
+
+      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -168,6 +154,7 @@ export default function OrderSummaryPage() {
               gap: 3,
             }}
           >
+            {/* Left Section */}
             <Box sx={{ flex: 1 }}>
               <Box
                 sx={{
@@ -185,56 +172,44 @@ export default function OrderSummaryPage() {
                     fontFamily: "Manrope",
                   }}
                 >
-                  Cart ({orders.length})
+                  Order Details
                 </Typography>
-                <Stack direction="row" spacing={2}>
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      fontWeight: 500,
-                      fontFamily: "Jost",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Move to wishlist
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      fontWeight: 500,
-                      fontFamily: "Jost",
-                      cursor: "pointer",
-                      position: "relative",
-                      paddingLeft: "16px",
-                      "&::before": {
-                        content: '""',
-                        position: "absolute",
-                        left: 0,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        height: "16px",
-                        borderLeft: "1px solid #A6A6A6",
-                      },
-                    }}
-                  >
-                    Remove
-                  </Typography>
-                </Stack>
               </Box>
 
-              {orders.map((order, index) => (
-                <SingleOrderCard
-                  key={order.id + order.styleCode}
-                  {...order}
-                  onCheck={(checked) => handleCheck(index, checked)}
-                  onQuantityChange={(qty) => handleQuantityChange(index, qty)}
-                  showCheckbox={true}
-                  showEdit={true}
-                  showSelect={true}
-                />
-              ))}
+              <DeliveryDetailsCard
+                HeadReq="Delivery Details"
+                {...deliveryDetailsData}
+              />
+                <Box sx={{ marginTop:'24px'}}>
+              <Stack
+          spacing={2}
+          sx={{
+            "& > :not(style) ~ :not(style)": {
+              marginTop: 0,
+            },
+          }}
+        >
+           <Box p={2} sx={{background:'#fff'}}>
+      <OrderInfoRow
+        orderId="22201"
+        paymentType="Full"
+        orderDate="10 June 2025"
+        orderStatus="Order Process"
+        statusBgColor="#F6EEE3"
+        statusTextColor="#AD5B00"
+      />
+    </Box>
+          {orders.map((order) => (
+            <SingleOrderCard key={order.id + order.styleCode} {...order} />
+          ))}
+        </Stack>
+        </Box>
+
+              
             </Box>
+            
+
+            {/* Right Section */}
             <Box
               sx={{
                 width: {
@@ -252,19 +227,27 @@ export default function OrderSummaryPage() {
             >
               <PriceDetailsCard
                 {...priceDetailsData}
-                appliedDiscountCode={appliedDiscount}
-                onRemoveDiscount={handleRemoveDiscount}
-                showPaymentInfo={false}
-                showDiscountSection={true}
+                showPaymentInfo={true}
+                showDiscountSection={false}
                 subHeadReq={"Price Details"}
-                secondaryButtonText="Continue"
                 secondaryButtonOnClick={handleDrawerOpen}
+                HeadingReq = {''}
+                   primaryButtonVariant="outlined"
+                    primaryButtonText="BACK TO MY ACCOUNT"
               />
             </Box>
           </Box>
         </Container>
       </Box>
+
       <DiscountDrawer open={drawerOpen} onClose={handleDrawerClose} />
+
+      <AddressDrawer
+        open={addressDrawerOpen}
+        onClose={() => setAddressDrawerOpen(false)}
+        onSave={handleSaveAddress}
+        initialData={null}
+      />
 
       <Footer />
     </>

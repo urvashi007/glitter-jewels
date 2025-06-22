@@ -37,6 +37,7 @@ export type OrderCardProps = {
   showCheckbox?: boolean;
   showEdit?: boolean;
   showSelect?: boolean;
+  showImage?: boolean;
 };
 
 export default function SingleOrderCard(order: OrderCardProps) {
@@ -53,41 +54,41 @@ export default function SingleOrderCard(order: OrderCardProps) {
         },
       }}
     >
-
-      <Box position="relative">
-        {order.showCheckbox && (
-          <Checkbox
-            checked={order.checked}
-            onChange={(e) => order.onCheck?.(e.target.checked)}
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              zIndex: 1,
-              color: "#445B9C",
-              borderRadius: "0",
-              "&.Mui-checked": {
+      {order.showImage !== false && (
+        <Box position="relative">
+          {order.showCheckbox && (
+            <Checkbox
+              checked={order.checked}
+              onChange={(e) => order.onCheck?.(e.target.checked)}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: 1,
                 color: "#445B9C",
+                borderRadius: "0",
+                "&.Mui-checked": {
+                  color: "#445B9C",
+                },
+              }}
+            />
+          )}
+
+          <Box
+            width={200}
+            height={140}
+            flexShrink={0}
+            sx={{
+              position: "relative",
+              background: "#f7f7f7",
+              marginRight:'24px',
+              "@media (max-width:540px)": {
+                width: "100%",
+                height: "240px",
+                marginTop: "20px",
               },
             }}
-          />
-        )}
-
-        <Box
-          width={200}
-          height={140}
-          flexShrink={0}
-          sx={{
-            position: "relative",
-            
-            background: "#f7f7f7",
-            "@media (max-width:540px)": {
-              width: "100%",
-              height: "240px",
-              marginTop: "20px",
-            },
-          }}
-        >
+          >
             <Image
               src={order.image}
               alt={order.id}
@@ -101,21 +102,25 @@ export default function SingleOrderCard(order: OrderCardProps) {
               }}
               priority
             />
+          </Box>
         </Box>
-      </Box>
-
-      {/* Details */}
+      )}
       <Box
         flex={1}
         sx={{
-          padding: "20px 0px 20px 20px",
           "@media (max-width:540px)": {
             padding: "15px 0",
           },
         }}
       >
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-          <Typography fontWeight={600} style={{fontSize:'18px'}}>{order.id}</Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          <Typography fontWeight={600} style={{ fontSize: "18px" }}>
+            {order.id}
+          </Typography>
           {order.showEdit && order.onEditHref && (
             <Link
               href={order.onEditHref}
@@ -124,7 +129,7 @@ export default function SingleOrderCard(order: OrderCardProps) {
                 color: "#445B9C",
                 textDecoration: "none",
                 fontWeight: 500,
-                fontFamily:'jost',
+                fontFamily: "jost",
               }}
             >
               Edit
@@ -132,22 +137,52 @@ export default function SingleOrderCard(order: OrderCardProps) {
           )}
         </Stack>
 
-        <Stack direction="row" flexWrap="wrap" alignItems="center" spacing={1} mt={0.5}>
-          <Typography variant="body2" fontWeight={400} sx={{color:'#5e5e5e', fontFamily:'jost'}}>Gold W:</Typography>
-          <Typography variant="body2" fontWeight={500} sx={{color:'#222',fontFamily:'jost'}}>{order.goldWt}</Typography>
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          alignItems="center"
+          spacing={1}
+          mt={0.5}
+        >
+          <Typography variant="body2" fontWeight={400} sx={{ color: "#5e5e5e", fontFamily: "jost" }}>
+            Gold W:
+          </Typography>
+          <Typography variant="body2" fontWeight={500} sx={{ color: "#222", fontFamily: "jost" }}>
+            {order.goldWt}
+          </Typography>
           <Dot />
-          <Typography variant="body2" fontWeight={400} sx={{color:'#5e5e5e', fontFamily:'jost'}}>Dia. WT:</Typography>
-          <Typography variant="body2" fontWeight={500} sx={{color:'#222',fontFamily:'jost'}}>{order.diaWt}</Typography>
+          <Typography variant="body2" fontWeight={400} sx={{ color: "#5e5e5e", fontFamily: "jost" }}>
+            Dia. WT:
+          </Typography>
+          <Typography variant="body2" fontWeight={500} sx={{ color: "#222", fontFamily: "jost" }}>
+            {order.diaWt}
+          </Typography>
           <Dot />
-          <Typography variant="body2" fontWeight={400} sx={{color:'#5e5e5e', fontFamily:'jost'}}>Style Code:</Typography>
-          <Typography variant="body2" fontWeight={500} sx={{color:'#222',fontFamily:'jost'}}>{order.styleCode}</Typography>
+          <Typography variant="body2" fontWeight={400} sx={{ color: "#5e5e5e", fontFamily: "jost" }}>
+            Style Code:
+          </Typography>
+          <Typography variant="body2" fontWeight={500} sx={{ color: "#222", fontFamily: "jost" }}>
+            {order.styleCode}
+          </Typography>
         </Stack>
 
-        <Stack direction="row" flexWrap="wrap" alignItems="center" spacing={1} mt={0.5}>
-        <Typography variant="body2" fontWeight={400} sx={{color:'#5e5e5e', fontFamily:'jost'}}>Metal Type:</Typography>
-        <Typography variant="body2" fontWeight={500} sx={{color:'#222',fontFamily:'jost'}}>{order.metalType}</Typography>
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          alignItems="center"
+          spacing={1}
+          mt={0.5}
+        >
+          <Typography variant="body2" fontWeight={400} sx={{ color: "#5e5e5e", fontFamily: "jost" }}>
+            Metal Type:
+          </Typography>
+          <Typography variant="body2" fontWeight={500} sx={{ color: "#222", fontFamily: "jost" }}>
+            {order.metalType}
+          </Typography>
           <Dot />
-          <Typography variant="body2" fontWeight={400} sx={{color:'#5e5e5e', fontFamily:'jost'}}>Metal Color:</Typography>
+          <Typography variant="body2" fontWeight={400} sx={{ color: "#5e5e5e", fontFamily: "jost" }}>
+            Metal Color:
+          </Typography>
           <Box
             component="span"
             sx={{
@@ -163,8 +198,12 @@ export default function SingleOrderCard(order: OrderCardProps) {
             }}
           />
           <Dot />
-          <Typography variant="body2" fontWeight={400} sx={{color:'#5e5e5e', fontFamily:'jost'}}>Dia. Quality:</Typography>
-          <Typography variant="body2" fontWeight={500} sx={{color:'#222',fontFamily:'jost'}}>{order.diaQuality}</Typography>
+          <Typography variant="body2" fontWeight={400} sx={{ color: "#5e5e5e", fontFamily: "jost" }}>
+            Dia. Quality:
+          </Typography>
+          <Typography variant="body2" fontWeight={500} sx={{ color: "#222", fontFamily: "jost" }}>
+            {order.diaQuality}
+          </Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" spacing={1} mt={0.5}>
@@ -173,8 +212,12 @@ export default function SingleOrderCard(order: OrderCardProps) {
           </Typography>
         </Stack>
 
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{marginTop:'10px'}}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ marginTop: "10px" }}
+        >
           <Typography fontWeight={600} fontSize="18px">
             ₹ {order.price}
           </Typography>
@@ -184,7 +227,13 @@ export default function SingleOrderCard(order: OrderCardProps) {
               size="small"
               value={order.quantity ?? 1}
               onChange={(e) => order.onQuantityChange?.(+e.target.value)}
-              sx={{ width: 120, height: "40px!important", fontFamily: "jost", fontWeight: '600', color:'#222'}}
+              sx={{
+                width: 120,
+                height: "40px!important",
+                fontFamily: "jost",
+                fontWeight: "600",
+                color: "#222",
+              }}
             >
               {[1, 2, 3, 4, 5].map((val) => (
                 <MenuItem key={val} value={val}>
@@ -196,7 +245,7 @@ export default function SingleOrderCard(order: OrderCardProps) {
         </Stack>
       </Box>
 
-      {/* Arrow Icon */}
+
       {order.arrowReq && (
         <Link href="/order-summary-page">
           <IconButton

@@ -188,17 +188,17 @@ export default function CardCollection({
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
       border: "none",
     },
-    fontSize: "14px",
+    fontSize: "13px",
     color: "#222",
   }}
 >
   <MenuItem disabled value="">
     Sort by
   </MenuItem>
-  <MenuItem value="priceLowHigh" sx={{ fontSize: "14px", color: "#222" }}>
+  <MenuItem value="priceLowHigh" sx={{ fontSize: "13px", color: "#222" }}>
     Price: Low to High
   </MenuItem>
-  <MenuItem value="priceHighLow" sx={{ fontSize: "14px", color: "#222" }}>
+  <MenuItem value="priceHighLow" sx={{ fontSize: "13px", color: "#222" }}>
     Price: High to Low
   </MenuItem>
 </Select>
@@ -249,7 +249,7 @@ export default function CardCollection({
           <Box display="flex" gap={1} mb={1}>
             <Box
               sx={{
-                fontSize: "14px",
+                fontSize: "13px",
                 background: "#fff",
                 px: 1,
                 py: 0.5,
@@ -261,7 +261,7 @@ export default function CardCollection({
             </Box>
             <Box
               sx={{
-                fontSize: "14px",
+                fontSize: "13px",
                 background: "#fff",
                 px: 1,
                 py: 0.5,

@@ -42,9 +42,15 @@ export default function ReviewAndPayPage() {
             alignItems="flex-start"
           >
             <Box flex={2} display="flex" flexDirection="column" gap={3}>
-              <Typography variant="h5" fontWeight={600} sx={{"@media (max-width:540px)": {
-            marginTop:'30px',
-          },}}> 
+              <Typography
+                variant="h5"
+                fontWeight={600}
+                sx={{
+                  "@media (max-width:540px)": {
+                    marginTop: "30px",
+                  },
+                }}
+              >
                 Review & Pay
               </Typography>
               <Box

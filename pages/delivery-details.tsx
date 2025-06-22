@@ -73,7 +73,6 @@ export default function OrderSummaryPage() {
         stepperReq={true}
       />
 
-      <Box sx={{ marginTop: "80px" }}></Box>
 
       <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
         <Container maxWidth="lg">

@@ -238,6 +238,7 @@ export default function PriceDetailsCard({
                   ...(primaryButtonVariant === "outlined" && {
                     borderColor: "#3f51b5",
                     color: "#3f51b5",
+                    fontWeight:'600'
                   }),
                 }}
               >
@@ -254,7 +255,7 @@ export default function PriceDetailsCard({
                 onClick={secondaryButtonOnClick}
                 sx={{
                   borderRadius: 0,
-                  height: "48px",
+                  height: "48px", 
                   ...(secondaryButtonVariant === "contained" && {
                     color: "#fff",
                   }),

@@ -64,7 +64,14 @@ export default function ChangePasswordForm() {
   };
 
   return (
-    <Box sx={{ height: "100vh" }}>
+    <Box
+  sx={{
+    height: {
+      xs: "auto",    
+      sm: "80vh", 
+    },
+  }}
+>
       <Box
         sx={{
           background: "#fff",
@@ -257,7 +264,7 @@ export default function ChangePasswordForm() {
                 py: 1.5,
                 textTransform: "uppercase",
                 borderRadius: "0",
-                fontWeight: "700",
+                fontWeight: "500",
               }}
             >
               Change Password
