@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Typography, Button } from "@mui/material";
+import { customVars } from "@/utils/theme";
+import { Box, Typography, Button, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -17,6 +18,8 @@ export default function HeroBanner({
   subtitle,
   buttonText,
 }: BannerProps) {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -30,9 +33,9 @@ export default function HeroBanner({
         alignItems: "end",
         justifyContent: "center",
         paddingBottom: "60px",
-        color: "#fff",
         textAlign: "center",
         overflow: "hidden",
+        fontFamily: "var(--font-family-primary)",
         "&::before": {
           content: '""',
           position: "absolute",
@@ -40,9 +43,9 @@ export default function HeroBanner({
           backgroundColor: "rgba(0, 0, 0, 0.4)",
           zIndex: 1,
         },
-        "@media (max-width:540px)": {
-          height: "500px",
-          padding: "0 20px 50px 20px",
+        [theme.breakpoints.down("sm")]: {
+          height: "700px",
+          padding: "0 20px 50px",
         },
       }}
     >
@@ -56,16 +59,15 @@ export default function HeroBanner({
           <Typography
             variant="h3"
             component="h1"
+            color="common.white"
             sx={{
-              fontWeight: 600,
+            fontSize: theme.typography.h1.fontSize,
               mb: 2,
-              color: "#fff",
-              fontFamily: "Manrope",
               textShadow: "0px 4px 6px rgba(0, 0, 0, 0.25)",
-              "@media (max-width:540px)": {
-                fontSize: "34px",
-                lineHeight: "43px",
-                fontWeight: "700",
+            
+              [theme.breakpoints.down("sm")]: {
+                fontSize: customVars.fontSizes.font32,
+                lineHeight:'45px',
               },
             }}
           >
@@ -73,19 +75,13 @@ export default function HeroBanner({
           </Typography>
 
           <Typography
-            variant="body1"
+           variant="subtitle1"
             sx={{
-              mb: 4,
-              color: "#fff",
-              fontSize: "18px",
-              fontFamily: "Jost",
+              textShadow: "0px 4px 6px rgba(0, 0, 0, 0.25)",
               width: "700px",
-              margin: "0 auto 32px",
-              fontWeight:'400',
-              textShadow: '0px 4px 6px rgba(0, 0, 0, 0.25)',
-              "@media (max-width:540px)": {
-                width: "100%",
-                fontSize: "16px",
+              margin:'0 auto 32px;',
+              [theme.breakpoints.down("sm")]: {
+                width:'100%',
               },
             }}
           >
@@ -95,17 +91,6 @@ export default function HeroBanner({
           <Link href="/product-list" passHref legacyBehavior>
             <Button
               variant="outlined"
-              sx={{
-                borderColor: "#fff",
-                color: "#fff",
-                px: 4,
-                py: 1.5,
-                fontWeight: 600,
-                "&:hover": {
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  borderColor: "#fff",
-                },
-              }}
             >
               {buttonText}
             </Button>

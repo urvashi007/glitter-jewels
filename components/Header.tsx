@@ -25,54 +25,50 @@ import { useTheme, styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import LoginPopup from "./LoginPopup";
-import CheckoutStepper from "./Stepper";
 import HorizontalStepper from "./Stepper";
 import ProfileDropdown from "./ProfileDropdown";
 
-// Type definition
-type HeaderNavItem = { label: string } | { label: string; submenu: string[] };
+type NavItem = {
+  label: string;
+  submenu?: string[];
+};
 
 type HeaderProps = {
   logoLight: string;
   logoDark: string;
-  navItems: HeaderNavItem[];
+  navItems: NavItem[];
   searchEnabled?: boolean;
   forceScrolled?: boolean;
   stepperReq?: boolean;
 };
 
-// ✅ Type guard
-function hasSubmenu(
-  item: HeaderNavItem
-): item is { label: string; submenu: string[] } {
-  return typeof item === "object" && item !== null && "submenu" in item;
-}
+// Type guard
+const hasSubmenu = (item: NavItem): item is NavItem & { submenu: string[] } =>
+  Array.isArray(item.submenu);
 
-const HeaderContainer = styled(AppBar)<{ scrolled: boolean }>(
-  ({ theme, scrolled }) => ({
-    background: scrolled ? "#fff" : "transparent",
-    padding: theme.spacing(1, 2),
-    transition: "all 0.2s ease",
-    zIndex: 9999,
-    boxShadow: scrolled ? theme.shadows[2] : "none",
-    borderBottom: scrolled ? "none" : "1px solid rgba(0, 0, 0, 0.44)",
-    animation: !scrolled ? "borderFadeIn 1s ease forwards" : "none",
-    "@keyframes borderFadeIn": {
-      "0%": { borderBottom: "1px solid transparent" },
-      "100%": { borderBottom: "1px solid #ffffff70" },
-    },
-  })
-);
+const HeaderContainer = styled(AppBar, {
+  shouldForwardProp: (prop) => prop !== "scrolled",
+})<{
+  scrolled?: boolean;
+}>(({ theme, scrolled }) => ({
+  background: scrolled ? theme.palette.background.default : "transparent",
+  padding: theme.spacing(1, 2),
+  transition: "all 0.2s ease",
+  zIndex: 9999,
+  boxShadow: scrolled ? theme.shadows[2] : "none",
+  borderBottom: scrolled ? "none" : `1px solid rgba(0, 0, 0, 0.44)`,
+  animation: !scrolled ? "borderFadeIn 1s ease forwards" : "none",
+  "@keyframes borderFadeIn": {
+    "0%": { borderBottom: "1px solid transparent" },
+    "100%": { borderBottom: "1px solid #ffffff70" },
+  },
+}));
 
 const DrawerContent = styled(Box)(({ theme }) => ({
   width: 250,
   height: "100%",
   padding: 0,
-  animation: `slideIn 0.4s ease`,
-  "@keyframes slideIn": {
-    from: { transform: "translateX(-100%)", opacity: 0 },
-    to: { transform: "translateX(0)", opacity: 1 },
-  },
+  ...(theme.mixins?.slideIn || {}),
 }));
 
 export default function Header({
@@ -82,7 +78,6 @@ export default function Header({
   searchEnabled = true,
   forceScrolled = false,
   stepperReq = false,
-
 }: HeaderProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -98,25 +93,27 @@ export default function Header({
   const loginPopupRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (forceScrolled) {
-      setScrolled(true);
-      return;
-    }
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    if (forceScrolled) return setScrolled(true);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, [forceScrolled]);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (searchBoxRef.current && !searchBoxRef.current.contains(target))
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        searchBoxRef.current &&
+        !searchBoxRef.current.contains(e.target as Node)
+      ) {
         setSearchOpen(false);
-
-      if (loginPopupRef.current && !loginPopupRef.current.contains(target))
+      }
+      if (
+        loginPopupRef.current &&
+        !loginPopupRef.current.contains(e.target as Node)
+      ) {
         setShowLoginPopup(false);
+      }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -127,168 +124,75 @@ export default function Header({
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
-  const iconColor = scrolled ? "#222" : "#fff";
+  const iconColor = scrolled
+    ? theme.palette.text.primary
+    : theme.palette.common.white;
   const logo = scrolled ? logoDark : logoLight;
 
   return (
-    <HeaderContainer
-      position="fixed"
-      scrolled={scrolled}
-      sx={{
-        zIndex: "3",
-        padding: "0",
-        boxShadow: "0px 4px 10px rgba(27, 36, 44, 0.08)",
-        "@media (max-width:768px)": {
-          padding: "0 16px",
-        },
-      }}
-    >
-      <Container
-        maxWidth="lg"
-        disableGutters
-        sx={{
-          "@media (max-width:540px)": {
-            padding: "0",
-          },
-        }}
-      > <Toolbar sx={{ justifyContent: "space-between", p: 0 }}>
-          {/* LEFT: Desktop Nav or Mobile Menu */}
+    <HeaderContainer position="fixed" scrolled={scrolled}>
+      <Container maxWidth="lg" disableGutters>
+        <Toolbar sx={{ justifyContent: "space-between", p: 0 }}>
           {isMobile ? (
             <IconButton edge="start" onClick={toggleDrawer(true)}>
               <Menu sx={{ color: iconColor }} />
             </IconButton>
           ) : (
             <Stack direction="row" spacing={4} alignItems="center">
-              {navItems.map((item, index) => {
-                const label = item.label;
-                if (hasSubmenu(item)) {
-                  const submenu = item.submenu;
-                  return (
+              {navItems.map((item, idx) => (
+                <Box
+                  key={idx}
+                  sx={{
+                    position: "relative",
+                    "&:hover .submenu":
+                      theme.mixins?.submenuHover || { display: "block" },
+                  }}
+                >
+                  <Typography
+                    sx={
+                      theme.mixins?.headerNavItem
+                        ? theme.mixins.headerNavItem(iconColor)
+                        : { color: iconColor }
+                    }
+                  >
+                    {item.label}
+                  </Typography>
+                  {hasSubmenu(item) && (
                     <Box
-                      key={index}
-                      sx={{
-                        position: "relative",
-                        "&:hover .submenu": {
-                          opacity: 1,
-                          visibility: "visible",
-                          transform: "translateY(0)",
-                        },
-                      }}
+                      className="submenu"
+                      sx={theme.mixins?.submenuItem || {}}
                     >
-                      <Typography
-                        sx={{
-                          fontWeight: 500,
-                          cursor: "pointer",
-                          color: iconColor,
-                          fontSize: "0.95rem",
-                          fontFamily: "Jost, sans-serif",
-                          textTransform: "uppercase",
-                          px: 1.5,
-                          py: 0.5,
-                        }}
-                      >
-                        {label}
-                      </Typography>
-                      <Box
-                        className="submenu"
-                        sx={{
-                          position: "absolute",
-                          top: "100%",
-                          left: 0,
-                          minWidth: 250,
-                          opacity: 0,
-                          visibility: "hidden",
-                          transform: "translateY(10px)",
-                          transition: "all 0.3s ease",
-                          zIndex: 2000,
-                          pt: "17px",
-                          color: "#222",
-                        }}
-                      >
-                        {submenu.map((subItem, i) => (
-                          <Link
-                            key={i}
-                            href={`/${subItem.toLowerCase().replace(/\s+/g, "-")}`}
-                            passHref
-                            style={{
-                              color: "inherit",
-                              textDecoration: "none",
-                            }}
-                          >
-                            <Typography
-                              sx={{
-                                display: "block",
-                                px: 2,
-                                py: 1,
-                                fontSize: "0.875rem",
-                                color: "#222",
-                                backgroundColor: "#fff",
-                                "&:hover": {
-                                  backgroundColor: "#fff",
-                                  color: "#445B9C",
-                                },
-                              }}
-                            >
-                              {subItem}
-                            </Typography>
-                          </Link>
-                        ))}
-                      </Box>
+                      {item.submenu.map((sub, i) => (
+                        <Link
+                          key={i}
+                          href={`/${sub.toLowerCase().replace(/\s+/g, "-")}`}
+                          style={{ textDecoration: "none" }}
+                          passHref
+                        >
+                          <Typography sx={theme.mixins?.submenuTypography}>
+                            {sub}
+                          </Typography>
+                        </Link>
+                      ))}
                     </Box>
-                  );
-                }
-
-                return (
-                  <Box key={index}>
-                    <Typography
-                      sx={{
-                        fontWeight: 500,
-                        cursor: "pointer",
-                        color: iconColor,
-                        fontSize: "0.95rem",
-                        fontFamily: "Jost, sans-serif",
-                        textTransform: "uppercase",
-                        px: 1.5,
-                        py: 0.5,
-                      }}
-                    >
-                      {label}
-                    </Typography>
-                  </Box>
-                );
-              })}
+                  )}
+                </Box>
+              ))}
             </Stack>
           )}
 
-          {/* CENTER: Logo */}
           <Link href="/" passHref>
             <Box
               component="img"
               src={logo}
               alt="Logo"
-              sx={{
-                width: 100,
-                objectFit: "contain",
-                transition: "0.3s ease",
-                position: "absolute",
-                left: "50%",
-                transform: "translateX(-50%)",
-                top: "12px",
-              }}
+              sx={theme.mixins?.centerLogo}
             />
           </Link>
 
-          {/* RIGHT: Icons */}
           <Stack direction="row" spacing={{ xs: 0, md: 2 }} alignItems="center">
             <Link href="/custom-order" passHref legacyBehavior>
-            <IconButton
-                sx={{
-                  ml: {
-                    xs: 0,
-                    md: "auto",
-                  },
-                }}
-              >
+              <IconButton>
                 <Box
                   component="img"
                   src={scrolled ? "/plus-black.svg" : "/plus-white.svg"}
@@ -305,16 +209,15 @@ export default function Header({
                   display: "flex",
                   alignItems: "center",
                   border: `1px solid ${searchOpen ? iconColor : "transparent"}`,
-                  width: searchOpen ? "220px" : "50px",
-                  height: "36px",
-                  overflow: "hidden",
+                  width: searchOpen ? 220 : 50,
+                  height: 36,
                   transition: "all 0.3s ease",
-                  marginLeft: "0!important",
                   backgroundColor: searchOpen
                     ? scrolled
-                      ? "#fff"
-                      : "rgba(255,255,255,0.1)"
+                      ? theme.palette.common.white
+                      : "rgba(255, 255, 255, 0.1)"
                     : "transparent",
+                  marginLeft: "0!important",
                 }}
               >
                 <InputBase
@@ -324,9 +227,8 @@ export default function Header({
                     ml: 1,
                     flex: 1,
                     color: iconColor,
-                    fontSize: "0.9rem",
+                    fontSize: theme.typography.caption.fontSize,
                     opacity: searchOpen ? 1 : 0,
-                    transition: "opacity 0.3s ease",
                     "::placeholder": {
                       color: scrolled ? "#888" : "#ccc",
                     },
@@ -336,7 +238,8 @@ export default function Header({
                   <Box
                     component="img"
                     src={scrolled ? "/search-black.svg" : "/search.svg"}
-                    alt="Search"
+                    alt="search"
+                    sx={{ width: 20, height: 20 }}
                   />
                 </IconButton>
               </Box>
@@ -351,53 +254,45 @@ export default function Header({
               />
             </IconButton>
 
-            {/* USER ICON + LOGIN POPUP */}
-{/* USER ICON + LOGIN POPUP */}
-<Box sx={{ position: "relative" }}>
-  {isLoggedIn ? (
-    <ProfileDropdown
-      onLogout={() => {
-        setIsLoggedIn(false);
-      }}
-    />
-  ) : (
-    <>
-      <IconButton onClick={() => setShowLoginPopup(true)}>
-        <Box
-          component="img"
-          src={scrolled ? "/user.svg" : "/user-white.svg"}
-          alt="user"
-          sx={{ width: 22, height: 22 }}
-        />
-      </IconButton>
+            <Box sx={{ position: "relative" }}>
+              {isLoggedIn ? (
+                <ProfileDropdown onLogout={() => setIsLoggedIn(false)} />
+              ) : (
+                <>
+                  <IconButton onClick={() => setShowLoginPopup(true)}>
+                    <Box
+                      component="img"
+                      src={scrolled ? "/user.svg" : "/user-white.svg"}
+                      alt="user"
+                      sx={{ width: 22, height: 22 }}
+                    />
+                  </IconButton>
 
-      {showLoginPopup && (
-        <Box
-          ref={loginPopupRef}
-          sx={{
-            position: "absolute",
-            top: "calc(100% + 10px)",
-            right: 0,
-            zIndex: 3000,
-          }}
-        >
-          <LoginPopup
-            onLoginClick={() => {
-              setIsLoggedIn(true);
-              setShowLoginPopup(false);
-            }}
-            onCreateAccountClick={() => {}}
-          />
-        </Box>
-      )}
-    </>
-  )}
-</Box>
-
+                  {showLoginPopup && (
+                    <Box
+                      ref={loginPopupRef}
+                      sx={{
+                        position: "absolute",
+                        top: "calc(100% + 10px)",
+                        right: 0,
+                        zIndex: 3000,
+                      }}
+                    >
+                      <LoginPopup
+                        onLoginClick={() => {
+                          setIsLoggedIn(true);
+                          setShowLoginPopup(false);
+                        }}
+                        onCreateAccountClick={() => {}}
+                      />
+                    </Box>
+                  )}
+                </>
+              )}
+            </Box>
           </Stack>
         </Toolbar>
 
-        {/* Mobile Drawer */}
         <Drawer
           anchor="left"
           open={drawerOpen}
@@ -414,45 +309,44 @@ export default function Header({
                 <Close />
               </IconButton>
             </Box>
-
             <List sx={{ mt: 3 }}>
-              {navItems.map((item, index) => {
-                const label = item.label;
-                if (hasSubmenu(item)) {
-                  return (
-                    <Accordion key={index} sx={{ boxShadow: "none" }}>
-                      <AccordionSummary expandIcon={<ExpandMore />}>
-                        <Typography>{label}</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails sx={{ p: 0 }}>
-                        <List disablePadding>
-                          {item.submenu.map((subItem, subIndex) => (
-                            <ListItem key={subIndex}> 
-                              <ListItemText primary={subItem}/>
-                            </ListItem>
-                          ))}
-                        </List>
-                      </AccordionDetails>
-                    </Accordion>
-                  );
-                }
-
-                return (
-                  <ListItem key={index} sx={{borderBottom:'1px solid #ccc'}}>
-                    <ListItemText primary={label} />
+              {navItems.map((item, idx) =>
+                hasSubmenu(item) ? (
+                  <Accordion key={idx} sx={{ boxShadow: "none" }}>
+                    <AccordionSummary expandIcon={<ExpandMore />}>
+                      <Typography>{item.label}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ p: 0 }}>
+                      <List disablePadding>
+                        {item.submenu.map((sub, j) => (
+                          <ListItem key={j}>
+                            <ListItemText primary={sub} />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </AccordionDetails>
+                  </Accordion>
+                ) : (
+                  <ListItem
+                    key={idx}
+                    sx={{
+                      borderBottom: `1px solid ${theme.palette.divider}`,
+                    }}
+                  >
+                    <ListItemText primary={item.label} />
                   </ListItem>
-                );
-              })}
+                )
+              )}
             </List>
           </DrawerContent>
         </Drawer>
       </Container>
-      {stepperReq && (
-      <Container maxWidth='lg'>
-      <HorizontalStepper activeStep={1}/>
-      </Container>
-      )}
 
+      {stepperReq && (
+        <Container maxWidth="lg">
+          <HorizontalStepper activeStep={1} />
+        </Container>
+      )}
     </HeaderContainer>
   );
 }

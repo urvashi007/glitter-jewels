@@ -12,6 +12,7 @@ import InfoCardBanner from "@/components/InfoCardBanner";
 import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import FadeInOnScroll from "@/components/FadeInOnScroll";
+import { customVars } from "@/utils/theme";
 
 const productsItem: Product[] = [
   {
@@ -99,12 +100,15 @@ export default function HomePage() {
       />
 
       <FadeInOnScroll>
+      <Box sx={{background:customVars.background.whitebg }}>
         <CategoriesSection />
+        </Box>
       </FadeInOnScroll>
 
       <FadeInOnScroll>
+      <Box sx={{background:customVars.background.whitebg }}>
       <Container maxWidth="lg" sx={{ p: 0 }}>
-        <Box maxWidth="lg" sx={{ mx: "auto", py: 10 }}>
+        <Box maxWidth="lg" sx={{ mx: "auto", py: 10, background:customVars.background.whitebg }}>
           <CardCollection
             products={productsItem}
             title="Our Latest Collection"
@@ -114,9 +118,11 @@ export default function HomePage() {
           />
         </Box>
         </Container>
+        </Box>
       </FadeInOnScroll>
 
       <FadeInOnScroll>
+      <Box sx={{background:customVars.background.whitebg }}>
         <InfoCardBanner
           image="/info-banner.png"
           title="Introducing Our New High Jewellery Collection"
@@ -133,10 +139,12 @@ export default function HomePage() {
             "& p": { width: "640px" },
           }}
         />
+        </Box>
       </FadeInOnScroll>
      
 
       <FadeInOnScroll>
+      <Box sx={{background:customVars.background.whitebg }}>
       <Container maxWidth="lg" sx={{ p: 0 }}>
         <Box maxWidth="lg" sx={{ mx: "auto", py: 10 }}>
           <CardCollection
@@ -148,10 +156,12 @@ export default function HomePage() {
           />
         </Box>
         </Container>
+        </Box>
       </FadeInOnScroll>
      
 
         <FadeInOnScroll>
+        <Box sx={{background:customVars.background.whitebg }}>
         <Container maxWidth="lg" sx={{ p: 0 }}>
           <Box
             sx={{
@@ -182,10 +192,13 @@ export default function HomePage() {
             ))}
           </Box>
           </Container>
+          </Box>
         </FadeInOnScroll>
      
         <FadeInOnScroll>
+        <Box sx={{background:customVars.background.whitebg }}>
       <Footer />
+      </Box>
       </FadeInOnScroll>    
       <ProductDetailsDrawer
         open={drawerOpen}

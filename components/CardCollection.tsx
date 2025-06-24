@@ -15,16 +15,18 @@ import {
   SelectChangeEvent,
   useMediaQuery,
   useTheme,
+  Container,
 } from "@mui/material";
 import { ArrowRight, Heart, HeartIcon, Plus, ChevronDown } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { customVars } from "@/utils/theme";
 
 const StyledChevronDown = ({ open }: { open: boolean }) => (
   <ChevronDown
     style={{
-      color: "#222",
+      color: customVars.colors.dark,
       transform: open ? "rotate(180deg)" : "rotate(0deg)",
       transition: "transform 0.3s ease",
       position: "absolute",
@@ -46,6 +48,7 @@ export type Product = {
 type LatestCollectionProps = {
   title?: string;
   viewAllLink?: string;
+  viewAllText?: string;
   products: Product[];
   columns?: number;
   showProductCountAndSort?: boolean;
@@ -66,6 +69,7 @@ export default function CardCollection({
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
   const [sortBy, setSortBy] = useState("priceLowHigh");
   const [sortOpen, setSortOpen] = useState(false);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const toggleFavorite = (id: string) => {
     setFavorites((prev) => ({
@@ -78,7 +82,6 @@ export default function CardCollection({
     return [...products].sort((a, b) => {
       const priceA = parseInt(a.price.replace(/[^\d]/g, ""), 10) || 0;
       const priceB = parseInt(b.price.replace(/[^\d]/g, ""), 10) || 0;
-
       switch (sortBy) {
         case "priceLowHigh":
           return priceA - priceB;
@@ -90,142 +93,111 @@ export default function CardCollection({
     });
   }, [products, sortBy]);
 
+  const hoverIconsSx = {
+    position: "absolute" as const,
+    bottom: 16,
+    right: 16,
+    display: "flex",
+    flexDirection: "column",
+    gap: 1,
+    opacity: 0,
+    transform: "translateY(10px)",
+    transition: "all 0.3s ease",
+  };
+
   return (
     <Box>
-      {(title || viewAllLink) && (
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={4}
-        >
-          {title && <Typography variant="h2">{title}</Typography>}
-          {viewAllLink && (
-            <Link
-              href={viewAllLink}
-              underline="none"
-              sx={{
-                color: "#445B9C",
-                fontFamily: "jost",
-                fontSize: "18px",
-                fontWeight: "500",
-                display: "inline-flex",
-                alignItems: "center",
-              }}
-            >
-              VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
-            </Link>
-          )}
-        </Box>
-      )}
+      <Container maxWidth="lg">
+        {(title || viewAllLink) && (
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    mb={4}
+                    sx={{
+                      flexDirection: { xs: "column", sm: "row" },
+                      alignItems: { xs: "flex-start", sm: "center" },
+                      gap: { xs: 2, sm: 0 },
+                    }}
+                  >
+                    {title && (
+                      <Typography
+                        variant="h2"
+                        sx={{
+                          fontSize: {
+                            xs: customVars.fontSizes.lg,
+                            sm: customVars.fontSizes.xl,
+                          },
+                        }}
+                      >
+                        {title}
+                      </Typography>
+                    )}
+                    {viewAllLink && (
+                      <Link href={viewAllLink} underline="none">
+                        VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
+                      </Link>
+                    )}
+                  </Box>
+                )}
 
-      {showProductCountAndSort && (
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={3}
-        >
-          <Typography variant="h6" fontWeight={600}>
-            {products.length} Products
-          </Typography>
+        {showProductCountAndSort && (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={3}
+          >
+            <Typography variant="h6" fontWeight={600}>
+              {products.length} Products
+            </Typography>
+            <FormControl size="small" variant="outlined" sx={{ minWidth: 160 }}>
+              <Select
+                value={sortBy}
+                displayEmpty
+                onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
+                onOpen={() => setSortOpen(true)}
+                onClose={() => setSortOpen(false)}
+                IconComponent={() => <StyledChevronDown open={sortOpen} />}
+                sx={{
+                  fontSize: customVars.fontSizes.sm,
+                  fontWeight: 600,
+                  fontFamily: customVars.fontFamily.secondary,
+                  ".MuiOutlinedInput-notchedOutline": {
+                    border: `1px solid ${customVars.colors.dark}`,
+                  },
+                }}
+              >
+                <MenuItem disabled value="">
+                  Sort by
+                </MenuItem>
+                <MenuItem value="priceLowHigh">Price: Low to High</MenuItem>
+                <MenuItem value="priceHighLow">Price: High to Low</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+        )}
 
-          <FormControl
-            size="small"
-            variant="outlined"
+        {isMobile ? (
+          <Swiper spaceBetween={16} slidesPerView={1.2}>
+            {sortedProducts.map((item) => (
+              <SwiperSlide key={item.id}>{renderCard(item)}</SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <Grid
+            container
+            spacing={3}
             sx={{
-              minWidth: 160,
-              height: "40px",
-              border: "1px solid #333",
-              borderRadius: 0,
-              position: "relative",
-              ".MuiOutlinedInput-root": {
-                padding: "0px 12px",
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  border: "none !important",
-                },
-                "&.Mui-focused": {
-                  boxShadow: "none",
-                },
-              },
-              ".MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              ".MuiSelect-select": {
-                padding: 0,
-                fontSize: "14px",
-                fontWeight: 600,
-                color: "#222",
-                display: "flex",
-                alignItems: "center",
-              },
+              display: "grid",
+              gridTemplateColumns: `repeat(${columns}, 1fr)`,
             }}
           >
-<Select
-  value={sortBy}
-  displayEmpty
-  onChange={(e: SelectChangeEvent) => setSortBy(e.target.value)}
-  onOpen={() => setSortOpen(true)}
-  onClose={() => setSortOpen(false)}
-  IconComponent={() => <StyledChevronDown open={sortOpen} />}
-  MenuProps={{
-    PaperProps: {
-      sx: {
-        mt: 1,
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-      },
-    },
-    disableScrollLock: true, // important if the header is getting scroll-locked
-  }}
-  sx={{
-    border: "none",
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "none",
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      border: "none",
-    },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: "none",
-    },
-    fontSize: "13px",
-    color: "#222",
-  }}
->
-  <MenuItem disabled value="">
-    Sort by
-  </MenuItem>
-  <MenuItem value="priceLowHigh" sx={{ fontSize: "13px", color: "#222" }}>
-    Price: Low to High
-  </MenuItem>
-  <MenuItem value="priceHighLow" sx={{ fontSize: "13px", color: "#222" }}>
-    Price: High to Low
-  </MenuItem>
-</Select>
-          </FormControl>
-        </Stack>
-      )}
-
-      {isMobile ? (
-        <Swiper spaceBetween={16} slidesPerView={1.2}>
-          {sortedProducts.map((item) => (
-            <SwiperSlide key={item.id}>{renderCard(item)}</SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <Grid
-          container
-          spacing={3}
-          sx={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${columns}, 1fr)`,
-          }}
-        >
-          {sortedProducts.map((item) => (
-            <Grid key={item.id}>{renderCard(item)}</Grid>
-          ))}
-        </Grid>
-      )}
+            {sortedProducts.map((item) => (
+              <Grid key={item.id}>{renderCard(item)}</Grid>
+            ))}
+          </Grid>
+        )}
+      </Container>
     </Box>
   );
 
@@ -234,39 +206,39 @@ export default function CardCollection({
       <>
         <Card
           elevation={0}
+          onMouseEnter={() => setHoveredId(item.id)}
+          onMouseLeave={() => setHoveredId(null)}
           sx={{
             p: 2,
-            backgroundColor: "#f7f7f7",
+            backgroundColor: customVars.background.bgf7f7f7,
             borderRadius: 0,
             position: "relative",
             overflow: "visible",
-            "&:hover .hover-icons": {
-              opacity: 1,
-              transform: "translateY(0px)",
-            },
           }}
         >
           <Box display="flex" gap={1} mb={1}>
             <Box
               sx={{
-                fontSize: "13px",
-                background: "#fff",
+                fontSize: customVars.fontSizes.xs,
+                background: customVars.background.whitebg,
+                fontFamily: customVars.fontFamily.primary,
                 px: 1,
                 py: 0.5,
                 borderRadius: 0.5,
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
               Gold W : {item.gold}
             </Box>
             <Box
               sx={{
-                fontSize: "13px",
-                background: "#fff",
+                fontSize: customVars.fontSizes.xs,
+                background: customVars.background.whitebg,
+                fontFamily: customVars.fontFamily.primary,
                 px: 1,
                 py: 0.5,
                 borderRadius: 0.5,
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
               Dia. WT : {item.diamond}
@@ -277,32 +249,35 @@ export default function CardCollection({
             component="img"
             src={item.image}
             alt={item.id}
-            sx={{ width: "100%", height: 240, objectFit: "contain", mb: 2 }}
+            sx={{
+              width: "100%",
+              height: 240,
+              objectFit: "contain",
+              mb: 2,
+            }}
           />
 
           <Box
-            className="hover-icons"
             sx={{
-              position: "absolute",
-              bottom: 16,
-              right: 16,
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-              opacity: 0,
-              transform: "translateY(10px)",
-              transition: "all 0.3s ease",
+              ...hoverIconsSx,
+              ...(hoveredId === item.id && {
+                opacity: 1,
+                transform: "translateY(0)",
+              }),
             }}
           >
             <IconButton
               size="small"
               onClick={() => toggleFavorite(item.id)}
               sx={{
-                background: "#fff",
-                color: favorites[item.id] ? "red" : "#000",
+                background: customVars.background.whitebg,
+                color: favorites[item.id] ? "red" : customVars.colors.dark,
                 width: 36,
                 height: 36,
-                borderRadius: "0",
+                borderRadius: 0,
+                "&:hover": {
+                  background: customVars.background.whitebg,
+                },
               }}
             >
               {favorites[item.id] ? (
@@ -316,12 +291,14 @@ export default function CardCollection({
               size="small"
               onClick={() => onProductClick?.(item)}
               sx={{
-                background: "#445B9C",
-                color: "#fff",
+                background: customVars.background.bgaccent,
+                color: customVars.colors.white,
                 width: 36,
                 height: 36,
-                borderRadius: "0",
-                "&:hover": { background: "#334a7d", },
+                borderRadius: 0,
+                "&:hover": {
+                  background: customVars.background.bgaccent,
+                },
               }}
             >
               <Plus size={16} />
@@ -330,7 +307,14 @@ export default function CardCollection({
         </Card>
 
         <CardContent sx={{ px: 0, pt: 1 }}>
-          <Typography variant="body1" sx={{ fontSize: 18, fontWeight: 500 }}>
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: customVars.fontSizes.md,
+              fontWeight: 500,
+              color: customVars.colors.dark,
+            }}
+          >
             {item.id} &nbsp;–&nbsp;
             <Box component="span" sx={{ fontWeight: 700 }}>
               {item.price}

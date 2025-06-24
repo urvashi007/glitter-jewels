@@ -56,7 +56,7 @@ export default function InnerBanner({ title, breadcrumbs }: InnerBannerProps) {
 
         {/* Title */}
         <Typography
-          variant="h3"
+          variant="h2"
           sx={{
             textShadow: '0px 4px 6px rgba(0, 0, 0, 0.25)',
           }}

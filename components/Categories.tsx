@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
-import { Box, Container, Typography, Link } from "@mui/material";
+import React, { useRef } from "react";
+import { Box, Container, Typography, Link, useTheme } from "@mui/material";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { customVars } from "@/utils/theme";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,75 +20,76 @@ const categories = [
   { title: "EARRINGS", img: "./Categories/img3.png", link: "#" },
 ];
 
-export default function CategorySlider() {
-  return (
-    <Box sx={{ py: 10, backgroundColor: "#F9FAFF" }}>
-      <Container maxWidth="lg">
-        {/* Heading */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 4,
-            "@media (max-width:540px)": {
-              alignItems: "flex-start",
-            },
-          }}
-        >
-          <Typography
-            variant="h2"
-            sx={{
-              "@media (max-width:540px)": {
-                fontSize: "25px",
-                maxWidth: "200px",
-              },
-            }}
-          >
-            Browse by Categories
-          </Typography>
-          <Link
-            href="/product-list"
-            underline="none"
-            sx={{
-              fontSize: "18px",
-              color: "#445B9C",
-              display: "inline-flex",
-              alignItems: "center",
-              fontFamily: "Jost",
-              fontWeight: "500",
-              "@media (max-width:540px)": {
-                fontSize: "16px",
-              },
-            }}
-          >
-            VIEW ALL <ArrowRight size={20} style={{ marginLeft: 6 }} />
-          </Link>
-        </Box>
+type CategorySliderProps = {
+  title?: string;
+  viewAllLink?: string;
+  viewAllText?: string;
+};
 
-        {/* Slider Wrapper */}
+export default function CategorySlider({
+  title = "Browse by Categories",
+  viewAllLink = "/product-list",
+  viewAllText = "VIEW ALL",
+}: CategorySliderProps) {
+  const theme = useTheme();
+  const prevRef = useRef<HTMLDivElement | null>(null);
+  const nextRef = useRef<HTMLDivElement | null>(null);
+
+  return (
+    <Box sx={{ py: 10, backgroundColor: customVars.background.bluex }}>
+      <Container maxWidth="lg">
+        {(title || viewAllLink) && (
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            mb={4}
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "flex-start", sm: "center" },
+              gap: { xs: 2, sm: 0 },
+            }}
+          >
+            {title && (
+              <Typography
+                variant="h2"
+                sx={{
+                  fontSize: {
+                    xs: customVars.fontSizes.lg,
+                    sm: customVars.fontSizes.xl,
+                  },
+                }}
+              >
+                {title}
+              </Typography>
+            )}
+            {viewAllLink && (
+              <Link href={viewAllLink} underline="none">
+                {viewAllText} <ArrowRight size={20} style={{ marginLeft: 6 }} />
+              </Link>
+            )}
+          </Box>
+        )}
+
+        {/* Slider */}
         <Box
-          className="slider-wrapper"
           sx={{
             position: "relative",
             "& .swiper-button-prev, & .swiper-button-next": {
               opacity: 0,
               visibility: "hidden",
               transition: "all 0.3s ease",
-              width: "48px",
-              height: "48px",
+              width: 48,
+              height: 48,
               borderRadius: "50%",
-              background: "#F9FAFF",
-              border: "1px solid #445B9C",
+              background: customVars.background.bluex,
+              border: `1px solid ${customVars.colors.accent}`,
+              color: customVars.colors.accent,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#445B9C",
-              padding:'10px',
+              padding: 1.25,
               zIndex: 10,
-              "&::after": {
-                display: "none",
-              },
+              "&::after": { display: "none" },
             },
             "&:hover .swiper-button-prev, &:hover .swiper-button-next": {
               opacity: 1,
@@ -97,42 +99,61 @@ export default function CategorySlider() {
               left: -20,
               top: "40%",
               position: "absolute",
+              [theme.breakpoints.down("sm")]: {
+                left: 0,
+                top: "auto",
+                bottom: "140px",
+              },
             },
             "& .swiper-button-next": {
               right: -20,
               top: "40%",
               position: "absolute",
+              [theme.breakpoints.down("sm")]: {
+                right: 0,
+                top: "auto",
+                bottom: "140px",
+              },
             },
           }}
         >
-          {/* Arrow buttons must be outside Swiper */}
-          <div className="swiper-button-prev">
-            <ArrowLeft size={10} strokeWidth={1.25} color="#445B9C" />
+          <div ref={prevRef} className="swiper-button-prev">
+            <ArrowLeft
+              size={16}
+              strokeWidth={1.25}
+              color={customVars.colors.accent}
+            />
           </div>
-          <div className="swiper-button-next">
-            <ArrowRight size={10} strokeWidth={1.25} color="#445B9C" />
+          <div ref={nextRef} className="swiper-button-next">
+            <ArrowRight
+              size={16}
+              strokeWidth={1.25}
+              color={customVars.colors.accent}
+            />
           </div>
 
           <Swiper
             modules={[Autoplay, Pagination, Navigation]}
+            onBeforeInit={(swiper) => {
+              if (
+                typeof swiper.params.navigation !== "boolean" &&
+                swiper.params.navigation
+              ) {
+                swiper.params.navigation.prevEl = prevRef.current;
+                swiper.params.navigation.nextEl = nextRef.current;
+              }
+            }}
             navigation={{
-              prevEl: ".swiper-button-prev",
-              nextEl: ".swiper-button-next",
+              prevEl: prevRef.current,
+              nextEl: nextRef.current,
             }}
             slidesPerView={3}
             autoplay={{ delay: 8000 }}
             loop
- 
             breakpoints={{
-              0: {
-                slidesPerView: 1,
-              },
-              600: {
-                slidesPerView: 2,
-              },
-              960: {
-                slidesPerView: 3,
-              },
+              0: { slidesPerView: 1 },
+              600: { slidesPerView: 2 },
+              960: { slidesPerView: 3 },
             }}
             onSlideChange={(swiper) => {
               const progress =
@@ -146,19 +167,21 @@ export default function CategorySlider() {
                 <Box
                   component="a"
                   href={cat.link}
+                  className="card"
                   sx={{
                     textDecoration: "none",
                     color: "inherit",
                     display: "block",
                     textAlign: "center",
                     p: 4,
-                    width: "100%",
                     maxWidth: { xs: "100%", sm: 400 },
                     mx: "auto",
-                    fontFamily: "Manrope",
+                    fontFamily: customVars.fontFamily.primary,
                     cursor: "pointer",
-                    "@media (max-width:540px)": {
-                      padding: "0",
+                    transition: "all 0.3s ease",
+                    "&:hover img": { transform: "scale(1.05)" },
+                    [theme.breakpoints.down("sm")]: {
+                      padding: 0,
                     },
                   }}
                 >
@@ -172,9 +195,6 @@ export default function CategorySlider() {
                         height: { xs: 200, sm: 300 },
                         objectFit: "contain",
                         transition: "transform 0.3s ease",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                        },
                       }}
                     />
                   </Box>
@@ -184,12 +204,12 @@ export default function CategorySlider() {
                       fontWeight: 500,
                       letterSpacing: "8px",
                       mb: 1,
-                      color: "#222",
+                      color: customVars.colors.dark,
                       fontSize: {
-                        xs: "28px",
-                        sm: "40px",
-                        fontFamily: "Manrope",
+                        xs: customVars.fontSizes.lg,
+                        sm: customVars.fontSizes.xl,
                       },
+                      fontFamily: customVars.fontFamily.primary,
                     }}
                   >
                     {cat.title}
@@ -198,14 +218,28 @@ export default function CategorySlider() {
                     sx={{
                       fontSize: 16,
                       fontWeight: 500,
-                      color: "#445B9C",
-                      fontFamily: "Jost",
-                      display: "flex",
+                      color: customVars.colors.accent,
+                      fontFamily: customVars.fontFamily.secondary,
+                      display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      position: "relative",
+                      overflow: "hidden",
+                      gap: 1,
+                      transition: "all 0.3s ease",
+                      "& .arrow-icon": {
+                        transform: "translateX(-8px)",
+                        opacity: 0,
+                        transition: "all 0.3s ease",
+                      },
+                      ".card:hover & .arrow-icon": {
+                        transform: "translateX(0)",
+                        opacity: 1,
+                      },
                     }}
                   >
                     DISCOVER THE COLLECTION
+                    <ArrowRight className="arrow-icon" size={18} />
                   </Box>
                 </Box>
               </SwiperSlide>
@@ -229,7 +263,7 @@ export default function CategorySlider() {
             id="progress-fill"
             sx={{
               height: "100%",
-              backgroundColor: "#445B9C",
+              backgroundColor: customVars.colors.accent,
               width: "33%",
               transition: "width 0.3s ease-in-out",
               borderRadius: 4,
