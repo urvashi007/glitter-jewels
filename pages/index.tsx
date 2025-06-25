@@ -112,11 +112,13 @@ export default function HomePage() {
       <Container maxWidth="lg" sx={{ p: 0 }}>
         <Box maxWidth="lg" sx={{ mx: "auto", py: 10, background:customVars.background.whitebg }}>
           <CardCollection
+          
             products={productsItem}
             title="Our Latest Collection"
             viewAllLink="/products"
             showProductCountAndSort={false}
             onProductClick={handleProductClick}
+            columns = {4}
           />
         </Box>
         </Container>
@@ -153,6 +155,7 @@ export default function HomePage() {
             showProductCountAndSort={false}
             viewAllLink="/products"
             onProductClick={handleProductClick}
+            columns = {4}
           />
         </Box>
         </Container>

@@ -1,7 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 import { SxProps, Theme, type CSSObject, type ThemeOptions } from "@mui/system";
 
-// ✅ Custom variables
 const customVars = {
   fontSizes: {
     xxs: "12px",
@@ -130,6 +129,7 @@ const customMixins = {
       opacity: 0.9,
     },
   } as CSSObject,
+  
   buttonOutlined: {
     backgroundColor: "transparent",
     color: customVars.colors.accent,
@@ -262,32 +262,6 @@ const theme = createTheme({
     },
   },
 },
-
-    // MuiButton: {
-    //   styleOverrides: {
-    //     root: {
-    //       fontFamily: customVars.fontFamily.secondary,
-    //       fontWeight: 500,
-    //     },
-    //     outlined: {
-    //       color: customVars.colors.white,
-    //       borderColor: customVars.colors.white,
-    //       fontSize: customVars.fontSizes.base,
-    //       padding: "12px 28px",
-    //       borderRadius: "0",
-    //       "&:hover": {
-    //         backgroundColor: customVars.colors.whiteRgba,
-    //       },
-    //     },
-    //     contained: {
-    //       color: customVars.colors.white,
-    //       fontSize: customVars.fontSizes.base,
-    //       padding: "12px 28px",
-    //       borderRadius: "0",
-    //       height: "48px",
-    //     },
-    //   },
-    // },
     MuiTextField: {
       variants: [
         {
@@ -402,6 +376,7 @@ const theme = createTheme({
         },
       },
     },
+    // white bg buttons
     MuiButton: {
       styleOverrides: {
         root: {
@@ -409,9 +384,9 @@ const theme = createTheme({
           fontWeight: 500,
         },
         outlined: {
-          color: customVars.colors.white,
-          borderColor: customVars.colors.white,
-          fontSize: customVars.fontSizes.base,
+          color: '#fff',
+          borderColor: '#fff',
+          fontSize: '16px',
           padding: "12px 28px",
           borderRadius: "0",
           "&:hover": {
