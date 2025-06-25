@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import { customVars } from "@/utils/theme";
 
 type ProfileDropdownProps = {
   name?: string;
@@ -95,12 +96,12 @@ export default function ProfileDropdown({
               </Avatar>
               <Box>
                 <Typography
-                  sx={{ fontSize: "14px", color: "#666", fontWeight: 400 }}
+                  sx={{ fontSize: "14px", color: "#666", fontWeight: 400,fontFamily:customVars.fontFamily.primary }}
                 >
                   Hello,
                 </Typography>
                 <Typography
-                  sx={{ fontSize: "16px", fontWeight: 700, color: "#222" }}
+                  sx={{ fontSize: "16px", fontWeight: 700, color: "#222", fontFamily:customVars.fontFamily.primary}}
                 >
                   {name}
                 </Typography>
@@ -124,6 +125,7 @@ export default function ProfileDropdown({
                       display: "flex",
                       alignItems: "center",
                       gap: 1.5,
+                      fontFamily:customVars.fontFamily.primary,
                       "&:hover": {
                         backgroundColor: "#f5f5f5",
                       },
@@ -149,6 +151,7 @@ export default function ProfileDropdown({
                   color: "#d32f2f",
                   display: "flex",
                   alignItems: "center",
+                  fontFamily:customVars.fontFamily.primary,
                   gap: 1.5,
                   "&:hover": {
                     backgroundColor: "#fce8e6",
