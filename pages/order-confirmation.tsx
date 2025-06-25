@@ -182,22 +182,12 @@ export default function OrderConfirmation() {
             mt={4}
           >
             <Button
-              variant="outlined"
-              sx={{ borderRadius: 0, px: 3, borderColor:'#445B9C', color:'#445B9C', }}
+              variant="customBtn"
             >
               Continue Shopping
             </Button>
             <Button
               variant="contained"
-              sx={{
-                backgroundColor: "#445B9C",
-                color: "#fff",
-                borderRadius: 0,
-                px: 3,
-                "&:hover": {
-                  backgroundColor: "#374a84",
-                },
-              }}
             >
               View Order
             </Button>

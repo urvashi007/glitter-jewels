@@ -236,21 +236,7 @@ export default function OrderSummaryPage() {
                 />
               ))}
             </Box>
-            <Box
-              sx={{
-                width: {
-                  xs: "100%",
-                  md: 416,
-                },
-                position: {
-                  md: "sticky",
-                },
-                top: {
-                  md: "150px",
-                },
-                alignSelf: "flex-start",
-              }}
-            >
+            <Box sx={(theme) => theme.mixins.stickySidebar}>
               <PriceDetailsCard
                 {...priceDetailsData}
                 appliedDiscountCode={appliedDiscount}

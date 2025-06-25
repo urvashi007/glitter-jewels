@@ -1,5 +1,6 @@
 "use client";
 
+import { customVars } from "@/utils/theme";
 import {
   Box,
   Card,
@@ -10,7 +11,6 @@ import {
   Link,
 } from "@mui/material";
 
-
 export interface DeliveryDetailsProps {
   name: string | React.ReactNode;
   address: string;
@@ -18,7 +18,7 @@ export interface DeliveryDetailsProps {
   HeadReq: string;
   checkboxLabel?: string;
   checked?: boolean;
-  LinkReq?:string;
+  LinkReq?: string;
   onCheck?: (checked: boolean) => void;
 }
 
@@ -28,38 +28,51 @@ export default function DeliveryDetailsCard({
   mobile,
   HeadReq,
   checkboxLabel,
-  LinkReq,
   checked,
+  LinkReq,
   onCheck,
 }: DeliveryDetailsProps) {
   return (
     <Card sx={{ boxShadow: "none", borderRadius: 0 }}>
       <CardContent sx={{ padding: 0 }}>
+        {/* Header Section */}
         {HeadReq && (
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             sx={{
-              borderBottom: "1px solid #ebebeb",
+              borderBottom: `1px solid ${customVars.colors.colore2e2e2}`,
               padding: "20px",
             }}
           >
             <Typography
               variant="h6"
-              gutterBottom
               sx={{
-                fontSize: "18px",
+                fontSize: customVars.fontSizes.md,
                 fontWeight: 700,
-                 marginBottom:'0'
+                mb: 0,
               }}
             >
               {HeadReq}
             </Typography>
 
             {LinkReq && (
-            <Link href="#" fontSize={14} fontWeight={500} sx={{textTransform:'uppercase', color:'#445B9C', textDecoration:'none', fontFamily:'jost'}}>{LinkReq}</Link>)}
-
+              <Link
+                href="#"
+                fontSize={customVars.fontSizes.sm}
+                fontWeight={500}
+                sx={{
+                  textTransform: "uppercase",
+                  color: customVars.colors.accent,
+                  textDecoration: "none",
+                  fontFamily: customVars.fontFamily.secondary,
+                  fontSize:customVars.fontSizes.sm,
+                }}
+              >
+                {LinkReq}
+              </Link>
+            )}
 
             {checkboxLabel && (
               <FormControlLabel
@@ -69,20 +82,20 @@ export default function DeliveryDetailsCard({
                     checked={checked}
                     onChange={(e) => onCheck?.(e.target.checked)}
                     sx={{
-                      color: "#A6A6A6",
-                      borderRadius: "0",
+                      color: customVars.border.Bordera6a6a6,
+                      borderRadius: 0,
                       "&.Mui-checked": {
-                        color: "#445B9C",
+                        color: customVars.colors.accent,
                       },
                     }}
                   />
                 }
                 label={
                   <Typography
-                    fontSize={16}
+                    fontSize={customVars.fontSizes.base}
                     fontWeight={400}
-                    fontFamily="Jost, sans-serif"
-                    color="#1A1A1A"
+                    fontFamily={customVars.fontFamily.secondary}
+                    color={customVars.colors.dark}
                   >
                     {checkboxLabel}
                   </Typography>
@@ -93,22 +106,34 @@ export default function DeliveryDetailsCard({
           </Box>
         )}
 
-        <Box sx={{ padding: "20px 20px 0 20px" }}>
-          
-          <Typography fontWeight="bold" sx={{ marginBottom: "8px" }}>
+        {/* Address Section */}
+        <Box sx={{ padding: "20px 20px 0" }}>
+          <Typography fontWeight="bold" sx={{ mb: "8px" }}>
             {name}
           </Typography>
+
           <Typography
-            sx={{ fontFamily: "Jost", color: "#404040", fontWeight: 400, marginBottom:'6px' }}
+            sx={{
+              fontFamily: customVars.fontFamily.secondary,
+              color: customVars.colors.color404040,
+              fontWeight: 400,
+              mb: "6px",
+            }}
           >
             {address}
           </Typography>
+
           <Typography
-            sx={{ fontFamily: "Jost", color: "#404040", fontWeight: 400 }}
+            sx={{
+              fontFamily: customVars.fontFamily.secondary,
+              color: customVars.colors.color404040,
+              fontWeight: 400,
+            }}
           >
-            Mobile Number: <Box component="span" sx={{ fontWeight: 500, }}>
-    {mobile}
-  </Box>
+            Mobile Number:{" "}
+            <Box component="span" sx={{ fontWeight: 500 }}>
+              {mobile}
+            </Box>
           </Typography>
         </Box>
       </CardContent>

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Box, Container } from "@mui/material";
 
-import HeroBanner from "@/components/Banner";
-import CardCollection, { Product } from "@/components/CardCollection";
+import HeroBanner from "@/components/HeroBanner/Banner";
+import CardCollection, { Product } from "@/components/CardCollection/CardCollection";
 import CategoriesSection from "@/components/Categories";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -51,12 +51,14 @@ const infoCards = [
     title: "Custom Design",
     description:
       "Our Unique Settings staff is highly dedicated and trained in delivering exceptional quality and service.",
+      buttonText:'Make an Order',
   },
   {
     image: "/info2.jpg",
     title: "Services",
     description:
       "We offer exquisite jewelry services including custom designs, repairs, and personalized styling to elevate your elegance.",
+      buttonText:'Check Now'
   },
 ];
 
@@ -106,7 +108,7 @@ export default function HomePage() {
       </FadeInOnScroll>
 
       <FadeInOnScroll>
-      <Box sx={{background:customVars.background.whitebg }}>
+ 
       <Container maxWidth="lg" sx={{ p: 0 }}>
         <Box maxWidth="lg" sx={{ mx: "auto", py: 10, background:customVars.background.whitebg }}>
           <CardCollection
@@ -118,11 +120,10 @@ export default function HomePage() {
           />
         </Box>
         </Container>
-        </Box>
+   
       </FadeInOnScroll>
 
       <FadeInOnScroll>
-      <Box sx={{background:customVars.background.whitebg }}>
         <InfoCardBanner
           image="/info-banner.png"
           title="Introducing Our New High Jewellery Collection"
@@ -139,12 +140,11 @@ export default function HomePage() {
             "& p": { width: "640px" },
           }}
         />
-        </Box>
+
       </FadeInOnScroll>
      
 
       <FadeInOnScroll>
-      <Box sx={{background:customVars.background.whitebg }}>
       <Container maxWidth="lg" sx={{ p: 0 }}>
         <Box maxWidth="lg" sx={{ mx: "auto", py: 10 }}>
           <CardCollection
@@ -156,7 +156,7 @@ export default function HomePage() {
           />
         </Box>
         </Container>
-        </Box>
+
       </FadeInOnScroll>
      
 
@@ -180,7 +180,7 @@ export default function HomePage() {
                   image={card.image}
                   title={card.title}
                   description={card.description}
-                  buttonText="Know More"
+                  buttonText={card.buttonText}
                   enableZoom
                   sx={{
                     alignItems: "inherit",
@@ -196,9 +196,8 @@ export default function HomePage() {
         </FadeInOnScroll>
      
         <FadeInOnScroll>
-        <Box sx={{background:customVars.background.whitebg }}>
       <Footer />
-      </Box>
+
       </FadeInOnScroll>    
       <ProductDetailsDrawer
         open={drawerOpen}

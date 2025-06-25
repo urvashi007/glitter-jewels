@@ -50,7 +50,6 @@ export default function ProductDetailsDrawer({
         <Box sx={{ borderBottom: "1px solid #ebebeb", padding: "22px 20px" }}>
           <Typography
             variant="h5"
-            sx={{ fontSize: "24px", fontWeight: "700", color: "#222" }}
           >
             Add Product Details
           </Typography>

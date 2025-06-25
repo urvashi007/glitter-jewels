@@ -1,60 +1,79 @@
 'use client';
 
 import { Box, Container, Typography, Breadcrumbs, Link } from '@mui/material';
+import { customVars } from '@/utils/theme';
 
 interface InnerBannerProps {
   title: string;
   breadcrumbs: { label: string; href?: string }[];
+  backgroundImage?: string;
 }
 
-export default function InnerBanner({ title, breadcrumbs }: InnerBannerProps) {
+export default function InnerBanner({
+  title,
+  breadcrumbs,
+  backgroundImage = '/innerBanner.jpg',
+}: InnerBannerProps) {
   return (
     <Box
       sx={{
         position: 'relative',
         width: '100%',
         height: { xs: 300, sm: 280, md: 374 },
-        backgroundImage: `url('/innerBanner.jpg')`,
+        backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         display: 'flex',
         alignItems: 'center',
-        color: '#fff',
+        color: customVars.colors.white,
+        fontFamily: customVars.fontFamily.primary,
       }}
     >
-      {/* Overlay */}
+
       <Box
         sx={{
           position: 'absolute',
           inset: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)',
+          backgroundColor: customVars.colors.overlayDark,
           zIndex: 1,
         }}
       />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-        {/* Breadcrumb */}
-        <Breadcrumbs aria-label="breadcrumb" sx={{ color: '#fff', mb: 1 }}>
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{ color: customVars.colors.white, mb: 1 }}
+        >
           {breadcrumbs.map((crumb, index) =>
             crumb.href ? (
               <Link
                 key={index}
                 underline="hover"
                 color="inherit"
-                fontSize="14px"
                 href={crumb.href}
+                sx={{
+                  fontSize: customVars.fontSizes.sm,
+                  color: customVars.colors.white,
+                  fontFamily: customVars.fontFamily.secondary,
+                }}
               >
                 {crumb.label}
               </Link>
             ) : (
-              <Typography key={index} color="#fff" fontSize="14px">
+              <Typography
+                key={index}
+                sx={{
+                  fontSize: customVars.fontSizes.sm,
+                  color: customVars.colors.white,
+                  fontFamily: customVars.fontFamily.secondary,
+                }}
+              >
                 {crumb.label}
               </Typography>
             )
           )}
         </Breadcrumbs>
 
-        {/* Title */}
         <Typography
           variant="h2"
           sx={{

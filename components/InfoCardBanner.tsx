@@ -35,6 +35,7 @@ export default function InfoCardBanner({
         color: customVars.colors.white,
         fontFamily: customVars.fontFamily.primary,
         cursor: enableZoom ? "pointer" : "default",
+        background:customVars.background.whitebg,
         [theme.breakpoints.down("sm")]: {
           height: "500px",
           p: "30px 20px",
@@ -100,17 +101,19 @@ export default function InfoCardBanner({
           },
         }}
       >
-        <Typography
-          variant="h4"
-          mb={2}
-          sx={{
-            [theme.breakpoints.down("sm")]: {
-              fontSize: customVars.fontSizes.lg,
-            },
-          }}
-        >
-          {title}
-        </Typography>
+       <Typography
+        variant="h4"
+        mb={2}
+        sx={{
+          maxWidth: 600,
+          [theme.breakpoints.down("sm")]: {
+            fontSize: customVars.fontSizes.lg,
+            maxWidth: 600,
+          },
+        }}
+      >
+        {title}
+      </Typography>
 
         <Typography
           variant="body2"

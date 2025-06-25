@@ -74,7 +74,7 @@ export default function OrderSummaryPage() {
       />
 
 
-      <Box sx={{ background: "#E5E9F5", padding: "160px 0 80px 0" }}>
+      <Box sx={{ background: "#E5E9F5", padding: "200px 0 80px 0" }}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -123,21 +123,7 @@ export default function OrderSummaryPage() {
             
 
             {/* Right Section */}
-            <Box
-              sx={{
-                width: {
-                  xs: "100%",
-                  md: 416,
-                },
-                position: {
-                  md: "sticky",
-                },
-                top: {
-                  md: "0px",
-                },
-                alignSelf: "flex-start",
-              }}
-            >
+            <Box sx={(theme) => theme.mixins.stickySidebar}>
               <PriceDetailsCard
                 {...priceDetailsData}
                 appliedDiscountCode={appliedDiscount}

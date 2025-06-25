@@ -8,12 +8,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  Visibility,
-  VisibilityOff,
-  CheckCircle,
-} from "@mui/icons-material";
+import { Visibility, VisibilityOff, CheckCircle } from "@mui/icons-material";
 import { useState } from "react";
+import { customVars } from "@/utils/theme";
 
 export default function ChangePasswordForm() {
   const [form, setForm] = useState({
@@ -33,8 +30,14 @@ export default function ChangePasswordForm() {
   };
 
   const rules = [
-    { label: "Having at least 8 Characters", valid: form.newPassword.length >= 8 },
-    { label: "Includes at least one digit (0-9)", valid: /\d/.test(form.newPassword) },
+    {
+      label: "Having at least 8 Characters",
+      valid: form.newPassword.length >= 8,
+    },
+    {
+      label: "Includes at least one digit (0-9)",
+      valid: /\d/.test(form.newPassword),
+    },
     {
       label: "Includes at least one lowercase letter (a-z)",
       valid: /[a-z]/.test(form.newPassword),
@@ -60,21 +63,17 @@ export default function ChangePasswordForm() {
     flex: 1,
     mt: 1,
     "& .MuiOutlinedInput-root": { borderRadius: 0 },
-    "& input::placeholder": { opacity: 1, color: "#666" },
+    "& input::placeholder": {
+      opacity: 1,
+      color: customVars.colors.color5e5e5e,
+    },
   };
 
   return (
-    <Box
-  sx={{
-    height: {
-      xs: "auto",    
-      sm: "80vh", 
-    },
-  }}
->
+    <Box>
       <Box
         sx={{
-          background: "#fff",
+          background: customVars.background.whitebg,
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
         }}
       >
@@ -82,9 +81,9 @@ export default function ChangePasswordForm() {
           variant="h6"
           fontWeight={700}
           sx={{
-            fontSize: "18px",
+            fontSize: customVars.fontSizes.md,
             padding: "12px 20px",
-            borderBottom: "1px solid #ebebeb",
+            borderBottom: `1px solid ${customVars.border.borderd5d5d5}`,
             "@media (max-width:540px)": {
               display: "none",
             },
@@ -93,11 +92,15 @@ export default function ChangePasswordForm() {
           Change Password
         </Typography>
 
-        <Box sx={{ padding: "20px", fontFamily: "Jost" }}>
+        <Box sx={{ padding: "20px" }}>
+
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+              },
               gap: "20px",
               textTransform: "uppercase",
               fontWeight: "400",
@@ -105,7 +108,7 @@ export default function ChangePasswordForm() {
           >
             {/* Old Password */}
             <Box>
-              <Typography fontSize={14}>Old Password</Typography>
+            <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">Old Password</Typography>
               <TextField
                 placeholder="Enter old password"
                 type={showPassword.old ? "text" : "password"}
@@ -137,7 +140,7 @@ export default function ChangePasswordForm() {
 
             {/* New Password */}
             <Box>
-              <Typography fontSize={14}>New Password</Typography>
+            <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">New Password</Typography>
               <TextField
                 placeholder="Enter new password"
                 type={showPassword.new ? "text" : "password"}
@@ -156,11 +159,7 @@ export default function ChangePasswordForm() {
                           }))
                         }
                       >
-                        {showPassword.new ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
+                        {showPassword.new ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -175,15 +174,18 @@ export default function ChangePasswordForm() {
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+              },
               gap: "20px",
               mt: 2,
             }}
           >
             <Box>
-              <Typography fontSize={14} sx={{ textTransform: "uppercase" }}>
-                Confirm Password
-              </Typography>
+              <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
+              Old Password
+                              </Typography>
               <TextField
                 placeholder="Confirm new password"
                 type={showPassword.confirm ? "text" : "password"}
@@ -242,11 +244,10 @@ export default function ChangePasswordForm() {
                 />
                 <Typography
                   variant="body2"
-                  color={rule.valid ? "#000" : "#5E5E5E"}
+                  color={rule.valid ? customVars.colors.dark : customVars.colors.dark}
                   sx={{
-                    fontFamily: "Jost",
-                    fontWeight: "400",
-                    fontSize: "16px",
+                    fontFamily: customVars.fontFamily.secondary,
+                    fontSize: customVars.fontSizes.base,
                   }}
                 >
                   {rule.label}
@@ -259,13 +260,6 @@ export default function ChangePasswordForm() {
           <Box display="flex" justifyContent="flex-end" mt={4}>
             <Button
               variant="contained"
-              sx={{
-                px: 4,
-                py: 1.5,
-                textTransform: "uppercase",
-                borderRadius: "0",
-                fontWeight: "500",
-              }}
             >
               Change Password
             </Button>

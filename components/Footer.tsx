@@ -21,7 +21,7 @@ export default function Footer() {
     fontSize: customVars.fontSizes.sm,
     fontFamily: customVars.fontFamily.secondary,
     fontWeight: 400,
-    color: "#404040",
+    color: customVars.colors.color404040,
     textDecoration: "none",
   };
 
@@ -110,7 +110,7 @@ export default function Footer() {
               mb={2}
               sx={{
                 fontSize: customVars.fontSizes.md,
-                color: customVars.colors.color404040,
+                color: customVars.colors.dark,
               }}
             >
               Important Links

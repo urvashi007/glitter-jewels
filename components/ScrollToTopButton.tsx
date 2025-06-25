@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { Box, Fab, Zoom } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { customVars } from "@/utils/theme";
 
 export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
@@ -36,7 +37,7 @@ export default function ScrollToTopButton() {
           color="primary"
           onClick={handleClick}
           aria-label="scroll back to top"
-          sx={{ background:'#445B9C',}}
+          sx={{ backgroundColor: customVars.background.bgaccent, color:customVars.colors.white}}
         >
           <KeyboardArrowUpIcon />
         </Fab>

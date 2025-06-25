@@ -1,7 +1,8 @@
 "use client";
 
 import { forwardRef } from "react";
-import { Paper, Box } from "@mui/material";
+import { Paper, Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 type LoginPopupProps = {
   onLoginClick: () => void;
@@ -10,13 +11,15 @@ type LoginPopupProps = {
 
 const LoginPopup = forwardRef<HTMLDivElement, LoginPopupProps>(
   ({ onLoginClick, onCreateAccountClick }, ref) => {
+    const theme = useTheme();
+
     return (
       <Paper
         ref={ref}
         elevation={4}
         sx={{
           position: "absolute",
-          right:0,
+          right: 0,
           top: 0,
           width: 260,
           borderRadius: 0,
@@ -27,39 +30,27 @@ const LoginPopup = forwardRef<HTMLDivElement, LoginPopupProps>(
           gap: 2,
         }}
       >
-        <Box
-          sx={{
-            bgcolor: "#445B9C",
-            color: "#fff",
-            padding: "10px 0",
-            textAlign: "center",
-            fontWeight: 500,
-            cursor: "pointer",
-            fontSize: "14px",
-          }}
+        <Button
+          variant="contained"
+          fullWidth
           onClick={onLoginClick}
+          sx={theme.mixins.buttonPrimary}
         >
           LOGIN
-        </Box>
-        <Box
-          sx={{
-            border: "1px solid #445B9C",
-            color: "#445B9C",
-            padding: "10px 0",
-            textAlign: "center",
-            fontWeight: 500,
-            cursor: "pointer",
-            fontSize: "14px",
-          }}
+        </Button>
+        <Button
+          variant="outlined"
+          fullWidth
           onClick={onCreateAccountClick}
+          sx={theme.mixins.buttonOutlined}
         >
           CREATE ACCOUNT
-        </Box>
+        </Button>
       </Paper>
     );
   }
 );
 
-LoginPopup.displayName = "LoginPopup"; // to avoid React warning
+LoginPopup.displayName = "LoginPopup";
 
 export default LoginPopup;

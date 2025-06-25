@@ -83,8 +83,6 @@ const orders: OrderCardProps[] = [
     styleCode: "",
     arrowReq: false,
   },
-
-
 ];
 const priceDetailsData = {
   itemsTotal: "₹88,519",
@@ -106,18 +104,14 @@ const deliveryDetailsData = {
 };
 
 export default function OrderSummaryPage() {
-
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [addressDrawerOpen, setAddressDrawerOpen] = useState(false);
 
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
 
-
-
   const handleSaveAddress = (newAddress: Address) => {
     console.log("Saved address:", newAddress);
-
   };
 
   return (
@@ -143,9 +137,7 @@ export default function OrderSummaryPage() {
         forceScrolled={true}
       />
 
-    
-
-      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
+      <Box sx={(theme) => theme.mixins.sectionLayout}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -165,12 +157,7 @@ export default function OrderSummaryPage() {
                 }}
               >
                 <Typography
-                  variant="h2"
-                  sx={{
-                    fontSize: "30px",
-                    fontWeight: "700",
-                    fontFamily: "Manrope",
-                  }}
+                  variant="h6"
                 >
                   Order Details
                 </Typography>
@@ -180,60 +167,46 @@ export default function OrderSummaryPage() {
                 HeadReq="Delivery Details"
                 {...deliveryDetailsData}
               />
-                <Box sx={{ marginTop:'24px'}}>
-              <Stack
-          spacing={2}
-          sx={{
-            "& > :not(style) ~ :not(style)": {
-              marginTop: 0,
-            },
-          }}
-        >
-           <Box p={2} sx={{background:'#fff'}}>
-      <OrderInfoRow
-        orderId="22201"
-        paymentType="Full"
-        orderDate="10 June 2025"
-        orderStatus="Order Process"
-        statusBgColor="#F6EEE3"
-        statusTextColor="#AD5B00"
-      />
-    </Box>
-          {orders.map((order) => (
-            <SingleOrderCard key={order.id + order.styleCode} {...order} />
-          ))}
-        </Stack>
-        </Box>
-
-              
+              <Box sx={{ marginTop: "24px" }}>
+                <Stack
+                  spacing={2}
+                  sx={{
+                    "& > :not(style) ~ :not(style)": {
+                      marginTop: 0,
+                    },
+                  }}
+                >
+                  <Box p={2} sx={{ background: "#fff" }}>
+                    <OrderInfoRow
+                      orderId="22201"
+                      paymentType="Full"
+                      orderDate="10 June 2025"
+                      orderStatus="Order Process"
+                      statusBgColor="#F6EEE3"
+                      statusTextColor="#AD5B00"
+                    />
+                  </Box>
+                  {orders.map((order) => (
+                    <SingleOrderCard
+                      key={order.id + order.styleCode}
+                      {...order}
+                    />
+                  ))}
+                </Stack>
+              </Box>
             </Box>
-            
 
             {/* Right Section */}
-            <Box
-              sx={{
-                width: {
-                  xs: "100%",
-                  md: 416,
-                },
-                position: {
-                  md: "sticky",
-                },
-                top: {
-                  md: "150px",
-                },
-                alignSelf: "flex-start",
-              }}
-            >
+            <Box sx={(theme) => theme.mixins.stickySidebar}>
               <PriceDetailsCard
                 {...priceDetailsData}
                 showPaymentInfo={true}
                 showDiscountSection={false}
                 subHeadReq={"Price Details"}
                 secondaryButtonOnClick={handleDrawerOpen}
-                HeadingReq = {''}
-                   primaryButtonVariant="outlined"
-                    primaryButtonText="BACK TO MY ACCOUNT"
+                HeadingReq={""}
+                primaryButtonVariant="customBtn"
+                primaryButtonText="BACK TO MY ACCOUNT"
               />
             </Box>
           </Box>

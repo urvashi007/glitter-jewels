@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
-import CardCollection, { Product } from "@/components/CardCollection";
+import CardCollection, { Product } from "@/components/CardCollection/CardCollection";
 import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
 
 const Wishlist = () => {

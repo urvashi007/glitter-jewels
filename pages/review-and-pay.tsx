@@ -33,7 +33,7 @@ export default function ReviewAndPayPage() {
         forceScrolled={true}
         stepperReq={true}
       />
-      <Box sx={{ background: "#E5E9F5", padding: "160px 0 80px 0" }}>
+      <Box sx={{ background: "#E5E9F5", padding: "180px 0 80px 0" }}>
         <Container maxWidth="lg">
           <Box
             display="flex"
@@ -44,7 +44,6 @@ export default function ReviewAndPayPage() {
             <Box flex={2} display="flex" flexDirection="column" gap={3}>
               <Typography
                 variant="h5"
-                fontWeight={600}
                 sx={{
                   "@media (max-width:540px)": {
                     marginTop: "30px",
@@ -71,7 +70,7 @@ export default function ReviewAndPayPage() {
                   <DeliveryDetailsCard
                     name="Ashish Sharma"
                     address="S-4A, kabir marg, bani park, Jaipur, Rajasthan 302016, India"
-                    mobile="Mobile Number : 8201478885"
+                    mobile="8201478885"
                     HeadReq="Review & Pay"
                     LinkReq="Change"
                   />

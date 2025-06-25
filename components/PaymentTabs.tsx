@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -21,6 +20,7 @@ import { CreditCard, User } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
+import { customVars } from "@/utils/theme";
 
 const banks = [
   { name: "Axis Bank", logo: "/bankLogo/axis.svg" },
@@ -51,38 +51,45 @@ export default function PaymentTabs() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box sx={{ padding:'20px', background: "#fff" }}>
-      <Typography fontWeight={700} mb={2} sx={{ fontSize: "20px" }}>
+    <Box sx={{ p: 3, background: customVars.background.whitebg }}>
+      <Typography fontWeight={700} mb={2} fontSize={customVars.fontSizes.md}>
         Choose a Payment Mode
       </Typography>
-      <Box sx={{ mb: 2 }}>
-        <RadioGroup
-          row
-          value={paymentType}
-          onChange={(e) => setPaymentType(e.target.value)}
-        >
+
+      <RadioGroup
+        row
+        value={paymentType}
+        onChange={(e) => setPaymentType(e.target.value)}
+        sx={{ mb: 3 }}
+      >
+        {[
+          { value: "full", label: "Full Payment" },
+          { value: "partial", label: "Partial Payment - 10%" },
+        ].map((option) => (
           <FormControlLabel
-            value="full"
+            key={option.value}
+            value={option.value}
             control={<Radio />}
-            label="Full Payment"
+            label={
+              <Typography
+                fontWeight={paymentType === option.value ? 700 : 500}
+                fontSize={customVars.fontSizes.base}
+              >
+                {option.label}
+              </Typography>
+            }
           />
-          <FormControlLabel
-            value="partial"
-            control={<Radio />}
-            label="Partial Payment - 10%"
-          />
-        </RadioGroup>
-      </Box>
+        ))}
+      </RadioGroup>
 
       <Box
         sx={{
           display: "flex",
-          border: "1px solid #ddd",
-          overflow: "hidden",
+          border: `1px solid ${customVars.colors.gray}`,
           flexDirection: isMobile ? "column" : "row",
         }}
       >
-        {/* Sidebar Tabs */}
+        {/* Tabs */}
         <Box
           sx={{
             display: "flex",
@@ -102,55 +109,56 @@ export default function PaymentTabs() {
                   display: "flex",
                   alignItems: "center",
                   px: 2,
-                  py: isMobile ? 1 : "16px",
+                  py: isMobile ? 1 : 2,
                   cursor: "pointer",
-                  backgroundColor: isActive ? "#E5E9F5" : "transparent",
+                  backgroundColor: isActive
+                    ? customVars.background.bluex
+                    : "transparent",
                   borderLeft: !isMobile
-                    ? isActive
-                      ? "2px solid #445B9C"
-                      : "2px solid transparent"
+                    ? `2px solid ${
+                        isActive ? customVars.colors.accent : "transparent"
+                      }`
                     : "none",
                   borderBottom: isMobile
-                    ? isActive
-                      ? "2px solid #445B9C"
-                      : "2px solid transparent"
+                    ? `2px solid ${
+                        isActive ? customVars.colors.accent : "transparent"
+                      }`
                     : "none",
                   transition: "all 0.3s ease",
                   ":hover": {
                     backgroundColor: "#f0f0f0",
                   },
-                  color: isActive ? "#445B9C" : "#222",
-                  fontWeight: isActive ? 700 : 500,
+                  color: isActive
+                    ? customVars.colors.accent
+                    : customVars.colors.dark,
                 }}
               >
                 <Icon
                   size={18}
                   style={{ marginRight: 8 }}
-                  color={isActive ? "#445B9C" : "#333"}
+                  color={
+                    isActive
+                      ? customVars.colors.accent
+                      : customVars.colors.color404040
+                  }
                 />
-                <Typography sx={{ fontSize: "16px" }}>{tab.label}</Typography>
+                <Typography
+                  fontSize={customVars.fontSizes.base}
+                  fontWeight={isActive ? 700 : 500}
+                >
+                  {tab.label}
+                </Typography>
               </Box>
             );
           })}
         </Box>
 
-        {/* Tab Content */}
-        <Box sx={{ flex: 1, borderLeft: "1px solid #ccc" }}>
-          {/* Credit/Debit Card */}
+        {/* Content */}
+        <Box sx={{ flex: 1, borderLeft: `1px solid ${customVars.colors.gray}` }}>
           {activeTab === "card" && (
-            <Stack spacing={2} sx={{ padding: "20px" }}>
+            <Stack spacing={2} sx={{ p: 3 }}>
               <Box>
-                <Typography
-                  fontWeight={500}
-                  mb={0.5}
-                  sx={{
-                    fontSize: "14px",
-                    fontFamily: "jost",
-                    color: "#404040",
-                  }}
-                >
-                  CARD NUMBER
-                </Typography>
+                <Typography variant="formLabel">Card Number</Typography>
                 <TextField
                   fullWidth
                   placeholder="Enter card number"
@@ -161,138 +169,57 @@ export default function PaymentTabs() {
                         <CreditCard size={18} />
                       </InputAdornment>
                     ),
-                    sx: {
-                      borderRadius: 0,
-                      backgroundColor: "#fff",
-                    },
                   }}
                 />
               </Box>
 
               <Box>
-                <Typography
-                  fontWeight={500}
-                  mb={0.5}
-                  sx={{
-                    fontSize: "14px",
-                    fontFamily: "jost",
-                    color: "#404040",
-                  }}
-                >
-                  NAME ON CARD
-                </Typography>
-                <TextField
-                  fullWidth
-                  placeholder="Enter name"
-                  variant="outlined"
-                  InputProps={{
-                    sx: {
-                      borderRadius: 0,
-                      backgroundColor: "#fff",
-                    },
-                  }}
-                />
+                <Typography variant="formLabel">Name on Card</Typography>
+                <TextField fullWidth placeholder="Enter name" variant="outlined" />
               </Box>
 
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                 <Box flex={1}>
-                  <Typography
-                    fontWeight={600}
-                    mb={0.5}
-                    sx={{
-                      fontSize: "14px",
-                      fontFamily: "jost",
-                      color: "#404040",
-                    }}
-                  >
-                    VALID THRU (MM/YY)
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    placeholder="Enter valid month & year"
-                    variant="outlined"
-                    InputProps={{
-                      sx: {
-                        borderRadius: 0,
-                        backgroundColor: "#fff",
-                      },
-                    }}
-                  />
+                  <Typography variant="formLabel">Valid Thru (MM/YY)</Typography>
+                  <TextField fullWidth placeholder="MM/YY" variant="outlined" />
                 </Box>
-
                 <Box flex={1}>
-                  <Typography
-                    fontWeight={600}
-                    mb={0.5}
-                    sx={{
-                      fontSize: "14px",
-                      fontFamily: "jost",
-                      color: "#404040",
-                    }}
-                  >
-                    CVV
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    placeholder="Enter cvv"
-                    variant="outlined"
-                    InputProps={{
-                      sx: {
-                        borderRadius: 0,
-                        backgroundColor: "#fff",
-                      },
-                    }}
-                  />
+                  <Typography variant="formLabel">CVV</Typography>
+                  <TextField fullWidth placeholder="Enter CVV" variant="outlined" />
                 </Box>
               </Stack>
             </Stack>
           )}
 
-          {/* Net Banking */}
           {activeTab === "netbanking" && (
             <>
               <RadioGroup
                 value={selectedBank}
                 onChange={(e) => setSelectedBank(e.target.value)}
-                sx={{ display: "flex", flexDirection: "column" }}
+                sx={{ flexDirection: "column" }}
               >
-                {banks.map((bank, index) => (
+                {banks.map((bank) => (
                   <FormControlLabel
                     key={bank.name}
                     value={bank.name}
                     control={<Radio />}
-                    sx={{
-                      m: 0,
-                      px: 1,
-                      py: 2,
-                      borderBottom: "1px solid #ccc",
-                    }}
                     label={
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        <Image
-                          src={bank.logo}
-                          alt={bank.name}
-                          width={50}
-                          height={50}
-                        />
+                      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                        <Image src={bank.logo} alt={bank.name} width={50} height={50} />
                         <Typography fontWeight={500}>{bank.name}</Typography>
                       </Box>
                     }
+                    sx={{
+                      px: 2,
+                      py: 2,
+                      borderBottom: `1px solid ${customVars.colors.gray}`,
+                    }}
                   />
                 ))}
               </RadioGroup>
 
-              <Box mt={4} sx={{ padding: "0 20px 20px 20px" }}>
-                <Typography
-                  variant="subtitle2"
-                  fontWeight="bold"
-                  gutterBottom
-                  sx={{ letterSpacing: "1px", marginBottom: "8px" }}
-                >
-                  OTHER BANK
-                </Typography>
+              <Box sx={{ p: 3 }}>
+                <Typography variant="formLabel">Other Bank</Typography>
                 <FormControl fullWidth size="small">
                   <Select
                     displayEmpty
@@ -301,11 +228,10 @@ export default function PaymentTabs() {
                     input={
                       <InputBase
                         sx={{
-                          border: "1px solid #ccc",
-                          px: 1.5,
-                          py: 0.5,
-                          height: "48px",
-                          fontSize: "16px",
+                          border: `1px solid ${customVars.colors.gray}`,
+                          px: 2,
+                          height: 48,
+                          fontSize: customVars.fontSizes.base,
                         }}
                       />
                     }
@@ -323,19 +249,14 @@ export default function PaymentTabs() {
           )}
         </Box>
       </Box>
-      <Box mt={3} sx={{ textAlign: "right" }}>
+
+      <Box mt={3} textAlign="right">
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "#445B9C",
-            textTransform: "uppercase",
-            fontWeight: 600,
-            minWidth: "220px",
+            ...theme.mixins.buttonPrimary,
+            minWidth: 220,
             py: 1.5,
-            borderRadius: 0,
-            "&:hover": {
-              backgroundColor: "#374a84",
-            },
           }}
         >
           PAY NOW

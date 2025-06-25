@@ -29,44 +29,37 @@ type Props = {
   initialData: Address | null;
 };
 
+const defaultFormData: Address = {
+  id: 0,
+  label: "Home",
+  name: "",
+  address: "",
+  phone: "",
+  pincode: "",
+  country: "",
+  state: "",
+  city: "",
+  landmark: "",
+};
+
 export default function AddressDrawer({
   open,
   onClose,
   onSave,
   initialData,
 }: Props) {
-  const [formData, setFormData] = useState<Address>({
-    id: 0,
-    label: "Home",
-    name: "",
-    address: "",
-    phone: "",
-    pincode: "",
-    country: "",
-    state: "",
-    city: "",
-    landmark: "",
-  });
-
+  const [formData, setFormData] = useState<Address>(defaultFormData);
   const [addressType, setAddressType] = useState("Home");
   const [isDefault, setIsDefault] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      setFormData({
-        id: initialData.id || 0,
-        label: initialData.label || "Home",
-        name: initialData.name || "",
-        address: initialData.address || "",
-        phone: initialData.phone || "",
-        pincode: initialData.pincode || "",
-        country: initialData.country || "",
-        state: initialData.state || "",
-        city: initialData.city || "",
-        landmark: initialData.landmark || "",
-      });
+      setFormData({ ...defaultFormData, ...initialData });
       setAddressType(initialData.label || "Home");
+    } else {
+      setFormData(defaultFormData);
+      setAddressType("Home");
     }
   }, [initialData]);
 
@@ -111,15 +104,15 @@ export default function AddressDrawer({
         >
           {/* Header */}
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6" fontWeight={600}>
-              Add New Address
+            <Typography variant="h3" fontWeight={600}>
+              {initialData ? "Edit Address" : "Add New Address"}
             </Typography>
             <IconButton onClick={onClose}>
               <CloseIcon />
             </IconButton>
           </Box>
 
-          {/* Scrollable Content */}
+          {/* Form Fields */}
           <Box sx={{ flex: 1, overflowY: "auto", mt: 3 }}>
             {/* Full Name */}
             <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
@@ -140,9 +133,12 @@ export default function AddressDrawer({
             </Typography>
             <Stack direction="row" spacing={2} mb={2}>
               <FormControl sx={{ minWidth: 90 }}>
-                <Select value="+91" displayEmpty IconComponent={ChevronDown} sx={selectSx}>
+                <Select
+                  value="+91"
+                  IconComponent={ChevronDown}
+                  sx={selectSx}                  
+                >
                   <MenuItem value="+91">+91</MenuItem>
-                  <MenuItem value="+1">+1</MenuItem>
                 </Select>
               </FormControl>
               <TextField
@@ -154,6 +150,7 @@ export default function AddressDrawer({
               />
             </Stack>
 
+            {/* Country + Pincode */}
             <Stack direction="row" spacing={2} mb={2}>
               <Box flex={1}>
                 <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
@@ -188,6 +185,7 @@ export default function AddressDrawer({
               </Box>
             </Stack>
 
+            {/* City + State */}
             <Stack direction="row" spacing={2} mb={2}>
               <Box flex={1}>
                 <Typography fontSize={12} mb={0.5} fontWeight={500} fontFamily="Jost" textTransform="uppercase">
@@ -245,19 +243,10 @@ export default function AddressDrawer({
 
             {/* Address Type */}
             <Box sx={{ display: "flex", alignItems: "center" }} mt={2} mb={1}>
-              <Typography
-                fontSize={14}
-                fontWeight={500}
-                fontFamily="Jost"
-                sx={{ marginRight: "15px" }}
-              >
+              <Typography fontSize={14} fontWeight={500} fontFamily="Jost" sx={{ mr: 2 }}>
                 Address Type:
               </Typography>
-              <RadioGroup
-                row
-                value={addressType}
-                onChange={(e) => setAddressType(e.target.value)}
-              >
+              <RadioGroup row value={addressType} onChange={(e) => setAddressType(e.target.value)}>
                 {["Home", "Office", "Other"].map((type) => (
                   <FormControlLabel
                     key={type}
@@ -268,7 +257,7 @@ export default function AddressDrawer({
                       "& .MuiFormControlLabel-label": {
                         fontFamily: "Jost",
                         fontSize: "14px",
-                        fontWeight: "400",
+                        fontWeight: 400,
                       },
                     }}
                   />
@@ -283,6 +272,7 @@ export default function AddressDrawer({
                   checked={isDefault}
                   onChange={(e) => setIsDefault(e.target.checked)}
                   sx={{
+                    marginLeft:'10px',
                     "& .MuiSvgIcon-root": {
                       fill: "#445B9C",
                     },
@@ -294,13 +284,13 @@ export default function AddressDrawer({
                 "& .MuiFormControlLabel-label": {
                   fontFamily: "Jost",
                   fontSize: "14px",
-                  fontWeight: "400",
+                  fontWeight: 400,
                 },
               }}
             />
           </Box>
 
-          {/* Footer */}
+          {/* Footer Buttons */}
           <Stack direction="row" spacing={2} mt={3}>
             <Button
               variant="outlined"
@@ -320,13 +310,13 @@ export default function AddressDrawer({
         </Box>
       </Drawer>
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation */}
       <ConfirmationDialog
         open={showConfirm}
         onClose={() => setShowConfirm(false)}
         onConfirm={handleConfirmSave}
         title="Confirmation"
-        message="Are you sure, you want to save this address?"
+        message="Are you sure you want to save this address?"
       />
     </>
   );

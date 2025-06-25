@@ -1,7 +1,8 @@
 "use client";
 
 import { Box, Typography, } from "@mui/material";
-import OrderStatusCard, { OrderStatus } from "./OrderStatusCard";
+import OrderStatusCard, { OrderStatus } from "./OrderStatusCard/OrderStatusCard";
+import { customVars } from "@/utils/theme";
 
 const orders: {
   status: OrderStatus;
@@ -47,16 +48,11 @@ const MyOrders = () => {
       <Box flex={1} sx={{ background: "#fff" }}>
         <Typography
           variant="h6"
-          fontWeight={700}
           sx={{
-            fontSize: "18px",
+            fontSize: customVars.fontSizes.md,
             marginBottom: 0,
             padding: "12px 20px",
             borderBottom:'1px solid #d5d5d5',
-
-            "@media (max-width:540px)": {
-              display: "none",
-            },
           }}
         >
           My Orders

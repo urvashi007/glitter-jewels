@@ -27,6 +27,7 @@ import { useState, useEffect, useRef } from "react";
 import LoginPopup from "./LoginPopup";
 import HorizontalStepper from "./Stepper";
 import ProfileDropdown from "./ProfileDropdown";
+import { customVars } from "@/utils/theme";
 
 type NavItem = {
   label: string;
@@ -69,6 +70,7 @@ const DrawerContent = styled(Box)(({ theme }) => ({
   height: "100%",
   padding: 0,
   ...(theme.mixins?.slideIn || {}),
+  background:customVars.background.whitebg,
 }));
 
 export default function Header({
@@ -130,7 +132,7 @@ export default function Header({
   const logo = scrolled ? logoDark : logoLight;
 
   return (
-    <HeaderContainer position="fixed" scrolled={scrolled}>
+    <HeaderContainer position="fixed" scrolled={scrolled} sx={{zIndex:3}}>
       <Container maxWidth="lg" disableGutters>
         <Toolbar sx={{ justifyContent: "space-between", p: 0 }}>
           {isMobile ? (
@@ -292,14 +294,15 @@ export default function Header({
             </Box>
           </Stack>
         </Toolbar>
-
+        
         <Drawer
           anchor="left"
           open={drawerOpen}
           onClose={toggleDrawer(false)}
           transitionDuration={400}
+         
         >
-          <DrawerContent>
+          <DrawerContent >
             <Box sx={{ display: "flex", p: "15px 0 0 20px" }}>
               <Box component="img" src="./logo.svg" sx={{ height: 40 }} />
               <IconButton
@@ -309,18 +312,18 @@ export default function Header({
                 <Close />
               </IconButton>
             </Box>
-            <List sx={{ mt: 3 }}>
+            <List sx={{ mt: 3,}}>
               {navItems.map((item, idx) =>
                 hasSubmenu(item) ? (
-                  <Accordion key={idx} sx={{ boxShadow: "none" }}>
+                  <Accordion key={idx} sx={{ boxShadow: "none", border:'none',marginBottom:'0', padding:'0 16px', borderBottom:'1px solid rgba(0, 0, 0, 0.12)', borderRadius:0,  }}>
                     <AccordionSummary expandIcon={<ExpandMore />}>
                       <Typography>{item.label}</Typography>
                     </AccordionSummary>
-                    <AccordionDetails sx={{ p: 0 }}>
+                    <AccordionDetails sx={{borderRadius:0,}}>
                       <List disablePadding>
                         {item.submenu.map((sub, j) => (
-                          <ListItem key={j}>
-                            <ListItemText primary={sub} />
+                          <ListItem key={j} sx={{ borderBottom: "none", p: "6px 16px", }}>
+                            <ListItemText primary={sub}/>
                           </ListItem>
                         ))}
                       </List>

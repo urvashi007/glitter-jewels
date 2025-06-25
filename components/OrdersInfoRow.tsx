@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
+import { customVars } from "@/utils/theme";
 
 type OrderInfoRowProps = {
   orderId: string;
@@ -16,17 +17,17 @@ export default function OrderInfoRow({
   paymentType,
   orderDate,
   orderStatus,
-  statusBgColor = "#F6EEE3",
-  statusTextColor = "#AD5B00",
+  statusBgColor = customVars.background.bgf7f7f7,
+  statusTextColor = customVars.colors.accent,
 }: OrderInfoRowProps) {
   return (
     <Box
       sx={{
         overflowX: "auto",
         width: "100%",
-        scrollbarWidth: "none", // Firefox
+        scrollbarWidth: "none",
         "&::-webkit-scrollbar": {
-          display: "none", // Chrome/Safari
+          display: "none",
         },
       }}
     >
@@ -42,16 +43,23 @@ export default function OrderInfoRow({
         {/* Order ID */}
         <Typography
           sx={{
-            color: "#5E5E5E",
-            fontFamily: "Jost",
+            color: customVars.colors.color5e5e5e,
+            fontFamily: customVars.fontFamily.secondary,
             fontWeight: 400,
-            fontSize: "14px",
+            fontSize: customVars.fontSizes.sm,
           }}
         >
-          Oder ID:{" "}
-          <b style={{ color: "#222", fontWeight: 500, fontSize: "14px" }}>
+          Order ID:{" "}
+          <Box
+            component="b"
+            sx={{
+              color: customVars.colors.dark,
+              fontWeight: 500,
+              fontSize: customVars.fontSizes.sm,
+            }}
+          >
             #{orderId}
-          </b>
+          </Box>
         </Typography>
 
         <Dot />
@@ -59,16 +67,23 @@ export default function OrderInfoRow({
         {/* Payment Type */}
         <Typography
           sx={{
-            color: "#5E5E5E",
-            fontFamily: "Jost",
+            color: customVars.colors.color5e5e5e,
+            fontFamily: customVars.fontFamily.secondary,
             fontWeight: 400,
-            fontSize: "14px",
+            fontSize: customVars.fontSizes.sm,
           }}
         >
           Payment Type:{" "}
-          <b style={{ color: "#222", fontWeight: 500, fontSize: "14px" }}>
+          <Box
+            component="b"
+            sx={{
+              color: customVars.colors.dark,
+              fontWeight: 500,
+              fontSize: customVars.fontSizes.sm,
+            }}
+          >
             {paymentType}
-          </b>
+          </Box>
         </Typography>
 
         <Dot />
@@ -76,16 +91,23 @@ export default function OrderInfoRow({
         {/* Order Date */}
         <Typography
           sx={{
-            color: "#5E5E5E",
-            fontFamily: "Jost",
+            color: customVars.colors.color5e5e5e,
+            fontFamily: customVars.fontFamily.secondary,
             fontWeight: 400,
-            fontSize: "14px",
+            fontSize: customVars.fontSizes.sm,
           }}
         >
           Order Date:{" "}
-          <b style={{ color: "#222", fontWeight: 500, fontSize: "14px" }}>
+          <Box
+            component="b"
+            sx={{
+              color: customVars.colors.dark,
+              fontWeight: 500,
+              fontSize: customVars.fontSizes.sm,
+            }}
+          >
             {orderDate}
-          </b>
+          </Box>
         </Typography>
 
         <Dot />
@@ -93,10 +115,10 @@ export default function OrderInfoRow({
         {/* Order Status */}
         <Typography
           sx={{
-            color: "#5E5E5E",
-            fontFamily: "Jost",
+            color: customVars.colors.color5e5e5e,
+            fontFamily: customVars.fontFamily.secondary,
             fontWeight: 400,
-            fontSize: "14px",
+            fontSize: customVars.fontSizes.sm,
           }}
         >
           Order Status:{" "}
@@ -108,8 +130,8 @@ export default function OrderInfoRow({
               fontWeight: 500,
               px: 1,
               py: 0.2,
-              fontFamily: "Jost",
-              fontSize: "14px",
+              fontFamily: customVars.fontFamily.secondary,
+              fontSize: customVars.fontSizes.sm,
               borderRadius: "2px",
             }}
           >
@@ -128,7 +150,7 @@ const Dot = () => (
     sx={{
       width: 4,
       height: 4,
-      backgroundColor: "#A0A0A0",
+      backgroundColor: customVars.colors.color5e5e5e,
       borderRadius: "50%",
       mx: 1,
       display: "inline-block",

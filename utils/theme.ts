@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import type { CSSObject, ThemeOptions } from "@mui/system";
+import { SxProps, Theme, type CSSObject, type ThemeOptions } from "@mui/system";
 
 // ✅ Custom variables
 const customVars = {
@@ -53,10 +53,12 @@ const customVars = {
   border: {
     Border445B9C: "#445B9C",
     Bordera6a6a6: "#a6a6a6",
+    border404040: "#404040",
+    borderd5d5d5: "#d5d5d5",
   },
 };
 
-// ✅ Custom mixins
+
 const customMixins = {
   slideIn: {
     animation: "slideIn 0.4s ease",
@@ -72,7 +74,7 @@ const customMixins = {
     position: "absolute",
     left: "50%",
     transform: "translateX(-50%)",
-    top: "8px",
+    top: "12px",
   } as CSSObject,
   submenuHover: {
     opacity: 1,
@@ -89,7 +91,7 @@ const customMixins = {
     transform: "translateY(10px)",
     transition: "all 0.3s ease",
     zIndex: 2000,
-    paddingTop: '24px',
+    paddingTop: "24px",
   } as CSSObject,
   submenuTypography: {
     display: "block",
@@ -102,6 +104,8 @@ const customMixins = {
       color: customVars.colors.accent,
     },
   } as CSSObject,
+
+
   headerNavItem: (color: string): CSSObject => ({
     fontWeight: 500,
     cursor: "pointer",
@@ -111,63 +115,104 @@ const customMixins = {
     textTransform: "uppercase",
     padding: "4px 12px",
   }),
+  buttonPrimary: {
+    backgroundColor: customVars.colors.accent,
+    color: customVars.colors.white,
+    fontSize: customVars.fontSizes.base,
+    padding: "12px 28px",
+    borderRadius: 0,
+    height: "48px",
+    fontFamily: customVars.fontFamily.secondary,
+    fontWeight: 500,
+    textTransform: "uppercase",
+    "&:hover": {
+      backgroundColor: customVars.colors.accent,
+      opacity: 0.9,
+    },
+  } as CSSObject,
+  buttonOutlined: {
+    backgroundColor: "transparent",
+    color: customVars.colors.accent,
+    border: `1px solid ${customVars.colors.accent}`,
+    fontSize: customVars.fontSizes.base,
+    padding: "12px 28px",
+    borderRadius: 0,
+    height: "48px",
+    fontFamily: customVars.fontFamily.secondary,
+    fontWeight: 500,
+    textTransform: "uppercase",
+    "&:hover": {
+      backgroundColor: customVars.colors.whiteRgba,
+    },
+  } as CSSObject,
+
+  sectionLayout: {
+    background: customVars.background.bluex,
+    py: {
+      xs: "50px",
+      md: "80px",
+    },
+    pt: {
+      xs: "100px",
+      md: "130px",
+    },
+  } as CSSObject,
+
+  stickySidebar: {
+    width: {
+      xs: "100%",
+      md: 416,
+    },
+    position: {
+      md: "sticky",
+    },
+    top: {
+      md: "150px",
+    },
+    alignSelf: "flex-start",
+  } as SxProps<Theme>,
 };
 
-// ✅ Create theme
+
 const theme = createTheme({
   typography: {
     fontFamily: customVars.fontFamily.primary,
-    h1: {
-      fontSize: customVars.fontSizes.xxl,
-      fontWeight: 600,
-    },
-    h2: {
-      fontSize: customVars.fontSizes.xl,
-      fontWeight: 600,
-    },
-    h3: {
-      fontSize: customVars.fontSizes.lg,
-      fontWeight: 600,
-    },
+    h1: { fontSize: customVars.fontSizes.xxl, fontWeight: 600 },
+    h2: { fontSize: customVars.fontSizes.xl, fontWeight: 600 },
+    h3: { fontSize: customVars.fontSizes.lg, fontWeight: 600 },
     h4: {
       fontWeight: 600,
       fontSize: customVars.fontSizes.xl,
       color: customVars.colors.white,
       fontFamily: customVars.fontFamily.primary,
     },
-    h6: {
-      fontSize: customVars.fontSizes.md,
-      fontWeight: 500,
-    },
+    h5: { fontSize: customVars.fontSizes.lg, fontWeight: 700, color: customVars.colors.dark },
+    h6: { fontSize: customVars.fontSizes.font32, fontWeight: 700,  [`@media (max-width:540px)`]: {
+      fontSize: customVars.fontSizes.lg,
+    },},
     subtitle1: {
       fontSize: customVars.fontSizes.md,
       color: customVars.colors.white,
       fontFamily: customVars.fontFamily.secondary,
     },
-    body1: {
+    subtitle2: {
       fontSize: customVars.fontSizes.base,
+      color: customVars.colors.dark,
     },
+    body1: { fontSize: customVars.fontSizes.base },
     body2: {
       color: customVars.colors.white,
       fontFamily: customVars.fontFamily.secondary,
       fontSize: customVars.fontSizes.base,
     },
   },
-  mixins: customMixins as unknown as ThemeOptions["mixins"],
+  
+  mixins: customMixins as ThemeOptions["mixins"],
   palette: {
-    primary: {
-      main: customVars.colors.accent,
-    },
-    text: {
-      primary: customVars.colors.dark,
-      secondary: customVars.colors.black,
-    },
-    common: {
-      white: customVars.colors.white,
-    },
-    background: {
-      default: customVars.colors.white,
-    },
+    primary: { main: customVars.colors.accent },
+    text: { primary: customVars.colors.dark, secondary: customVars.colors.dark },
+    common: { white: customVars.colors.white },
+    background: { default: customVars.background.whitebg },
   },
   components: {
     MuiTypography: {
@@ -177,8 +222,9 @@ const theme = createTheme({
           style: {
             fontFamily: customVars.fontFamily.secondary,
             fontSize: customVars.fontSizes.sm,
-            color: customVars.colors.dark,
+            color: customVars.colors.color404040,
             fontWeight: 500,
+            display: "block",
             marginBottom: 8,
             textTransform: "capitalize",
           },
@@ -198,6 +244,76 @@ const theme = createTheme({
           transition: "all 0.3s ease",
         },
       },
+    },
+  MuiCheckbox: {
+  styleOverrides: {
+    root: {
+      width: 20,
+      height: 20,
+      padding: 0,
+      marginRight: 12,
+      color: customVars.colors.color5e5e5e,
+      "&.Mui-checked": {
+        color: customVars.colors.dark,
+      },
+      "& .MuiSvgIcon-root": {
+        fontSize: 20,
+      },
+    },
+  },
+},
+
+    // MuiButton: {
+    //   styleOverrides: {
+    //     root: {
+    //       fontFamily: customVars.fontFamily.secondary,
+    //       fontWeight: 500,
+    //     },
+    //     outlined: {
+    //       color: customVars.colors.white,
+    //       borderColor: customVars.colors.white,
+    //       fontSize: customVars.fontSizes.base,
+    //       padding: "12px 28px",
+    //       borderRadius: "0",
+    //       "&:hover": {
+    //         backgroundColor: customVars.colors.whiteRgba,
+    //       },
+    //     },
+    //     contained: {
+    //       color: customVars.colors.white,
+    //       fontSize: customVars.fontSizes.base,
+    //       padding: "12px 28px",
+    //       borderRadius: "0",
+    //       height: "48px",
+    //     },
+    //   },
+    // },
+    MuiTextField: {
+      variants: [
+        {
+          props: { variant: "outlined", multiline: true },
+          style: {
+            fontFamily: customVars.fontFamily.secondary,
+            fontSize: customVars.fontSizes.sm,
+            color: customVars.colors.dark,
+            fontWeight: 400,
+            "& .MuiOutlinedInput-root": {
+              padding: "10px",
+              "& textarea": {
+                fontSize: customVars.fontSizes.sm,
+                fontFamily: customVars.fontFamily.secondary,
+                lineHeight: 1.6,
+                padding: 0,
+                resize: "vertical",
+                color: customVars.colors.dark,
+                "&::placeholder": {
+                  color: customVars.colors.color5e5e5e,
+                },
+              },
+            },
+          },
+        },
+      ],
     },
     MuiOutlinedInput: {
       styleOverrides: {
@@ -240,7 +356,7 @@ const theme = createTheme({
           height: "48px",
           fontFamily: customVars.fontFamily.secondary,
           fontSize: customVars.fontSizes.sm,
-          color: customVars.colors.dark,
+          color: customVars.colors.color5e5e5e,
           "& .MuiSelect-select": {
             padding: "10px 40px 10px 12px",
             textTransform: "capitalize",
@@ -257,6 +373,17 @@ const theme = createTheme({
         },
       },
     },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontFamily: customVars.fontFamily.secondary,
+          fontSize: customVars.fontSizes.sm,
+          color: customVars.colors.dark,
+          textTransform: "capitalize",
+        },
+      },
+    },
+    
     MuiAccordion: {
       styleOverrides: {
         root: {
@@ -266,9 +393,11 @@ const theme = createTheme({
           marginBottom: 24,
           padding: 0,
           minHeight: "unset",
+          borderRadius: 0,
           "& .MuiButtonBase-root": {
             margin: 0,
             padding: 0,
+            borderRadius: 0,
           },
         },
       },
@@ -296,10 +425,34 @@ const theme = createTheme({
           borderRadius: "0",
           height: "48px",
         },
+
       },
+      variants: [
+        {
+          props: { variant: "customBtn" },
+          style: {
+            border: "1px solid",
+            borderColor: customVars.colors.accent,
+            color: customVars.colors.accent,
+            backgroundColor: "transparent",
+            fontSize: customVars.fontSizes.base,
+            padding: "12px 28px",
+            borderRadius: 0,
+            height: "48px",
+            fontFamily: customVars.fontFamily.secondary,
+            fontWeight: 500,
+            textTransform: "uppercase",
+            "&:hover": {
+              backgroundColor: customVars.colors.whiteRgba,
+            },
+          },
+        },
+      ],
     },
   },
+  
 });
+
 
 export { customVars };
 export default theme;
@@ -309,7 +462,6 @@ declare module "@mui/material/styles" {
   interface TypographyVariants {
     formLabel: React.CSSProperties;
   }
-
   interface TypographyVariantsOptions {
     formLabel?: React.CSSProperties;
   }
@@ -321,6 +473,10 @@ declare module "@mui/material/styles" {
     submenuItem: CSSObject;
     submenuTypography: CSSObject;
     headerNavItem: (color: string) => CSSObject;
+    buttonPrimary: CSSObject;
+    buttonOutlined: CSSObject;
+    sectionLayout: CSSObject; 
+    stickySidebar: CSSObject;
   }
 
   interface MixinsOptions {
@@ -330,11 +486,26 @@ declare module "@mui/material/styles" {
     submenuItem?: CSSObject;
     submenuTypography?: CSSObject;
     headerNavItem?: (color: string) => CSSObject;
+    buttonPrimary?: CSSObject;
+    buttonOutlined?: CSSObject;
+    sectionLayout?: CSSObject;
+    stickySidebar?: CSSObject;
   }
 }
+
 
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     formLabel: true;
+  }
+}
+declare module "@mui/material/Checkbox" {
+  interface CheckboxPropsVariantOverrides {
+    custom: true;
+  }
+}
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    customBtn: true;
   }
 }
