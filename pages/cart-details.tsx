@@ -159,7 +159,14 @@ export default function OrderSummaryPage() {
         stepperReq={true}
       />
 
-      <Box sx={{ background: "#E5E9F5", padding: "160px 0 80px 0" }}>
+  <Box
+  sx={{
+    padding: {
+      xs: "214px 0 80px 0",
+      md: "160px 0 80px 0",
+    },
+  }}
+>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -178,7 +185,7 @@ export default function OrderSummaryPage() {
                 }}
               >
                 <Typography
-                  variant="h2"
+                  variant="h6"
                   sx={{
                     fontSize: "30px",
                     fontWeight: "700",

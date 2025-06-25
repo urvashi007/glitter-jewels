@@ -57,7 +57,7 @@ const DiscountDrawer = ({ open, onClose }: DiscountDrawerProps) => {
           borderBottom: "1px solid #e3e3e3",
         }}
       >
-        <Typography variant="h6" fontWeight={700}>
+        <Typography variant="h3" fontWeight={700}>
           Apply Discount
         </Typography>
         <IconButton onClick={onClose}>
