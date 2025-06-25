@@ -1,10 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { Box, Button, Typography, Container, useTheme } from "@mui/material";
+import { customVars } from "@/utils/theme";
 import type { InfoCardBannerProps } from "../utils/type";
 
 export default function InfoCardBanner({
@@ -14,10 +12,10 @@ export default function InfoCardBanner({
   buttonText,
   buttonOnClick,
   layout = "card",
-  descriptionWidth,
   sx = {},
   enableZoom = false,
 }: InfoCardBannerProps) {
+  const theme = useTheme();
   const textAlign = layout === "full" ? "left" : "center";
   const contentAlign = layout === "full" ? "flex-start" : "center";
 
@@ -34,11 +32,13 @@ export default function InfoCardBanner({
         justifyContent: contentAlign,
         alignItems: "center",
         overflow: "hidden",
-        color: "#fff",
+        color: customVars.colors.white,
+        fontFamily: customVars.fontFamily.primary,
         cursor: enableZoom ? "pointer" : "default",
-        "@media (max-width:540px)": {
+        background:customVars.background.whitebg,
+        [theme.breakpoints.down("sm")]: {
           height: "500px",
-          padding: "30px 20px",
+          p: "30px 20px",
         },
         ...sx,
       }}
@@ -68,7 +68,7 @@ export default function InfoCardBanner({
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          backgroundColor: customVars.colors.overlayDark,
           zIndex: 1,
         }}
       />
@@ -83,12 +83,11 @@ export default function InfoCardBanner({
           background:
             "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0))",
           zIndex: 1,
-          "@media (max-width:540px)": {
+          [theme.breakpoints.down("sm")]: {
             width: "100%",
           },
         }}
       />
-
       <Container
         sx={{
           position: "relative",
@@ -97,34 +96,31 @@ export default function InfoCardBanner({
           maxWidth: layout === "card" ? "md" : "lg",
           pl: layout === "full" ? 6 : 0,
           pr: layout === "full" ? 6 : 0,
-          "@media (max-width:540px)": {
-            padding: "0px 20px",
+          [theme.breakpoints.down("sm")]: {
+            px: 2,
           },
         }}
       >
-        <Typography
-          variant="h3"
-          sx={{
-            fontWeight: 600,
-            mb: 2,
-            fontSize: "40px",
-            width: descriptionWidth || "100%",
-            "@media (max-width:540px)": {
-              maxWidth: "100%",
-              fontSize: "28px",
-            },
-          }}
-        >
-          {title}
-        </Typography>
+       <Typography
+        variant="h4"
+        mb={2}
+        sx={{
+          maxWidth: 600,
+          [theme.breakpoints.down("sm")]: {
+            fontSize: customVars.fontSizes.lg,
+            maxWidth: 600,
+          },
+        }}
+      >
+        {title}
+      </Typography>
 
         <Typography
-          variant="body1"
+          variant="body2"
+          fontWeight={400}
           sx={{
             mb: 4,
-            fontSize: "16px",
-            fontFamily: "Jost",
-            "@media (max-width:540px)": {
+            [theme.breakpoints.down("sm")]: {
               maxWidth: "100%",
             },
           }}
@@ -132,21 +128,7 @@ export default function InfoCardBanner({
           {description}
         </Typography>
 
-        <Button
-          variant="outlined"
-          onClick={buttonOnClick}
-          sx={{
-            borderColor: "#fff",
-            color: "#fff",
-            px: 4,
-            py: 1.5,
-            fontWeight: 600,
-            "&:hover": {
-              backgroundColor: "rgba(255,255,255,0.1)",
-              borderColor: "#fff",
-            },
-          }}
-        >
+        <Button variant="outlined" onClick={buttonOnClick}>
           {buttonText}
         </Button>
       </Container>

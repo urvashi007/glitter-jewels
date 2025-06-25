@@ -15,6 +15,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { Filter } from "@/utils/type";
+import { customVars } from "@/utils/theme";
 
 interface SidebarProps {
   filters: Filter[];
@@ -30,7 +31,7 @@ export default function ProductFilterSidebar({ filters }: SidebarProps) {
     <Box>
       {filters.map((filter) => (
         <Box key={filter.label} borderBottom="1px solid #ddd" sx={{ py: 2 }}>
-          {/* Filter Header */}
+
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -38,14 +39,14 @@ export default function ProductFilterSidebar({ filters }: SidebarProps) {
             onClick={() => handleToggle(filter.label)}
             sx={{ cursor: "pointer" }}
           >
-            <Typography fontWeight={600} fontSize="16px">
+            <Typography>
               {filter.label}
             </Typography>
             <IconButton size="small">
               {expanded === filter.label ? (
-                <RemoveIcon sx={{ color: "#222" }} />
+                <RemoveIcon sx={{ color: customVars.colors.dark }} />
               ) : (
-                <AddIcon sx={{ color: "#222" }} />
+                <AddIcon sx={{ color: customVars.colors.dark}} />
               )}
             </IconButton>
           </Stack>
@@ -56,23 +57,7 @@ export default function ProductFilterSidebar({ filters }: SidebarProps) {
               {filter.options.map((opt) => (
                 <FormControlLabel
                   key={opt.value}
-                  control={
-                    <Checkbox
-                      sx={{
-                        width: 20,
-                        height: 20,
-                        p: 0,
-                        mr: 1.5,
-                        color: "#A6A6A6",
-                        "&.Mui-checked": {
-                          color: "#222",
-                        },
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 20,
-                        },
-                      }}
-                    />
-                  }
+                  control={<Checkbox />}
                   label={
                     <Box
                       display="flex"
@@ -80,13 +65,10 @@ export default function ProductFilterSidebar({ filters }: SidebarProps) {
                       alignItems="center"
                       width="100%"
                     >
-                      <Typography
-                        fontSize="14px"
-                        sx={{ fontFamily: "Jost", fontWeight: 400 }}
-                      >
+                      <Typography sx={{fontSize:customVars.fontSizes.sm}}>
                         {opt.value}
                       </Typography>
-                      <Typography fontSize="14px" sx={{ color: "#222" }}>
+                      <Typography >
                         ({opt.count})
                       </Typography>
                     </Box>

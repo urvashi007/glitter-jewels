@@ -4,14 +4,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import Wishlist from "../../components/Wishlist";
-import MyOrders from "../../components/MyOrders";
-
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Sidebar from "@/components/SidebarMenu";
-import ManageAddresses from "../../components/ManageAddresses";
-import ChangePasswordPage from "../../components/ChangePassword";
+import Sidebar from "@/components/SideMenu/SidebarMenu";
+import Wishlist from "@/components/Wishlist";
+import MyOrders from "@/components/MyOrders";
+import ManageAddresses from "@/components/ManageAddresses";
+import ChangePasswordPage from "@/components/ChangePassword";
 import ProfileForm from "@/components/Profile";
 import { accountMenu } from "@/utils/accountMenu";
 
@@ -23,7 +22,6 @@ export default function AccountPage() {
   const tab = searchParams?.get("tab") || "orders";
 
   useEffect(() => {
-    // Wait until searchParams is hydrated
     setTabReady(true);
     window.scrollTo(0, 0);
   }, [tab]);
@@ -75,56 +73,48 @@ export default function AccountPage() {
           },
           { label: "Enquiry" },
         ]}
-        forceScrolled={true}
+        forceScrolled
       />
 
-      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
+      <Box sx={(theme) => theme.mixins.sectionLayout}>
         <Container maxWidth="lg">
           <Typography
-            variant="h2"
-            sx={{
-              fontSize: "30px",
-              fontWeight: "700",
-              marginBottom: "24px",
-              fontFamily: "Manrope",
-            }}
+            variant="h6"
+            mb={2}
           >
             {tabTitles[tab] || "My Orders"}
           </Typography>
 
           <Grid
+            container
             spacing={4}
             sx={{
-              display: "flex",
               alignItems: "flex-start",
-              "@media (max-width:991px)": {
-                display: "block",
-              },
+              flexWrap: { xs: "wrap", md: "nowrap" },
             }}
           >
             <Grid
               sx={{
-                width: "280px",
-                marginRight: "40px",
-                "@media (max-width:991px)": {
-                  width: "100%",
-                },
+                width: { xs: "100%", md: "300px" },
+      
               }}
             >
               <Sidebar
                 selectedTab={tab}
-                onSelectTab={(tab: string) =>
-                  router.push(`/account?tab=${tab}`)
+                onSelectTab={(selected: string) =>
+                  router.push(`/account?tab=${selected}`)
                 }
                 menuItems={accountMenu}
               />
             </Grid>
-            <Grid flex={1} key={tab}>
+
+            <Grid  flex={1} key={tab}>
               {renderComponent()}
             </Grid>
           </Grid>
         </Container>
       </Box>
+
       <Footer />
     </>
   );

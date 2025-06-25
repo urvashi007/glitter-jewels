@@ -14,6 +14,7 @@ import Image from "next/image";
 
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CloseIcon from "@mui/icons-material/Close";
+import { customVars } from "@/utils/theme";
 
 export interface PriceDetailsProps {
   itemsTotal: string;
@@ -32,9 +33,9 @@ export interface PriceDetailsProps {
   HeadingReq?: string;
   subHeadReq?: string;
   primaryButtonText?: string;
-  primaryButtonVariant?: "contained" | "outlined" | "text";
+  primaryButtonVariant?: "contained" | "customBtn" | "text";
   secondaryButtonText?: string;
-  secondaryButtonVariant?: "contained" | "outlined" | "text";
+  secondaryButtonVariant?: "contained" | "customBtn" | "text";
   secondaryButtonOnClick?: () => void;
 }
 
@@ -53,7 +54,7 @@ export default function PriceDetailsCard({
   showDiscountSection = true,
   showPaymentInfo = true,
   primaryButtonText,
-  primaryButtonVariant = "outlined",
+  primaryButtonVariant = "customBtn",
   subHeadReq,
   secondaryButtonText,
   secondaryButtonVariant = "contained",
@@ -129,13 +130,13 @@ export default function PriceDetailsCard({
           <Stack direction="row" justifyContent="space-between">
             <Typography
               fontSize={16}
-              sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}
+              sx={{ fontFamily:customVars.fontFamily.secondary, fontWeight: 400, mb: 2 }}
             >
               Item(s) total
             </Typography>
             <Typography
               fontSize={16}
-              sx={{ fontFamily: "Jost", fontWeight: 500 }}
+              sx={{ fontFamily:customVars.fontFamily.secondary, fontWeight: 500 }}
             >
               {itemsTotal}
             </Typography>
@@ -145,7 +146,7 @@ export default function PriceDetailsCard({
             <Typography
               fontSize={16}
               sx={{
-                fontFamily: "Jost",
+                fontFamily:customVars.fontFamily.secondary,
                 fontWeight: 400,
                 mb: 2,
                 color: "#0F743B",
@@ -155,7 +156,7 @@ export default function PriceDetailsCard({
             </Typography>
             <Typography
               fontSize={16}
-              sx={{ fontFamily: "Jost", fontWeight: 500 }}
+              sx={{ fontFamily:customVars.fontFamily.secondary, fontWeight: 500 }}
               color="success.main"
             >
               {discount}
@@ -167,13 +168,13 @@ export default function PriceDetailsCard({
           <Stack direction="row" justifyContent="space-between">
             <Typography
               fontSize={16}
-              sx={{ fontFamily: "Jost", fontWeight: 400, mb: 2 }}
+              sx={{ fontFamily:customVars.fontFamily.secondary, fontWeight: 400, mb: 2 }}
             >
               Subtotal
             </Typography>
             <Typography
               fontSize={16}
-              sx={{ fontFamily: "Jost", fontWeight: 500 }}
+              sx={{ fontFamily:customVars.fontFamily.secondary, fontWeight: 500 }}
             >
               {subtotal}
             </Typography>
@@ -182,7 +183,7 @@ export default function PriceDetailsCard({
           <Stack direction="row" justifyContent="space-between">
             <Typography
               fontSize={16}
-              sx={{ fontFamily: "Jost", fontWeight: 400, color: "#0F743B" }}
+              sx={{ fontFamily:customVars.fontFamily.secondary, fontWeight: 400, color: "#0F743B" }}
             >
               Delivery
             </Typography>
@@ -198,10 +199,10 @@ export default function PriceDetailsCard({
           <Divider sx={{ my: 2 }} />
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="subtitle1" fontWeight={700}>
+            <Typography variant="subtitle2" fontWeight={700}>
               Total ({totalItems} items)
             </Typography>
-            <Typography variant="subtitle1" fontWeight={700}>
+            <Typography variant="subtitle2" fontWeight={700}>
               {totalAmount}
             </Typography>
           </Stack>
@@ -222,7 +223,7 @@ export default function PriceDetailsCard({
                 width={20}
                 height={20}
               />
-              <Typography sx={{ marginLeft: "12px" }}>
+              <Typography fontWeight={600} sx={{ marginLeft: "12px"  }}>
                 Paid by {paymentMethod}
               </Typography>
             </Box>
@@ -233,11 +234,8 @@ export default function PriceDetailsCard({
                 fullWidth
                 variant={primaryButtonVariant}
                 sx={{
-                  borderRadius: 0,
-                  height: "48px",
-                  ...(primaryButtonVariant === "outlined" && {
-                    borderColor: "#3f51b5",
-                    color: "#3f51b5",
+
+                  ...(primaryButtonVariant === "customBtn" && {
                     fontWeight:'600'
                   }),
                 }}
@@ -269,10 +267,10 @@ export default function PriceDetailsCard({
           <Button
             fullWidth
             sx={{
-              fontSize: "16px",
+              fontSize: customVars.fontSizes.base,
               fontWeight: "500",
-              fontFamily: "jost",
-              color: "#222",
+              fontFamily:customVars.fontFamily.secondary,
+              color:customVars.colors.dark,
               marginTop: "20px",
             }}
           >

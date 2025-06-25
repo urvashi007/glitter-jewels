@@ -3,6 +3,12 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRef, useState } from "react";
+import Image from "next/image";
+import {
+  wrapperBoxStyle,
+  removeButtonStyle,
+  headingStyle,
+} from "./UploadImage.style";
 
 export default function UploadImage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -26,65 +32,34 @@ export default function UploadImage() {
   };
 
   const handleRemoveImage = (e: React.MouseEvent) => {
-    e.stopPropagation(); // prevent triggering the file input
+    e.stopPropagation();
     setImagePreview(null);
   };
 
   return (
     <Box>
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 700,
-          fontFamily: "Manrope",
-          marginBottom: "20px",
-          fontSize: "28px",
-        }}
-      >
+      <Typography variant="h6" mb={2} sx={headingStyle}>
         Reference Image
       </Typography>
 
       <Box
         onClick={handleClick}
         sx={{
+          ...wrapperBoxStyle,
           cursor: imagePreview ? "default" : "pointer",
-          flexShrink: 0,
-          width: 526,
-          height: 526,
-          border: "1px dashed #e2e2e2",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          color: "#222",
-          fontSize: "14px",
-          mx: "auto",
-          overflow: "hidden",
-          position: "relative",
-          "@media (max-width:768px)": {
-            width: "100%",
-            height: "300px",
-          },
         }}
       >
         {imagePreview ? (
           <>
-            <img
+            <Image
               src={imagePreview}
               alt="Preview"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              fill
+              style={{ objectFit: "cover" }}
             />
             <IconButton
               onClick={handleRemoveImage}
-              sx={{
-                position: "absolute",
-                top: 8,
-                right: 8,
-                backgroundColor: "#fff",
-                "&:hover": {
-                  backgroundColor: "#eee",
-                },
-              }}
+              sx={removeButtonStyle}
               size="small"
             >
               <CloseIcon fontSize="small" />

@@ -13,6 +13,8 @@ export type InfoCardBannerProps = {
   layout?: "full" | "card";
   enableZoom?: boolean;
   descriptionWidth?: string | number;
+  
+  
 };
 
 export type ProductListProps = {

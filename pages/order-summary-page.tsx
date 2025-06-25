@@ -94,7 +94,7 @@ export default function OrderSummaryPage() {
         forceScrolled={true}
       />
 
-      <Box sx={{ background: "#E5E9F5", padding: "100px 0 80px 0" }}>
+<Box sx={(theme) => theme.mixins.sectionLayout}>
         <Container maxWidth="lg">
           <Typography
             variant="h2"
@@ -127,7 +127,7 @@ export default function OrderSummaryPage() {
                 showPaymentInfo={true}
                 showDiscountSection={false}
                 primaryButtonText="BACK TO MY ACCOUNT"
-                primaryButtonVariant="outlined"
+                primaryButtonVariant="customBtn"
                 // secondaryButtonText="CONTINUE SHOPPING"
                 // secondaryButtonVariant="contained"
               />

@@ -1,12 +1,5 @@
 "use client";
 
-import { useMediaQuery, useTheme } from "@mui/material";
-import BreadcrumbsBar from "@/components/BreadcrumbsBar";
-import CustomOrderForm from "@/components/CustomOrderForm";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import ProductGallery from "@/components/ProductGallery";
-
 import {
   Box,
   Container,
@@ -15,11 +8,20 @@ import {
   TableCell,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+
+import BreadcrumbsBar from "@/components/BreadcrumbsBar";
+import CustomOrderForm from "@/components/CustomOrderForm";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import ProductGallery from "@/components/ProductGallery/ProductGallery";
+import { customVars } from "@/utils/theme";
 
 export default function ProductDetail() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // sm = 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const deviceType = isMobile ? "mobile" : "desktop";
 
   return (
@@ -42,28 +44,26 @@ export default function ProductDetail() {
           },
           { label: "Enquiry" },
         ]}
-        forceScrolled={true}
+        forceScrolled
       />
-      <Box
-        sx={{
-          px: { xs: 2, md: 8, padding: "100px 0 80px 0" },
-          backgroundColor: "#f5f7fb",
-        }}
-      >
+
+       <Box sx={(theme) => theme.mixins.sectionLayout}>
         <Container maxWidth="lg">
           {deviceType === "desktop" && <BreadcrumbsBar />}
 
           <Box
             sx={{
               display: "flex",
-              alignItems: "flex-start",
               flexDirection: { xs: "column", md: "row" },
               gap: 4,
+              alignItems: "flex-start",
             }}
           >
+            {/* Gallery */}
             <Box
               sx={{
-                minWidth: "640px",
+                minWidth: { md: "640px", lg: "640px" },
+                width: { xs: "100%", md: "auto" },
                 "@media (max-width:1024px)": {
                   minWidth: "460px",
                 },
@@ -74,18 +74,13 @@ export default function ProductDetail() {
             >
               <ProductGallery />
             </Box>
-            <Box
-              sx={{
-                background: "#fff",
-                padding: "20px",
-                marginTop: "30px",
-                position: "sticky",
-                top: "100px",
-              }}
-            >
+
+            {/* Order Form */}
+            <Box sx={(theme) => theme.mixins.stickySidebar}>
+              <Box sx={{background:customVars.background.whitebg, padding:'20px' }}>
               <CustomOrderForm
-                showAccordion={true}
-                wishlistHead={true}
+                showAccordion
+                wishlistHead
                 accordionTitle="Specification and Description"
                 accordionContent={
                   <>
@@ -132,10 +127,12 @@ export default function ProductDetail() {
                   </>
                 }
               />
+              </Box>
             </Box>
           </Box>
         </Container>
       </Box>
+
       <Footer />
     </>
   );

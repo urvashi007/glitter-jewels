@@ -8,13 +8,14 @@ import {
   Select,
   InputAdornment,
   IconButton,
-  Button,
   FormControl,
+  Button,
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { customVars } from "@/utils/theme";
 
 export default function ProfileForm() {
   const [countryCode, setCountryCode] = useState("+91");
@@ -37,59 +38,61 @@ export default function ProfileForm() {
   };
 
   const renderLabel = (text: string) => (
-    <Typography variant="body2" fontWeight={500} mb={0.5} sx={{fontFamily:'jost', color:'#404040'}}>
+    <Typography variant="body2" fontWeight={500} mb={0.5} sx={{ fontFamily: "jost", color: "#404040" }}>
       {text}
     </Typography>
   );
 
   return (
-     <Box sx={{height:"100vh"}}>
-    <Box
-      sx={{
-        background: "#fff",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
-      }}
-    >
+    <Box>
       <Typography
         variant="h6"
-        fontWeight={700}
         sx={{
-          fontSize: "18px",
+          fontSize: customVars.fontSizes.md,
+          marginBottom: 0,
           padding: "12px 20px",
-          borderBottom: "1px solid #ebebeb",
-          "@media (max-width:540px)": {
-            display: "none",
-          },
+          borderBottom: "1px solid #d5d5d5",
+          background: customVars.background.whitebg,
         }}
       >
         Edit Profile
       </Typography>
 
-      <Box sx={{ padding: "20px" }}>
+      <Box
+        sx={{
+          background: customVars.background.whitebg,
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+          padding: "20px",
+        }}
+      >
         <Box
-          display="flex"
-          flexWrap="wrap"
-          gap={2}
-          sx={{ fontFamily:'jost', }}
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(12, 1fr)",
+            },
+            gap: 2,
+            fontFamily: "Jost",
+          }}
         >
-          {/* Row 1 */}
-          <Box sx={{ flex: "1 1 48%",  }}>
+          {/* Name */}
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 6" } }}>
             {renderLabel("First Name")}
-            <TextField fullWidth placeholder="Enter your first name" />
+            <TextField fullWidth placeholder="Enter Your First Name" />
           </Box>
-
-          <Box sx={{ flex: "1 1 48%",  }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 6" } }}>
             {renderLabel("Last Name")}
-            <TextField fullWidth placeholder="Enter your last name" />
+            <TextField fullWidth placeholder="Enter Your Last Name" />
           </Box>
 
-          {/* Row 2 */}
-          <Box sx={{ flex: "1 1 48%",  }}>
+          {/* Entity */}
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 6" } }}>
             {renderLabel("Name of Entity")}
-            <TextField fullWidth placeholder="Enter entity name" />
+            <TextField fullWidth placeholder="Enter Entity Name" />
           </Box>
-
-          <Box sx={{ flex: "1 1 48%",  }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 6" } }}>
             {renderLabel("Entity Type")}
             <FormControl fullWidth>
               <Select
@@ -98,11 +101,8 @@ export default function ProfileForm() {
                 displayEmpty
                 IconComponent={ChevronDown}
                 renderValue={(selected) => selected || "Select Entity"}
-                sx={{fontWeight:'400'}}
               >
-                <MenuItem value="" disabled>
-                  Select Entity
-                </MenuItem>
+                <MenuItem value="" disabled>Select Entity</MenuItem>
                 <MenuItem value="Retailer">Retailer</MenuItem>
                 <MenuItem value="Wholesaler">Wholesaler</MenuItem>
                 <MenuItem value="Manufacturer">Manufacturer</MenuItem>
@@ -110,8 +110,8 @@ export default function ProfileForm() {
             </FormControl>
           </Box>
 
-          {/* Row 3 */}
-          <Box sx={{ flex: "1 1 48%",  }}>
+          {/* Mobile + Email */}
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 6" } }}>
             {renderLabel("Mobile Number")}
             <Box display="flex" gap={1}>
               <FormControl sx={{ width: "30%" }}>
@@ -125,17 +125,16 @@ export default function ProfileForm() {
                   <MenuItem value="+44">+44</MenuItem>
                 </Select>
               </FormControl>
-              <TextField fullWidth placeholder="Enter mobile number" />
+              <TextField fullWidth placeholder="Enter Mobile Number" />
             </Box>
           </Box>
-
-          <Box sx={{ flex: "1 1 48%",  }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 6" } }}>
             {renderLabel("Email")}
-            <TextField fullWidth placeholder="Enter your email" />
+            <TextField fullWidth placeholder="Enter Your Email" />
           </Box>
 
-          {/* Row 4 */}
-          <Box sx={{ flex: "1 1 23%" }}>
+          {/* Country, State, City, Post Code in one row */}
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
             {renderLabel("Country")}
             <FormControl fullWidth>
               <Select
@@ -145,17 +144,13 @@ export default function ProfileForm() {
                 IconComponent={ChevronDown}
                 renderValue={(selected) => selected || "Select Country"}
               >
-                <MenuItem value="" disabled>
-                  Select Country
-                </MenuItem>
+                <MenuItem value="" disabled>Select Country</MenuItem>
                 <MenuItem value="India">India</MenuItem>
                 <MenuItem value="USA">USA</MenuItem>
-                <MenuItem value="UK">UK</MenuItem>
               </Select>
             </FormControl>
           </Box>
-
-          <Box sx={{ flex: "1 1 23%" }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
             {renderLabel("State")}
             <FormControl fullWidth>
               <Select
@@ -165,16 +160,13 @@ export default function ProfileForm() {
                 IconComponent={ChevronDown}
                 renderValue={(selected) => selected || "Select State"}
               >
-                <MenuItem value="" disabled>
-                  Select State
-                </MenuItem>
+                <MenuItem value="" disabled>Select State</MenuItem>
                 <MenuItem value="Rajasthan">Rajasthan</MenuItem>
                 <MenuItem value="Gujarat">Gujarat</MenuItem>
               </Select>
             </FormControl>
           </Box>
-
-          <Box sx={{ flex: "1 1 23%" }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
             {renderLabel("City")}
             <FormControl fullWidth>
               <Select
@@ -184,32 +176,27 @@ export default function ProfileForm() {
                 IconComponent={ChevronDown}
                 renderValue={(selected) => selected || "Select City"}
               >
-                <MenuItem value="" disabled>
-                  Select City
-                </MenuItem>
+                <MenuItem value="" disabled>Select City</MenuItem>
                 <MenuItem value="Jaipur">Jaipur</MenuItem>
                 <MenuItem value="Ahmedabad">Ahmedabad</MenuItem>
               </Select>
             </FormControl>
           </Box>
-
-          <Box sx={{ flex: "1 1 48%",  }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
             {renderLabel("Post Code")}
-            <TextField fullWidth placeholder="Enter post code" />
+            <TextField fullWidth placeholder="Enter Post Code" />
           </Box>
 
-          {/* Row 5 */}
-          <Box sx={{ flex: "1 1 48%",  }}>
+
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 4" } }}>
             {renderLabel("PAN No.")}
-            <TextField fullWidth placeholder="Enter PAN number" />
+            <TextField fullWidth placeholder="Enter PAN Number" />
           </Box>
-
-          <Box sx={{ flex: "1 1 48%",  }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 4" } }}>
             {renderLabel("GST No.")}
-            <TextField fullWidth placeholder="Enter GST number" />
+            <TextField fullWidth placeholder="Enter GST Number" />
           </Box>
-
-          <Box sx={{ flex: "1 1 48%",  }}>
+          <Box sx={{ gridColumn: { xs: "span 12", sm: "span 12", md: "span 4" } }}>
             {renderLabel("Upload Document")}
             <input
               type="file"
@@ -234,12 +221,7 @@ export default function ProfileForm() {
                 ),
                 endAdornment: fileName && (
                   <InputAdornment position="end">
-                    <IconButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFileRemove();
-                      }}
-                    >
+                    <IconButton onClick={handleFileRemove}>
                       <CloseIcon />
                     </IconButton>
                   </InputAdornment>
@@ -247,31 +229,21 @@ export default function ProfileForm() {
               }}
             />
           </Box>
-        </Box>
 
-        {/* Address */}
-        <Box mt={3}>
-          {renderLabel("Address")}
-          <TextField
-            fullWidth
-            multiline
-            minRows={3}
-            placeholder="Enter your address"
-          />
-        </Box>
 
-        {/* Submit */}
-        <Box mt={3} display="flex" justifyContent="flex-end">
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ borderRadius: 0, fontFamily: "Jost", fontWeight: 500 }}
-          >
-            Save Changes
-          </Button>
+          <Box sx={{ gridColumn: "span 12" }}>
+            {renderLabel("Address")}
+            <TextField fullWidth multiline minRows={3} placeholder="Enter Your Address" />
+          </Box>
+
+          {/* Submit Button */}
+          <Box sx={{ gridColumn: "span 12", display: "flex", justifyContent: "flex-end", mt: 3 }}>
+            <Button variant="contained" color="primary">
+              Save Changes
+            </Button>
+          </Box>
         </Box>
       </Box>
-    </Box>
     </Box>
   );
 }
