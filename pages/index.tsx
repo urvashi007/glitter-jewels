@@ -109,7 +109,7 @@ export default function HomePage() {
 
       <FadeInOnScroll>
  
-      <Container maxWidth="lg" sx={{ p: 0 }}>
+      <Container maxWidth="lg">
         <Box maxWidth="lg" sx={{ mx: "auto", py: 10, background:customVars.background.whitebg }}>
           <CardCollection
           
