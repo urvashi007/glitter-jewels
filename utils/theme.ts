@@ -49,6 +49,7 @@ const customVars = {
     overlayColor: "rgba(0, 0, 0, 0.4)",
     textColor: "#ffffff",
   },
+  // border
   border: {
     Border445B9C: "#445B9C",
     Bordera6a6a6: "#a6a6a6",
@@ -94,7 +95,6 @@ const customMixins = {
   } as CSSObject,
   submenuTypography: {
     display: "block",
-    padding: "8px 16px",
     fontSize: customVars.fontSizes.sm,
     color: customVars.colors.dark,
     backgroundColor: customVars.background.whitebg,
@@ -376,6 +376,7 @@ const theme = createTheme({
         },
       },
     },
+    
     // white bg buttons
     MuiButton: {
       styleOverrides: {

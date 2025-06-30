@@ -13,6 +13,7 @@ import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import FadeInOnScroll from "@/components/FadeInOnScroll";
 import { customVars } from "@/utils/theme";
+import { navItems } from "@/utils/navItems";
 
 const productsItem: Product[] = [
   {
@@ -62,6 +63,8 @@ const infoCards = [
   },
 ];
 
+
+
 export default function HomePage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -77,21 +80,7 @@ export default function HomePage() {
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
         searchEnabled={true}
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
       />
 
       <HeroBanner
