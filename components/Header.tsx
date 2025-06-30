@@ -297,6 +297,7 @@ export default function Header({
                   width: searchOpen ? 220 : 50,
                   height: 36,
                   transition: "all 0.3s ease",
+                  marginLeft:'0!important',
                   backgroundColor: searchOpen
                     ? scrolled
                       ? theme.palette.common.white

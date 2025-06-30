@@ -41,8 +41,10 @@ export default function MobileDrawer({ open, onClose, navItems }: MobileDrawerPr
           width: 250,
           height: "100%",
           background: customVars.background.whitebg,
+          overflowY: "auto",
         }}
       >
+        {/* Header */}
         <Box sx={{ display: "flex", p: "15px 0 0 20px" }}>
           <Box component="img" src="/logo.svg" sx={{ height: 40 }} />
           <IconButton
@@ -53,25 +55,36 @@ export default function MobileDrawer({ open, onClose, navItems }: MobileDrawerPr
           </IconButton>
         </Box>
 
-        <List sx={{ mt: 3 }}>
+        <List sx={{ mt: 2, p: 0 }}>
           {navItems.map((item, idx) =>
             item.submenu && item.submenu.length > 0 ? (
               <Accordion
                 key={idx}
+                disableGutters
                 sx={{
                   boxShadow: "none",
                   border: "none",
-                  marginBottom: "0",
-                  padding: "0 16px",
-                  borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
                   borderRadius: 0,
+                  padding:"0 20px",
+                  "&::before": { display: "none" },
+                  margin:'0'
                 }}
               >
-                <AccordionSummary expandIcon={<ExpandMore />}>
-                  <Typography>{item.label}</Typography>
+
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  sx={{
+                   
+                    minHeight: "auto",
+                    // "& .MuiAccordionSummary-content": { margin: 0 },
+                  }}
+                >
+                  <Typography fontSize={15} fontWeight={500}>
+                    {item.label}
+                  </Typography>
                 </AccordionSummary>
 
-                <AccordionDetails sx={{ pl: 0, pr: 0, py: 0 }}>
+                <AccordionDetails sx={{ p: 0 }}>
                   {item.submenu.map((sub, j) =>
                     sub.nestedSubmenu && sub.nestedSubmenu.length > 0 ? (
                       <Accordion
@@ -80,35 +93,69 @@ export default function MobileDrawer({ open, onClose, navItems }: MobileDrawerPr
                         sx={{
                           boxShadow: "none",
                           background: "transparent",
-                          padding: "0",
+                          border: "none",
+                          m: 0,
                           "&::before": { display: "none" },
                         }}
                       >
                         <AccordionSummary
                           expandIcon={<ExpandMore />}
-                          sx={{ pl: 0, pr: 0, py: 0, minHeight: "auto" }}
+                          sx={{
+                          padding:'10 0px',
+                            minHeight: "auto",
+                            "& .MuiAccordionSummary-content": { margin: 0 },
+                          }}
                         >
-                          <Typography fontSize={15}>{sub.label}</Typography>
+                          <Typography fontSize={14}>
+                            {sub.label}
+                          </Typography>
                         </AccordionSummary>
-                        <AccordionDetails sx={{ pl: 2 }}>
+
+                        <AccordionDetails sx={{ pl: 4, pr: 2, py: 0 }}>
                           {sub.nestedSubmenu.map((nested, k) => (
-                            <Typography key={k} fontSize={14} sx={{ py: 0.5 }}>
+                            <Typography
+                              key={k}
+                              fontSize={13}
+                              sx={{
+                                py: 0.8,
+                                color: theme.palette.text.secondary,
+                              }}
+                            >
                               {nested}
                             </Typography>
                           ))}
                         </AccordionDetails>
                       </Accordion>
                     ) : (
-                      <ListItem key={j}>
-                        <ListItemText primary={sub.label} />
+
+                      <ListItem
+                        key={j}
+                        disableGutters
+                        sx={{ pl: 3, pr: 2, py: 1 }}
+                      >
+                        <ListItemText
+                          primary={sub.label}
+                          primaryTypographyProps={{ fontSize: 14 }}
+                        />
                       </ListItem>
                     )
                   )}
                 </AccordionDetails>
               </Accordion>
             ) : (
-              <ListItem key={idx} sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                <ListItemText primary={item.label} />
+
+              <ListItem
+                key={idx}
+                disableGutters
+                sx={{
+                  px: 3,
+                  py: 1.6,
+                }}
+              >
+                <ListItemText
+                  primary={item.label}
+                  primaryTypographyProps={{ fontSize: 15, fontWeight: 500 }}
+                />
               </ListItem>
             )
           )}

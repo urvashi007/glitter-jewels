@@ -12,6 +12,7 @@ const customVars = {
     xl: "40px",
     xxl: "48px",
     font32: "32px",
+    font28:"28px",
   },
   lineHeights: {
     md: "45px",
@@ -36,6 +37,8 @@ const customVars = {
     bgaccent: "#445B9C",
     bgf7f7f7: "#F7F7F7",
     bgdfdfdf: "#dfdfdf",
+    bgf2f2f2:"#f2f2f2",
+    bg6179BC: "#6179BC"
   },
   fontFamily: {
     primary: "'Manrope', sans-serif",
