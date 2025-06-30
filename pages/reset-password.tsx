@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Header from "@/components/Header";
 import Copyright from "@/components/Copyright";
+import { navItems } from "@/utils/navItems";
 
 // Validation functions
 const passwordRules = [
@@ -75,21 +76,7 @@ const ResetPasswordPage = () => {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled={true}
       />
 

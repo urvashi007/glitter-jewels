@@ -93,23 +93,26 @@ const customMixins = {
     zIndex: 2000,
     paddingTop: "24px",
   } as CSSObject,
+
   submenuTypography: {
     display: "block",
     fontSize: customVars.fontSizes.sm,
     color: customVars.colors.dark,
     backgroundColor: customVars.background.whitebg,
     textDecoration: "none",
+    fontWeight:'500',
     "&:hover": {
       color: customVars.colors.accent,
     },
   } as CSSObject,
+
+  
 
 
   headerNavItem: (color: string): CSSObject => ({
     fontWeight: 500,
     cursor: "pointer",
     color,
-    fontSize: customVars.fontSizes.base,
     fontFamily: customVars.fontFamily.secondary,
     textTransform: "uppercase",
     padding: "4px 12px",

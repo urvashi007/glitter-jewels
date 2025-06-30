@@ -7,6 +7,7 @@ import PriceDetailsCard from "@/components/PriceDetailsCard";
 import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { navItems } from "@/utils/navItems";
 
 const initialCardData: OrderCardProps[] = [
   {
@@ -76,25 +77,11 @@ export default function OrderSummaryPage() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled={true}
       />
 
-<Box sx={(theme) => theme.mixins.sectionLayout}>
+          <Box sx={(theme) => theme.mixins.sectionLayout}>
         <Container maxWidth="lg">
           <Typography
             variant="h2"

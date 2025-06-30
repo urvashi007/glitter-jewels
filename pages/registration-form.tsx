@@ -19,6 +19,7 @@ import { ChevronDown } from "lucide-react";
 import { customVars } from "@/utils/theme";
 import Header from "@/components/Header";
 import Copyright from "@/components/Copyright";
+import { navItems } from "@/utils/navItems";
 
 export default function RegisterForm() {
   const [countryCode, setCountryCode] = useState("+91");
@@ -56,21 +57,7 @@ export default function RegisterForm() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled={true}
       />
 

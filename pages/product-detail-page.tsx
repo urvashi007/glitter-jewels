@@ -18,6 +18,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProductGallery from "@/components/ProductGallery/ProductGallery";
 import { customVars } from "@/utils/theme";
+import { navItems } from "@/utils/navItems";
 
 export default function ProductDetail() {
   const theme = useTheme();
@@ -29,21 +30,7 @@ export default function ProductDetail() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+       navItems={navItems}
         forceScrolled
       />
 

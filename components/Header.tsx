@@ -1,5 +1,3 @@
-
-
 import {
   AppBar,
   Box,
@@ -23,7 +21,6 @@ import MobileDrawer from "./MobileDrawer";
 import { customVars } from "@/utils/theme";
 
 
-// Types
 export type NavItem = {
   label: string;
   submenu?: {
@@ -121,11 +118,11 @@ export default function Header({
   const logo = scrolled ? logoDark : logoLight;
 
   return (
-    <HeaderContainer position="fixed" scrolled={scrolled}>
+    <HeaderContainer position="fixed" scrolled={scrolled} sx={{zIndex:4,padding:'10px 0' }} className={scrolled ? "Navscrolled" : ""}>
       <Container maxWidth="lg">
         <Toolbar sx={{ justifyContent: "space-between", p: 0 }} disableGutters>
-          {mounted && (
-            isMobile ? (
+          {mounted &&
+            (isMobile ? (
               <IconButton edge="start" onClick={toggleDrawer(true)}>
                 <Menu sx={{ color: iconColor }} />
               </IconButton>
@@ -136,7 +133,12 @@ export default function Header({
                     key={idx}
                     sx={{
                       position: "relative",
-                      "&:hover .submenu": { display: "block" },
+                      "&:hover .submenu": {
+                        opacity: 1,
+                        visibility: "visible",
+                        transform: "translateY(0)",
+                        pointerEvents: "auto",
+                      },
                     }}
                   >
                     <Typography
@@ -146,7 +148,7 @@ export default function Header({
                           : { color: iconColor, cursor: "pointer" }
                       }
                     >
-                      {item.label}
+                      <a href={item.label}>{item.label}</a>
                     </Typography>
                     {item.submenu && item.submenu.length > 0 && (
                       <Box
@@ -155,11 +157,14 @@ export default function Header({
                           position: "absolute",
                           top: "100%",
                           left: 0,
-                          backgroundColor: customVars.background.whitebg,
                           zIndex: 10,
-                          minWidth: 180,
-                          display: "none",
-                          boxShadow: theme.shadows[3],
+                          minWidth: 250,
+                          opacity: 0,
+                          visibility: "hidden",
+                          transform: "translateY(10px)",
+                          transition: "opacity 0.3s ease, transform 0.3s ease",
+                          pointerEvents: "none",
+                          paddingTop: "25px",
                         }}
                       >
                         {item.submenu.map((subItem, i) => {
@@ -173,36 +178,40 @@ export default function Header({
                               sx={{
                                 position: "relative",
                                 backgroundColor: customVars.background.whitebg,
+                               
                                 "&:hover .nested-submenu": { display: "block" },
                               }}
                             >
-                              <Box
-                                component={Link}
-                                href={`/${subItem.label.toLowerCase().replace(/\s+/g, "-")}`}
-                                passHref
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  px: 2,
-                                  py: 1,
-                                  textDecoration: "none",
-                                }}
-                              >
-                                <Typography sx={theme.mixins?.submenuTypography}>
-                                  {subItem.label}
-                                </Typography>
-                                {hasNested && (
-                                  <ChevronRight
-                                    size={16}
-                                    style={{
-                                      marginLeft: 6,
-                                      color: customVars.colors.color33333,
-                                    }}
-                                  />
-                                )}
-                              </Box>
-
+                              {subItem?.label && (
+                                <Box
+                                  component={Link}
+                                  href={`/${subItem.label.toLowerCase().replace(/\s+/g, "-")}`}
+                                  passHref
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    px: 2,
+                                    py: 1,
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  <Typography
+                                    sx={theme.mixins?.submenuTypography}
+                                  >
+                                    {subItem.label}
+                                  </Typography>
+                                  {hasNested && (
+                                    <ChevronRight
+                                      size={16}
+                                      style={{
+                                        marginLeft: 6,
+                                        color: customVars.colors.color33333,
+                                      }}
+                                    />
+                                  )}
+                                </Box>
+                              )}
                               {hasNested && (
                                 <Box
                                   className="nested-submenu"
@@ -211,10 +220,12 @@ export default function Header({
                                     top: 0,
                                     left: "100%",
                                     display: "none",
-                                    backgroundColor: customVars.background.whitebg,
+                                    backgroundColor:
+                                      customVars.background.whitebg,
                                     boxShadow: theme.shadows[4],
-                                    minWidth: 180,
+                                    minWidth: 250,
                                     zIndex: 20,
+                                    
                                   }}
                                 >
                                   {subItem.nestedSubmenu!.map((nested, j) => (
@@ -231,6 +242,7 @@ export default function Header({
                                           fontSize: 14,
                                           cursor: "pointer",
                                           color: customVars.colors.color33333,
+                                          fontWeight:'500',
                                           "&:hover": {
                                             color: customVars.colors.accent,
                                           },
@@ -250,8 +262,7 @@ export default function Header({
                   </Box>
                 ))}
               </Stack>
-            )
-          )}
+            ))}
 
           {/* Center: Logo */}
           <Link href="/" passHref>
@@ -364,10 +375,10 @@ export default function Header({
         </Toolbar>
       </Container>
       <MobileDrawer
-  open={drawerOpen}
-  onClose={toggleDrawer(false)}
-  navItems={navItems}
-/>
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        navItems={navItems}
+      />
       {stepperReq && (
         <Container maxWidth="lg">
           <HorizontalStepper activeStep={1} />

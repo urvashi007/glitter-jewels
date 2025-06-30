@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import Header from "@/components/Header";
 import loginContent from "./content/loginContent.json";
 import Copyright from "@/components/Copyright";
+import { navItems } from "@/utils/navItems";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -61,14 +62,7 @@ const LoginPage = () => {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: ["Bracelets", "Earrings", "Necklace", "Pendant", "Rings", "View All"],
-          },
-          { label: "Enquiry" },
-        ]}
+       navItems={navItems}
         forceScrolled
       />
 

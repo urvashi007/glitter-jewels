@@ -13,6 +13,7 @@ import ManageAddresses from "@/components/ManageAddresses";
 import ChangePasswordPage from "@/components/ChangePassword";
 import ProfileForm from "@/components/Profile";
 import { accountMenu } from "@/utils/accountMenu";
+import { navItems } from "@/utils/navItems";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -58,21 +59,7 @@ export default function AccountPage() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled
       />
 

@@ -10,6 +10,7 @@ import ProductFilterSidebar from "@/components/ProductFilterSidebar";
 import CardCollection from "@/components/CardCollection/CardCollection";
 import ProductDetailsDrawer from "@/components/ProductDetailsDrawer";
 import { Filter } from "@/utils/type";
+import { navItems } from "@/utils/navItems";
 
 type Product = {
   id: string;
@@ -100,21 +101,7 @@ export default function ProductListPage() {
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
         searchEnabled
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
       />
 
       <InnerBanner

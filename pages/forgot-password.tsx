@@ -15,6 +15,7 @@ import Header from "@/components/Header";
 import NextLink from 'next/link';
 import { Link } from '@mui/material';
 import Copyright from "@/components/Copyright";
+import { navItems } from "@/utils/navItems";
 
 const ForgotPassword = () => {
   const [successMessage, setSuccessMessage] = React.useState("");
@@ -26,14 +27,7 @@ const ForgotPassword = () => {
       <Header
              logoLight=""
              logoDark="/logo.svg"
-             navItems={[
-               { label: "Our Expertise" },
-               {
-                 label: "Product",
-                 submenu: ["Bracelets", "Earrings", "Necklace", "Pendant", "Rings", "View All"],
-               },
-               { label: "Enquiry" },
-             ]}
+              navItems={navItems}
              forceScrolled
            />
 
