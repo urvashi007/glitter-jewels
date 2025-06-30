@@ -11,6 +11,7 @@ import AddressDrawer from "@/components/AddressDrawer";
 import { Address } from "@/utils/address";
 import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
 import OrderInfoRow from "@/components/OrdersInfoRow";
+import { navItems } from "@/utils/navItems";
 
 const orders: OrderCardProps[] = [
   {
@@ -119,21 +120,7 @@ export default function OrderSummaryPage() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+         navItems={navItems}
         forceScrolled={true}
       />
 

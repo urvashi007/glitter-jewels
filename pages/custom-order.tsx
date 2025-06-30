@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import InnerBanner from "@/components/InnerBanner";
 import UploadImage from "@/components/UploadImage/UploadImage";
+import { navItems } from "@/utils/navItems";
 
 import { Box, Container } from "@mui/material";
 
@@ -15,21 +16,7 @@ export default function ProductListPage() {
         logoLight="/white-logo.svg"
         logoDark="/logo.svg"
         searchEnabled
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
       />
 
       <InnerBanner

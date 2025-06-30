@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import SingleOrderCard, { OrderCardProps } from "@/components/SingleOrderCard";
 import { useState } from "react";
 import DeliveryDetailsCard from "@/components/DeliveryDetailsCard";
+import { navItems } from "@/utils/navItems";
 
 const initialCardData: OrderCardProps[] = [
   {
@@ -99,21 +100,7 @@ export default function OrderConfirmation() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled={true}
         stepperReq={true}
       />

@@ -12,6 +12,7 @@ const customVars = {
     xl: "40px",
     xxl: "48px",
     font32: "32px",
+    font28:"28px",
   },
   lineHeights: {
     md: "45px",
@@ -36,6 +37,8 @@ const customVars = {
     bgaccent: "#445B9C",
     bgf7f7f7: "#F7F7F7",
     bgdfdfdf: "#dfdfdf",
+    bgf2f2f2:"#f2f2f2",
+    bg6179BC: "#6179BC"
   },
   fontFamily: {
     primary: "'Manrope', sans-serif",
@@ -49,6 +52,7 @@ const customVars = {
     overlayColor: "rgba(0, 0, 0, 0.4)",
     textColor: "#ffffff",
   },
+  // border
   border: {
     Border445B9C: "#445B9C",
     Bordera6a6a6: "#a6a6a6",
@@ -92,24 +96,26 @@ const customMixins = {
     zIndex: 2000,
     paddingTop: "24px",
   } as CSSObject,
+
   submenuTypography: {
     display: "block",
-    padding: "8px 16px",
     fontSize: customVars.fontSizes.sm,
     color: customVars.colors.dark,
     backgroundColor: customVars.background.whitebg,
     textDecoration: "none",
+    fontWeight:'500',
     "&:hover": {
       color: customVars.colors.accent,
     },
   } as CSSObject,
+
+  
 
 
   headerNavItem: (color: string): CSSObject => ({
     fontWeight: 500,
     cursor: "pointer",
     color,
-    fontSize: customVars.fontSizes.base,
     fontFamily: customVars.fontFamily.secondary,
     textTransform: "uppercase",
     padding: "4px 12px",
@@ -376,6 +382,7 @@ const theme = createTheme({
         },
       },
     },
+    
     // white bg buttons
     MuiButton: {
       styleOverrides: {

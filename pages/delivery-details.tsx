@@ -11,6 +11,7 @@ import NoAddressCard from "@/components/NoAddressCard";
 import AddressDrawer from "@/components/AddressDrawer";
 import { Address } from "@/utils/address";
 import ManageAddresses from "@/components/ManageAddresses";
+import { navItems } from "@/utils/navItems";
 
 const priceDetailsData = {
   itemsTotal: "₹88,519",
@@ -54,21 +55,7 @@ export default function OrderSummaryPage() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled={true}
         stepperReq={true}
       />

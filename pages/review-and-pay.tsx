@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import PaymentTabs from "@/components/PaymentTabs";
+import { navItems } from "@/utils/navItems";
 
 export default function ReviewAndPayPage() {
   return (
@@ -15,23 +16,10 @@ export default function ReviewAndPayPage() {
       <Header
         logoLight=""
         logoDark="/logo.svg"
-        navItems={[
-          { label: "Our Expertise" },
-          {
-            label: "Product",
-            submenu: [
-              "Bracelets",
-              "Earrings",
-              "Necklace",
-              "Pendant",
-              "Rings",
-              "View All",
-            ],
-          },
-          { label: "Enquiry" },
-        ]}
+        navItems={navItems}
         forceScrolled={true}
         stepperReq={true}
+  
       />
       <Box sx={{ background: "#E5E9F5", padding: "180px 0 80px 0" }}>
         <Container maxWidth="lg">
