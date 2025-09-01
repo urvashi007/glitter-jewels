@@ -1,8 +1,11 @@
 // components/HeroBanner.styles.ts
 import { customVars } from "@/utils/theme";
-import { Theme } from "@mui/material";
+import { SxProps, Theme } from "@mui/material";
 
-export const rootStyle = (theme: Theme, backgroundImage: string) => ({
+export const rootStyle = (
+  theme: Theme,
+  backgroundImage: string
+): SxProps<Theme> => ({
   position: "relative",
   width: "100%",
   height: "800px",

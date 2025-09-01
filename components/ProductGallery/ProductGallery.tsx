@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+
 "use client";
 
 import { Box, IconButton, useMediaQuery } from "@mui/material";
